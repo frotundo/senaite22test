@@ -1,0 +1,21 @@
+<h1 tal:replace="structure here/manage_page_header" />
+
+<h2 tal:replace="structure here/manage_tabs" />
+
+<main class="container-fluid">
+
+	<h2>Mount Failure Traceback</h2>
+
+	<div tal:define="exc here/mount_error_">
+		<strong>Error type:</strong>
+		<span tal:replace="python: exc[0]">Error</span>
+		<br />
+		<strong>Error value:</strong>
+		<span tal:replace="python: exc[1]">An error occurred.</span>
+		<br />
+		<pre tal:content="python: exc[2]">Traceback</pre>
+	</div>
+
+</main>
+
+<h1 tal:replace="structure here/manage_page_footer" />

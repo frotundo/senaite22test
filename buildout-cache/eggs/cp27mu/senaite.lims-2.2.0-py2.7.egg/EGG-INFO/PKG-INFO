@@ -1,0 +1,240 @@
+Metadata-Version: 2.1
+Name: senaite.lims
+Version: 2.2.0
+Summary: SENAITE LIMS - Meta Package
+Home-page: https://github.com/senaite/senaite.lims
+Author: RIDING BYTES & NARALABS
+Author-email: senaite@senaite.com
+License: GPLv2
+Description: .. image:: https://raw.githubusercontent.com/senaite/senaite.lims/master/static/logo_pypi.png
+           :target: https://github.com/senaite/senaite.lims#readme
+           :alt: senaite.lims
+           :height: 128
+        
+        - **SENAITE.LIMS**: *Meta Installation Package*
+        
+        .. image:: https://img.shields.io/pypi/v/senaite.lims.svg?style=flat-square
+           :target: https://pypi.python.org/pypi/senaite.lims
+        
+        .. image:: https://img.shields.io/github/issues-pr/senaite/senaite.lims.svg?style=flat-square
+           :target: https://github.com/senaite/senaite.lims/pulls
+        
+        .. image:: https://img.shields.io/github/issues/senaite/senaite.lims.svg?style=flat-square
+           :target: https://github.com/senaite/senaite.lims/issues
+        
+        .. image:: https://img.shields.io/badge/README-GitHub-blue.svg?style=flat-square
+           :target: https://github.com/senaite/senaite.lims#readme
+        
+        .. image:: https://img.shields.io/badge/Built%20with-%E2%9D%A4-red.svg
+           :target: https://github.com/senaite/senaite.lims
+        
+        .. image:: https://img.shields.io/badge/Made%20for%20SENAITE-%E2%AC%A1-lightgrey.svg
+           :target: https://www.senaite.com
+        
+        
+        
+        License
+        =======
+        
+        **SENAITE.LIMS** Copyright (C) 2017-2022 RIDING BYTES & NARALABS
+        
+        This program is free software; you can redistribute it and/or modify it under
+        the terms of the `GNU General Public License version 2
+        <https://github.com/senaite/senaite.queue/blob/master/LICENSE>`_ as published
+        by the Free Software Foundation.
+        
+        This program is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+        GNU General Public License for more details.
+        
+        
+        Changelog
+        =========
+        
+        2.2.0 (2022-06-11)
+        ------------------
+        
+        - senaite.core 2.1.0 → 2.2.0
+        
+          https://github.com/senaite/senaite.core/releases/tag/v2.2.0
+        
+        - senaite.impress 2.1.0 → 2.2.0
+        
+          https://github.com/senaite/senaite.impress/releases/tag/2.2.0
+        
+        - senaite.app.supermodel 2.1.0 → 2.2.0
+        
+          https://github.com/senaite/senaite.app.supermodel/releases/tag/2.2.0
+        
+        - senaite.app.listing 2.1.0 → 2.2.0
+        
+          https://github.com/senaite/senaite.app.listing/releases/tag/2.2.0
+        
+        - senaite.app.spotlight 2.1.0 → 2.2.0
+        
+          https://github.com/senaite/senaite.app.spotlight/releases/tag/2.2.0
+        
+        - senaite.jsonapi 2.1.0 → 2.2.0
+        
+          https://github.com/senaite/senaite.jsonapi/releases/tag/2.2.0
+        
+        - Plone 5.2.6 → 5.2.7
+        
+          https://dist.plone.org/release/5.2.7/RELEASE-NOTES.txt
+        
+        
+        2.1.0 (2022-01-05)
+        ------------------
+        
+        - senaite.core 2.0.0 → 2.1.0
+        
+          https://github.com/senaite/senaite.core/releases/tag/v2.1.0
+        
+        - senaite.impress 2.0.0 → 2.1.0
+        
+          https://github.com/senaite/senaite.impress/releases/tag/2.1.0
+        
+        - senaite.app.supermodel 2.0.0 → 2.1.0
+        
+          https://github.com/senaite/senaite.app.supermodel/releases/tag/2.1.0
+        
+        - senaite.app.listing 2.0.0 → 2.1.0
+        
+          https://github.com/senaite/senaite.app.listing/releases/tag/2.1.0
+        
+        - senaite.app.spotlight 2.0.0 → 2.1.0
+        
+          https://github.com/senaite/senaite.app.spotlight/releases/tag/2.1.0
+        
+        - senaite.jsonapi 2.0.0 → 2.1.0
+        
+          https://github.com/senaite/senaite.jsonapi/releases/tag/2.1.0
+        
+        - Plone 5.2.4 → 5.2.6
+        
+          https://dist.plone.org/release/5.2.6/RELEASE-NOTES.txt
+        
+        
+        2.0.0 (2021-07-27)
+        ------------------
+        
+        - senaite.core 2.0.0rc3 → 2.0.0
+        
+          https://github.com/senaite/senaite.core/releases/tag/2.0.0
+        
+        - senaite.impress 2.0.0rc3 → 2.0.0
+        
+          https://github.com/senaite/senaite.impress/releases/tag/2.0.0
+        
+        - senaite.app.supermodel 2.0.0rc3 → 2.0.0
+        
+          https://github.com/senaite/senaite.app.supermodel/releases/tag/2.0.0
+        
+        - senaite.app.listing 2.0.0rc3 → 2.0.0
+        
+          https://github.com/senaite/senaite.app.listing/releases/tag/2.0.0
+        
+        - senaite.app.spotlight 2.0.0rc3 → 2.0.0
+        
+          https://github.com/senaite/senaite.app.spotlight/releases/tag/2.0.0
+        
+        
+        2.0.0rc3 (2020-10-13)
+        ---------------------
+        
+        - senaite.core 2.0.0rc2 → 2.0.0rc3
+        
+          https://github.com/senaite/senaite.core/releases/tag/2.0.0rc3
+        
+        - senaite.impress 2.0.0rc2 → 2.0.0rc3
+        
+          https://github.com/senaite/senaite.impress/releases/tag/2.0.0rc3
+        
+        - senaite.app.supermodel 2.0.0rc2 → 2.0.0rc3
+        
+          https://github.com/senaite/senaite.app.supermodel/releases/tag/2.0.0rc3
+        
+        - senaite.app.listing 2.0.0rc2 → 2.0.0rc3
+        
+          https://github.com/senaite/senaite.app.listing/releases/tag/2.0.0rc3
+        
+        - senaite.app.spotlight 2.0.0rc2 → 2.0.0rc3
+        
+          https://github.com/senaite/senaite.app.spotlight/releases/tag/2.0.0rc3
+        
+        
+        2.0.0rc2 (2020-10-13)
+        ---------------------
+        
+        - senaite.core 2.0.0rc1 → 2.0.0rc2
+        
+          https://github.com/senaite/senaite.core/releases/tag/v2.0.0rc2
+        
+        - senaite.impress 2.0.0rc1 → 2.0.0rc2
+        
+          https://github.com/senaite/senaite.impress/releases/tag/2.0.0rc2
+        
+        - senaite.app.supermodel 2.0.0rc1 → 2.0.0rc2
+        
+          https://github.com/senaite/senaite.app.supermodel/releases/tag/2.0.0rc2
+        
+        - senaite.app.listing 2.0.0rc1 → 2.0.0rc2
+        
+          https://github.com/senaite/senaite.app.listing/releases/tag/2.0.0rc2
+        
+        - senaite.app.spotlight 2.0.0rc1 → 2.0.0rc2
+        
+          https://github.com/senaite/senaite.app.spotlight/releases/tag/2.0.0rc2
+        
+        
+        2.0.0rc1 (2020-08-06)
+        ---------------------
+        
+        - Compatibility with `senaite.core` 2.x
+        
+        
+        1.3.3.2 (2020-03-04)
+        --------------------
+        
+        - senaite.core 1.3.3 → 1.3.3.1
+        
+          https://github.com/senaite/senaite.core/releases/tag/v1.3.3.1
+        
+        
+        1.3.3.1 (2020-03-04)
+        --------------------
+        
+        - Fixed metadata version for upgrade step
+        
+        
+        1.3.3 (2020-03-03)
+        ------------------
+        
+        - senaite.core 1.3.2 → 1.3.3
+        
+          https://github.com/senaite/senaite.core/releases/tag/v1.3.3
+        
+        - senaite.impress 1.2.2 → 1.2.3
+        
+          https://github.com/senaite/senaite.impress/releases/tag/1.2.3
+        
+        - senaite.core.supermodel 1.2.1 → 1.2.3
+        
+          https://github.com/senaite/senaite.core.supermodel/releases/tag/1.2.3
+        
+        - senaite.core.listing 1.3.0 → 1.4.0
+        
+          https://github.com/senaite/senaite.core.listing/releases/tag/1.4.0
+        
+        - senaite.core.spotlight 1.0.2
+        
+          https://github.com/senaite/senaite.core.spotlight/releases/tag/1.0.2
+        
+Platform: UNKNOWN
+Classifier: Framework :: Plone
+Classifier: Framework :: Zope2
+Classifier: Programming Language :: Python
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: License :: OSI Approved :: GNU General Public License v2 (GPLv2)
+Provides-Extra: test

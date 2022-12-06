@@ -1,0 +1,6 @@
+DocumentTemplate>=3.2.2
+Missing
+Record
+Zope>=4.2.1
+setuptools
+six

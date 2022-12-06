@@ -1,0 +1,9 @@
+Products.CMFCore
+Products.GenericSetup
+Zope2
+setuptools
+zope.component
+
+[test]
+plone.app.testing
+selenium

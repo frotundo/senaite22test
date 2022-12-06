@@ -1,0 +1,9 @@
+Products.Archetypes
+five.globalrequest
+plone.scale[storage]
+setuptools
+z3c.caching
+
+[test]
+Products.ATContentTypes
+plone.app.testing

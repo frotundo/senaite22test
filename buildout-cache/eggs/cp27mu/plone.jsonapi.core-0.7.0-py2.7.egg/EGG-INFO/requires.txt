@@ -1,0 +1,7 @@
+setuptools
+werkzeug
+dicttoxml
+
+[test]
+plone.app.testing
+unittest2

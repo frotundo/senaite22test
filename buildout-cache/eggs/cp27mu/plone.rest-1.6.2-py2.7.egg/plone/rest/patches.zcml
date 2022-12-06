@@ -1,0 +1,26 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:monkey="http://namespaces.plone.org/monkey"
+    i18n_domain="collective.monkeypatcher">
+
+  <include package="collective.monkeypatcher" />
+
+  <monkey:patch
+    description="Disables DynamicType traversal hook for REST requests."
+    class="Products.CMFCore.DynamicType.DynamicType"
+    original="__before_publishing_traverse__"
+    replacement=".patches.__before_publishing_traverse__"
+    preserveOriginal="true"
+    />
+
+  <monkey:patch
+    description="Teach ZPublisher about status 308"
+    module="ZPublisher.HTTPResponse"
+    original="status_codes"
+    replacement=".patches.PERMANENT_REDIRECT"
+    handler=".patches.patch_zpublisher_status_codes"
+    preconditions="Zope2-=4.0a1"
+    ignoreOriginal="True"
+    />
+
+</configure>

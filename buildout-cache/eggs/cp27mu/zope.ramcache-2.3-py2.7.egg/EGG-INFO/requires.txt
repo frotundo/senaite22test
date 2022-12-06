@@ -1,0 +1,8 @@
+persistent
+setuptools
+zope.interface
+zope.location
+
+[test]
+zope.testing
+zope.testrunner

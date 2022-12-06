@@ -1,0 +1,5 @@
+
+    [zope2.initialize]
+    Products.TemporaryFolder = Products.TemporaryFolder:initialize
+    Products.ZODBMountPoint = Products.ZODBMountPoint:initialize
+    

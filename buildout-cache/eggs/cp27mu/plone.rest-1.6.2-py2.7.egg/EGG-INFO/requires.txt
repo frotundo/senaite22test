@@ -1,0 +1,15 @@
+Products.CMFCore
+Zope2
+collective.monkeypatcher
+setuptools
+six
+zope.component
+zope.interface
+zope.publisher
+zope.traversing
+
+[test]
+plone.app.robotframework
+plone.app.testing[robot]>=4.2.2
+plone.dexterity
+requests

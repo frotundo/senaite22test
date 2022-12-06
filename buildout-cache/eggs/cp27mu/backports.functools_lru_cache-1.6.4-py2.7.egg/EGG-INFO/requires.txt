@@ -1,0 +1,8 @@
+
+[docs]
+jaraco.packaging>=8.2
+rst.linker>=1.9
+sphinx
+
+[testing]
+pytest>=4.6

@@ -1,0 +1,4 @@
+python-gettext
+setuptools
+zc.buildout
+zc.recipe.egg

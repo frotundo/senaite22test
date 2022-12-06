@@ -1,0 +1,98 @@
+=================
+Utility functions
+=================
+
+distributionForPackage is a function that takes a module object
+and returns the setuptools distribution object that contains
+the module.
+
+It should find the correct distribution for a package whose namespace
+is extended by other packages in the environment::
+
+    >>> from z3c.autoinclude.utils import distributionForPackage
+    >>> import base2
+    >>> distributionForPackage(base2)
+    base2 0.0 (...base2-0.0...egg)
+
+It should also find the correct distribution for namespace packages,
+even if the namespace being extended is a module defined in another
+package in the environment::
+
+    >>> import base2.plug
+    >>> distributionForPackage(base2.plug)
+    base2-plug 0.0 (...base2_plug-0.0...egg)
+
+If you have a virtual package (a namespace package that exists only
+by having been extended by nested packages) it should find a package::
+
+    >>> import enolp
+    >>> distributionForPackage(enolp)
+    enolp.ppa.bar 0.1 (...enolp.ppa.bar-0.1...egg)
+
+While we're at it, it should also find the correct distribution for
+packages whose distribution name has no bearing on the name of the
+package contained within it::
+
+    >>> import basepackage
+    >>> # Ignoring whitespace in order to make tests pass on Windows.
+    >>> distributionForPackage(basepackage) # doctest: +IGNORECASE
+    BasePackage 0.0 (...BasePackage-0.0...egg)
+
+    >>> import foo
+    >>> distributionForPackage(foo) # doctest: +IGNORECASE
+    FooPackage 0.0 (...FooPackage-0.0...egg)
+
+    >>> import F.G
+    >>> distributionForPackage(F.G) # doctest: +IGNORECASE
+    SiblingPackage 0.0 (...SiblingPackage-0.0...egg)
+
+We have a helper class ZCMLInfo which is a dictionary which automatically gets keys.
+Perhaps a defaultdict would work too now, but let's not change the class at this time.
+
+    >>> from z3c.autoinclude.utils import ZCMLInfo
+    >>> info = ZCMLInfo(['meta.zcml', 'configure.zcml'])
+    >>> sorted(info.keys())
+    ['configure.zcml', 'meta.zcml']
+    >>> list(info.values())
+    [[], []]
+
+When no values are filled in, the boolean should be False.
+
+    >>> bool(info)
+    False
+
+We can create a report of the auto included zcml.
+
+    >>> from z3c.autoinclude.utils import create_report
+    >>> create_report(info)
+    ['<!-- No zcml files found to include. -->']
+
+We add information:
+
+    >>> info['configure.zcml'].append('sample_package')
+    >>> bool(info)
+    True
+    >>> create_report(info)
+    ['  <include package="sample_package" />']
+    >>> info['configure.zcml'].append('package2')
+    >>> info['meta.zcml'].append('meta_package')
+    >>> report = create_report(info)
+    >>> len(report)
+    3
+    >>> report[0]
+    '  <include package="meta_package" file="meta.zcml" />'
+    >>> report[1]
+    '  <include package="sample_package" />'
+    >>> report[2]
+    '  <include package="package2" />'
+
+We can only add known filenames:
+
+    >>> info['overrides.zcml'].append('overrides_package')
+    Traceback (most recent call last):
+    ...
+    KeyError: 'overrides.zcml'
+    >>> overrides = ZCMLInfo(['overrides.zcml'])
+    >>> overrides['overrides.zcml'].append('overrides_package')
+    >>> create_report(overrides)
+    ['  <includeOverrides package="overrides_package" file="overrides.zcml" />']

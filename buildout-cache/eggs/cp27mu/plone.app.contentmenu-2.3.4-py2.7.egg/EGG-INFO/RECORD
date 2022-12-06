@@ -1,0 +1,16 @@
+plone.app.contentmenu-2.3.4-py3.9-nspkg.pth,sha256=0HpBQBkeMyzn70oEZgQ3Au4qK2Tf9qX8if9UbNRuFWE,1670
+plone/app/contentmenu/__init__.py,sha256=lu9qWR5DEPWvckgbtKVwLqRfoWoxLl22fBMpRcSFEE8,118
+plone/app/contentmenu/configure.zcml,sha256=wwa-2ks35_uwoffeqjZN324S2ItNGGYc6t_veXqS0qw,4064
+plone/app/contentmenu/contentmenu.pt,sha256=PFxvanSCTAG0z4v7S0wKn1tCKtOy1IZBqegew9LqM9E,4083
+plone/app/contentmenu/displayviewsmenu.py,sha256=OHg9vX4f4jhnJYqgeE-eR-A60cgA8swybOf_aRgkV6g,913
+plone/app/contentmenu/interfaces.py,sha256=a5NpOfeACMyGTbGRGvWALfMA79u-GVhTpmrg2u3XHAs,3858
+plone/app/contentmenu/menu.py,sha256=PqdKMMSgOCg0ySDQHiG91pFRrX4zLZTSI4fAsk7PTZs,35900
+plone/app/contentmenu/testing.py,sha256=JiGhYitkNcXnjwu4tjp8SSEke8c3fsqHUqarlvl5kfA,1363
+plone/app/contentmenu/view.py,sha256=xbwL6_XxaU2qJUokKAq-0RYlSxEeTvaD9UYsYlq4EPk,854
+plone/app/contentmenu/tests/__init__.py,sha256=iwhKnzeBJLKxpRVjvzwiRE63_zNpIBfaKLITauVph-0,24
+plone/app/contentmenu/tests/test_menu.py,sha256=AWm-jip2YkCpWrz4-H8L8Rh3T6-cU3nDRfD0fdKIBcU,43338
+plone.app.contentmenu-2.3.4.dist-info/METADATA,sha256=Sn11ofp54ZtDF0X_BXzPFkRv19yTFZlWTx2Xq_ctIY8,17444
+plone.app.contentmenu-2.3.4.dist-info/WHEEL,sha256=Z-nyYpwrcSqxfdux5Mbn_DQ525iP7J2DG3JgGvOYyTQ,110
+plone.app.contentmenu-2.3.4.dist-info/namespace_packages.txt,sha256=RhWBQHJVbLHFKuJ5J4tGJxuY8dNrbsuKvPnJvM4b2AQ,16
+plone.app.contentmenu-2.3.4.dist-info/top_level.txt,sha256=56bqrkG-vurYD0l15D71FPiDL7L3QqkfRWkYkdyS7WM,6
+plone.app.contentmenu-2.3.4.dist-info/RECORD,,

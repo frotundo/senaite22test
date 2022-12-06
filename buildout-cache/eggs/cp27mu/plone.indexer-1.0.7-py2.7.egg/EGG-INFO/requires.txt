@@ -1,0 +1,5 @@
+Products.CMFCore
+Products.ZCatalog
+setuptools
+zope.component
+zope.interface

@@ -1,0 +1,8 @@
+README
+magnitude.py
+setup.cfg
+setup.py
+magnitude.egg-info/PKG-INFO
+magnitude.egg-info/SOURCES.txt
+magnitude.egg-info/dependency_links.txt
+magnitude.egg-info/top_level.txt

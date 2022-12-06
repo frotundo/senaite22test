@@ -1,0 +1,16 @@
+setuptools
+Zope2>=2.12.18
+zopyx.txng3.core
+zopyx.txng3.ext
+
+[test]
+zope.testing
+
+[test_optionals]
+zope.testing
+plone.indexer
+Products.CMFDefault
+Plone
+Pillow
+
+[zope2.12]

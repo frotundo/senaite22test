@@ -1,0 +1,8 @@
+plone.app.locales>=4.3.9
+plone.behavior
+plone.dexterity>=1.1
+plone.locking
+setuptools
+
+[tests]
+plone.app.testing

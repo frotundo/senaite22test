@@ -1,0 +1,9 @@
+Products.CMFCore
+five.intid>=1.0
+setuptools
+zope.intid
+zope.lifecycleevent
+
+[test]
+plone.app.testing
+plone.dexterity

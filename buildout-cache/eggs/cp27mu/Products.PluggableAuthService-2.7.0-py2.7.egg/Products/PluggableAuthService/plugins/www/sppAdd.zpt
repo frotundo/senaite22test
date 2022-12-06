@@ -1,0 +1,41 @@
+<h1 tal:replace="structure here/manage_page_header">Header</h1>
+
+<main class="container-fluid">
+
+  <h2 tal:define="form_title string:Add Search Principals Plugin"
+      tal:replace="structure here/manage_form_title">Form Title</h2>
+
+  <p class="form-help">
+    Search Principals Plugins allow delegation of searching to another
+    PluggableAuthService
+  </p>
+
+  <form action="addSearchPrincipalsPlugin">
+
+    <div class="form-group row">
+      <label for="id" class="form-label col-sm-3 col-md-2">Id</label>
+      <div class="col-sm-9 col-md-10">
+        <input id="id" name="id" class="form-control" type="text" />
+      </div>
+    </div>
+
+    <div class="form-group row form-optional">
+      <label for="title" class="form-label col-sm-3 col-md-2">Title</label>
+      <div class="col-sm-9 col-md-10">
+        <input id="title" name="title" class="form-control" type="text" />
+      </div>
+    </div>
+
+    <div class="form-group row form-optional">
+      <label for="delegate_path" class="form-label col-sm-3 col-md-2">Delegate Pluggable Auth Service path</label>
+      <div class="col-sm-9 col-md-10">
+        <input id="delegate_path" name="delegate_path" class="form-control" type="text" />
+      </div>
+    </div>
+
+  </form>
+
+</main>
+
+<h1 tal:replace="structure here/manage_page_footer">Footer</h1>
+

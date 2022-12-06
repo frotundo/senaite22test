@@ -1,0 +1,136 @@
+;-*-Doctest-*-
+=============================
+Placeful workflow policy form
+=============================
+
+The Placeful workflow policy form works in a real browser.
+
+Create some content
+
+    >>> from plone.app.testing import setRoles
+    >>> from plone.app.testing import TEST_USER_ID
+    >>> portal = layer['portal']
+    >>> setRoles(portal, TEST_USER_ID, ['Manager'])
+    >>> portal.invokeFactory('Document', 'front-page')
+    'front-page'
+    >>> portal.setDefaultPage('front-page')
+    >>> portal.invokeFactory('Folder', 'f1')
+    'f1'
+    >>> folder = portal['f1']
+    >>> from transaction import commit
+    >>> commit()
+
+Open a browser and log in as a user who can use the policy form.
+
+    >>> from plone.testing.z2 import Browser
+    >>> browser = Browser(layer['app'])
+    >>> browser.open(portal.absolute_url())
+    >>> browser.getLink('Log in').click()
+
+    >>> from plone.app.testing import SITE_OWNER_NAME
+    >>> from plone.app.testing import SITE_OWNER_PASSWORD
+    >>> browser.getControl('Login Name').value = SITE_OWNER_NAME
+    >>> browser.getControl(
+    ...     'Password').value = SITE_OWNER_PASSWORD
+    >>> browser.getControl('Log in').click()
+
+Open the policy form for the front-page and for the folder.
+
+    >>> browser.open(portal.absolute_url())
+    >>> browser.getLink(id='workflow-transition-policy').click()
+    >>> browser.url
+    'http://nohost/plone/front-page/placeful_workflow_configuration'
+    >>> print(browser.contents)
+    <...
+    <h1>...Workflow policies' local configuration management...</h1>
+    ...
+
+    >>> browser.open(portal.absolute_url()+'/placeful_workflow_configuration')
+    >>> browser.url
+    'http://nohost/plone/placeful_workflow_configuration'
+    >>> print(browser.contents)
+    <...
+    <h1>...Workflow policies' local configuration management...</h1>
+    ...
+
+The policy form also works for pages that aren't the default page.
+
+    >>> page = folder[folder.invokeFactory(type_name='Document', id='foo')]
+    >>> commit()
+    >>> browser.open(page.absolute_url())
+    >>> browser.getLink('Policy').click()
+    >>> browser.url
+    'http://nohost/plone/f1/foo/placeful_workflow_configuration'
+    >>> print(browser.contents)
+    <...
+    <h1>...Workflow policies' local configuration management...</h1>
+    ...
+
+Without a local policy document 'foo', contained inside '/f1' is in review state visible:
+
+    >>> browser.open(folder.absolute_url())
+    >>> browser.url
+    'http://nohost/plone/f1'
+
+    >>> foo_link = browser.getLink('foo')
+    >>> 'state-private' in foo_link.attrs['class']
+    True
+
+Now we will add a local policy on the user folder. Old Plone Publication for the folder, Intranet below it:
+
+    >>> browser.open(folder.absolute_url())
+    >>> browser.getLink('Policy').click()
+    >>> browser.url
+    'http://nohost/plone/f1/placeful_workflow_configuration'
+    >>> browser.getControl(name="add_wp_for_type").click()
+    >>> 'Update catalog role mappings' in browser.contents
+    True
+
+    >>> ctrl_in = browser.getControl(name='policy_in')
+    >>> ctrl_in.getControl(value='old-plone').selected=True
+
+    >>> ctrl_below = browser.getControl(name='policy_below')
+    >>> ctrl_below.getControl(value='intranet').selected=True
+
+In a scenario where there are a considerable amount of sub-objects under a folder, we select **not to** 'Update catalog role mappings', as it could take a very long time:
+
+    >>> browser.getControl('Update catalog role mappings').selected=False
+
+And save the policies:
+
+    >>> browser.getControl('Save').click()
+    >>> 'Changed policies' in browser.contents
+    True
+
+We validate policy settings were saved:
+
+    >>> ctrl_in = browser.getControl(name='policy_in')
+    >>> ctrl_in.getControl(value='old-plone').selected
+    True
+
+    >>> ctrl_below = browser.getControl(name='policy_below')
+    >>> ctrl_below.getControl(value='intranet').selected
+    True
+
+And mappings were not updated:
+
+    >>> browser.open(folder.absolute_url())
+    >>> foo_link = browser.getLink('foo')
+    >>> 'state-private' in foo_link.attrs['class']
+    True
+
+If we are sure, or willing to wait, it is possible to update role mappings:
+
+    >>> browser.getLink('Policy').click()
+    >>> browser.getControl('Update catalog role mappings').selected=True
+    >>> browser.getControl('Save').click()
+    >>> 'Changed policies' in browser.contents
+    True
+
+Foo document review state must be 'Internal Draft' in the portlet:
+
+    >>> browser.open(folder.absolute_url())
+    >>> foo_link = browser.getLink('foo')
+    >>> 'state-internal' in foo_link.attrs['class']
+    True
+

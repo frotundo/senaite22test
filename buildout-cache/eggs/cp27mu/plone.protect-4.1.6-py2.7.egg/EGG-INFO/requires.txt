@@ -1,0 +1,14 @@
+Zope2
+collective.monkeypatcher
+lxml[cssselect]
+plone.keyring>=3.0dev
+plone.transformchain
+repoze.xmliter>=0.3
+setuptools
+six
+zope.component
+zope.interface
+
+[test]
+Products.CMFPlonezope.annotation
+plone.app.testing

@@ -1,0 +1,30 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="senaite.lims">
+
+  <genericsetup:upgradeStep
+      title="Upgrade SENAITE LIMS"
+      description="Version 2.2.0"
+      source="2100"
+      destination="2200"
+      handler="senaite.lims.upgrades.handlers.to_2200"
+      profile="senaite.lims:default" />
+
+  <genericsetup:upgradeStep
+      title="Upgrade SENAITE LIMS"
+      description="Version 2.1.0"
+      source="*"
+      destination="2100"
+      handler="senaite.lims.upgrades.handlers.to_2100"
+      profile="senaite.lims:default" />
+
+  <genericsetup:upgradeStep
+      title="Upgrade SENAITE LIMS"
+      description="Version 1.3.3.2"
+      source="*"
+      destination="1332"
+      handler="senaite.lims.upgrades.handlers.to_latest"
+      profile="senaite.lims:default" />
+
+</configure>

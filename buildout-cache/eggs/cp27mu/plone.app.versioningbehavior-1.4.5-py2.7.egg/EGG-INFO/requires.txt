@@ -1,0 +1,17 @@
+Products.CMFEditions>2.2.9
+plone.app.dexterity[relations]
+plone.autoform
+plone.behavior>=1.1
+plone.dexterity
+plone.namedfile
+plone.rfc822
+setuptools
+zope.container
+
+[tests]
+Products.CMFDiffTool
+Products.CMFEditions[test]
+Products.CMFPlone
+plone.app.dexterity
+plone.app.testing
+plone.namedfile[blobs]

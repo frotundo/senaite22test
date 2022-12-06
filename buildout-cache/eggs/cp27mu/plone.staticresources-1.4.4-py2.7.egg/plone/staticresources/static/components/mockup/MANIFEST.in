@@ -1,0 +1,32 @@
+# Include files that are directly in the top level directory.
+include *.json
+include *.rst
+include .yarnrc
+# Include files that are directly in the mockup directory.
+include mockup/*.html
+include mockup/*.js
+include mockup/*.jshintrc
+include mockup/*.json
+include mockup/*.md
+include mockup/*.zcml
+# Recursively include some directories in the mockup directory.
+# Take care not to recursively include files from mockup/node_modules,
+# even when they are later pruned.  Wrongly done, this takes five minutes.
+recursive-include mockup/js *
+recursive-include mockup/less *
+recursive-include mockup/lib *
+recursive-include mockup/patterns *
+recursive-include mockup/tests *
+# All prune/exclude lines should happen after all include lines.
+# Otherwise the include lines win.
+prune .nix
+prune dist
+exclude .bowerrc
+exclude .travis.yml
+exclude Makefile
+exclude *.sh
+exclude Vagrantfile
+global-exclude *.pycinclude pyproject.toml
+recursive-exclude news *
+exclude news
+exclude yarn.lock

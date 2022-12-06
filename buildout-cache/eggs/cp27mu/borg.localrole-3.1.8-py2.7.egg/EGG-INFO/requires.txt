@@ -1,0 +1,16 @@
+Acquisition
+Products.CMFCore
+Products.GenericSetup
+Products.PlonePAS>=5.0.1
+Products.PluggableAuthService
+Zope2
+plone.memoize
+setuptools
+six
+zope.annotation
+zope.component
+zope.deferredimport
+zope.interface
+
+[test]
+plone.app.testing

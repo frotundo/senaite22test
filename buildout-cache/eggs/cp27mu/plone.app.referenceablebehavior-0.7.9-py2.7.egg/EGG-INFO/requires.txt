@@ -1,0 +1,12 @@
+Products.Archetypes
+plone.app.locales>=4.3.9
+plone.behavior
+plone.dexterity>=1.1
+plone.indexer
+plone.uuid
+setuptools
+
+[test]
+Products.CMFPlone
+plone.app.dexterity
+plone.app.testing

@@ -1,0 +1,480 @@
+Metadata-Version: 2.1
+Name: plone.jsonapi.core
+Version: 0.7.0
+Summary: Plone JSON API
+Home-page: https://github.com/collective/plone.jsonapi.core
+Author: Ramon Bartl
+Author-email: rb@ridingbytes.com
+License: GPLv2
+Description: plone.jsonapi.core
+        ==================
+        
+        :Author:  Ramon Bartl
+        :Version: 0.7.0
+        
+        .. contents:: Table of Contents
+           :depth: 2
+        
+        
+        Latest Build Status
+        -------------------
+        
+        .. image:: https://api.travis-ci.org/collective/plone.jsonapi.core.png?branch=master
+            :target: https://travis-ci.org/collective/plone.jsonapi.core
+            :alt: Build Status
+        
+        
+        Abstract
+        --------
+        
+        An extensible Plone JSON API Framework
+        
+        
+        Introduction
+        ------------
+        
+        This Package allows Users to expose content information via JSON.
+        
+        
+        Motivation
+        ----------
+        
+        This project was born in 2012, out of the need for a data source to build a
+        network based iOS application. Or more precise, I wanted to learn iOS
+        programming and wanted to knit my own JSON API:)
+        
+        I know, it is a little bit awkward to provide an own routing mechanism for
+        Plone which dipatches the request after the ``ZPublisher`` did its job, but it
+        worked and thus, I did it.
+        
+        
+        Limitations
+        -----------
+        
+        Since the API comes after the ``ZPublisher``, it can only make use of ``HTTP
+        GET`` and ``HTTP POST`` methods. The other methods will never reach the API
+        View.
+        
+        Be aware that the API View comes with the permission ``zope2.View``, so you need
+        to programmatically check for the correct permissions on your custom routes.
+        
+        See: http://developer.plone.org/security/permission_lists.html
+        
+        
+        Compatibility
+        -------------
+        
+        The plone.jsonapi.core_ should work with Plone_ 3, 4 and 5 on Python 3.
+        
+        .. note:: Users of Plone_ 3 should pin the versions of simplejson_ and Werkzeug_.
+        
+        Example::
+        
+            [buildout]
+            ...
+            versions = versions
+        
+            [versions]
+            ...
+            simplejson = 2.0.9
+            werkzeug = 0.7.2
+        
+        
+        Installation
+        ------------
+        
+        There official release is on pypi, so you have to simply include
+        plone.jsonapi.core_ to your buildout config.
+        
+        Example::
+        
+            [buildout]
+            ...
+        
+            [instance]
+            ...
+            eggs =
+                ...
+                plone.jsonapi.core
+        
+        
+        API URL
+        -------
+        
+        After installation, the API View is available as a Browser View on your Plone
+        site with the name ``@@API``, for example ``http://localhost:8080/Plone/@@API``.
+        
+        
+        API Framework
+        -------------
+        
+        The main work is done in the ``plone.jsonapi.core.browser.api`` module.  This
+        module dispatches the incoming request and dispatches it to an endpoint
+        function.
+        
+        
+        The API Router
+        --------------
+        
+        The `Router` is responsible to manage and maintain API routes to endpoints.
+        
+        Routes get defined by so called "Route Providers".
+        
+        A route provider is either a named Utility class, which implements the
+        ``IRouteProvider`` interface, or simply a function, which is registered
+        via the ``add_route`` decorator.
+        
+        
+        Basic Example
+        ~~~~~~~~~~~~~
+        
+        The most basic route provider is simply a decorated function::
+        
+            from plone.jsonapi.core import router
+        
+            @router.add_route("/hello/<string:name>", "hello", methods=["GET"])
+            def hello(context, request, name="world"):
+                return {"hello": name}
+        
+        The passed in context and request gets passed of the ``@@API`` View.
+        It can be used to query Plone tools or other utilities or adapters.
+        
+        
+        A more complex Example
+        ~~~~~~~~~~~~~~~~~~~~~~
+        
+        In this Example, we're going to add a route provider named ``my_routes``.
+        This route provider gets registered as an named Utility_.
+        
+        To do so, we add a module called ``routes.py`` to our package and add the
+        following code::
+        
+            from zope import interface
+            from plone.jsonapi.core.interfaces import IRouteProvider
+        
+            class ExampleRoutes(object):
+                interface.implements(IRouteProvider)
+        
+        
+                def initialize(self, context, request):
+                    """ called by the json api framework"""
+                    pass
+        
+                @property
+                def routes(self):
+                    return (
+                        ("/hello/<string:name>", "hello", self.json_hello, dict(methods=['GET'])),
+                    )
+        
+                def json_hello(self, context, request, name="world"):
+                    return {"hello": name}
+        
+        
+        To register the Utility_, we add this directive to the ``configure.zcml`` file::
+        
+            <!-- Extension point for custom routes -->
+            <utility
+                name="my_routes"
+                provides="plone.jsonapi.core.interfaces.IRouteProvider"
+                factory=".routes.ExampleRoutes" />
+        
+        Or use grok::
+        
+        
+            from five import grok
+        
+            ...
+        
+            grok.global_utility(ExampleRoutes, name="my_routes", direct=False)
+        
+        Each route provider gets initialized with the ``context`` and the ``request`` in a
+        method called ``initialize``. This method gets called by the API framework.
+        
+        Our route provider has to contain a ``routes`` property or method. It should
+        return a tuple of route definitions. Each route definition contains the url
+        rule (``/hello``), an endpoint name (``hello``), a method to be called when the url
+        matches (``self.json_hello``) and an additional dictionary with routing ``options``
+        
+        The `options` dictionary get directly passed to the routing mechanism of Werkzeug_.
+        For details, see: http://werkzeug.pocoo.org/docs/routing/#rule-format
+        
+        .. note:: plone.jsonapi.core_ comes with a default implementation of the router.
+                  This router uses the routing mechanism provided by Werkzeug_.
+                  It is possible to plug in a more sophisticated router by using the ZCA.
+                  Simply configure a class which implements the `IRouter` interface.
+        
+        To test this route, browse to the ``/hello`` API url:
+        
+        http://localhost:8080/Plone/@@API/hello/JSON%20Plone%20API
+        
+        
+        Result::
+        
+            {
+                _runtime: 0.00025200843811035156,
+                hello: "JSON Plone API"
+            }
+        
+        
+        API URLs
+        --------
+        
+        If you design your custom RESTful JSON API, you probably want to insert URLs to
+        your specified resources, e.g:
+        
+        http://localhost:8080/Plone/@@API/news/news_items_1
+        
+        The ``plone.jsonapi.core.router`` module comes with a ``url_for`` method.
+        
+        So when you want to insert the URL for the defined ``hello`` endpoint, you simply
+        add it like this::
+        
+            from plone.jsonapi.core import router
+        
+            @router.add_route("/hello/<string:name>", "hello", methods=["GET"])
+            def hello(context, request, name="world"):
+                return {
+                    "url": router.url_for("hello", values={"name": name}, force_external=True),
+                    "hello": name,
+                }
+        
+        It builds the URLs using the ``build`` method of the MapAdapter of Werkzeug_.
+        For details, see http://werkzeug.pocoo.org/docs/routing/#werkzeug.routing.MapAdapter.build
+        
+        The resulting JSON will look like this:
+        
+        http://localhost:8080/Plone/@@API/hello/world
+        
+        Result::
+        
+            {
+                url: "http://localhost:8080/Plone/@@API/hello/world",
+                runtime: 0.002997875213623047,
+                hello: "world"
+            }
+        
+        
+        Permissions
+        -----------
+        
+        You have to handle the permissions for your routes manually.
+        so if you would like to restrict the permission of the ``hello`` route,
+        you have to do something like this::
+        
+            from AccessControl import getSecurityManager
+            from AccessControl import Unauthorized
+        
+            from plone.jsonapi.core import router
+        
+            @router.add_route("/hello/<string:name>", "hello", methods=["GET"])
+            def hello(context, request, name="world"):
+        
+                if not getSecurityManager().checkPermission("ViewHelloAPI", context):
+                    raise Unauthorized("You don't have the 'ViewHelloAPI' permission")
+        
+                return {
+                    "url": router.url_for("hello", values={"name": name}, force_external=True),
+                    "hello": name,
+                }
+        
+        Output::
+        
+            {
+                runtime: 0.0021250247955322266,
+                success: false,
+                error: "You don't have the 'ViewHelloAPI' permission"
+            }
+        
+        
+        
+        .. _Plone: http://plone.org
+        .. _Dexterity: https://pypi.python.org/pypi/plone.dexterity
+        .. _Werkzeug: http://werkzeug.pocoo.org
+        .. _simplejson: https://pypi.python.org/pypi/simplejson
+        .. _plone.jsonapi.core: https://github.com/ramonski/plone.jsonapi.core
+        .. _mr.developer: https://pypi.python.org/pypi/mr.developer
+        .. _Utility: http://developer.plone.org/components/utilities.html
+        
+        Plone JSONAPI Integration Tests
+        ===============================
+        
+        With `plone.jsonapi.core` enabled, it is simple to expose functions within
+        Plone. You only have to wrap your function around the `@router.add_route`
+        decorator.
+        
+        The following doctest will demonstrate how the framework works and how to
+        register new routes.
+        
+        
+        Some needed imports::
+        
+            >>> import json
+            >>> from plone.jsonapi.core import router
+            >>> from plone.jsonapi.core.version import version
+        
+        Prepare the browser::
+        
+            >>> browser = self.getBrowser()
+        
+        Remember some URLs::
+        
+            >>> portal = self.getPortal()
+            >>> portal_url = portal.absolute_url()
+            >>> api_url = portal_url + "/@@API"
+            >>> version_url = api_url + "/version"
+        
+        Check if the version URL returns the right version::
+        
+            >>> browser.open(version_url)
+            >>> dct = json.loads(browser.contents)
+            >>> dct["url"] == version_url
+            True
+            >>> dct["version"] == version()
+            True
+        
+        Testing the framework -- lets add a new GET route::
+        
+            >>> @router.add_route("/hello/<string:name>", "hello", methods=["GET"])
+            ... def hello(context, request, name="world"):
+            ...     return dict(hello=name)
+        
+            >>> browser.open(api_url + "/hello/world")
+            >>> json.loads(browser.contents).get("hello")
+            'world'
+        
+        
+        Testing the framework -- lets add a new POST route::
+        
+            >>> @router.add_route("/hello", "hello_post", methods=["POST"])
+            ... def hello_post(context, request):
+            ...     return {"hello": "post"}
+        
+            >>> browser.post(api_url + "/hello", "")
+            >>> json.loads(browser.contents).get("hello")
+            'post'
+        
+        
+        Check what happenss when a route throws an Error::
+        
+            >>> @router.add_route("/fail", "fail", methods=["GET"])
+            ... def fail(context, request):
+            ...     raise RuntimeError("This failed badly")
+        
+            >>> browser.open(api_url + "/fail")
+            Traceback ...
+            >>> json.loads(browser.contents).get("message")
+            'This failed badly'
+        
+        
+        Test XML::
+        
+            >>> @router.add_route("/xml", "xml", methods=["GET"])
+            ... def xml(context, request):
+            ...     return {"type": "xml"}
+            >>> browser.open(api_url + "/xml?asxml=1")
+            >>> browser.contents
+            b'<?xml version="1.0" encoding="UTF-8" ?><root><type type="str">xml</type></root>'
+        
+        
+        Test Binary Stream::
+        
+            >>> @router.add_route("/data", "data", methods=["GET"])
+            ... def data(context, request):
+            ...     return self.get_testfile_path()
+            >>> browser.open(api_url + "/data?asbinary=1")
+            >>> browser.contents
+            b'%PDF-...'
+        
+        Changelog
+        =========
+        
+        
+        0.7.0 - 2020-03-29
+        ------------------
+        
+        - https://github.com/collective/plone.jsonapi.core/pull/23
+          Add Python3 compatibility
+        
+        
+        0.6 - 2017-01-10
+        ----------------
+        
+        - Supports XML response.
+          Use the request parameter `asxml=1` or set the request `Accept` header to
+          `application/xml`
+        
+        - https://github.com/collective/plone.jsonapi.core/issues/21
+          Support file streams.
+          Use the request parameter `asbinary=1` or set the request `Accept` header to
+          `application/zip`
+        
+        - https://github.com/collective/plone.jsonapi.core/issues/22
+          Do not store the request on the router upon initialization
+        
+        - https://github.com/collective/plone.jsonapi.core/issues/18
+          Handle None values
+        
+        - https://github.com/collective/plone.jsonapi.core/issues/17
+          Print out Traceback's to the console and not back to the client
+        
+        
+        0.5 - 2015-07-09
+        ----------------
+        
+        - https://github.com/collective/plone.jsonapi.core/pull/14
+          use ``urlsplit(request.get("ACTUAL_URL", "")).netloc`` to get the hostname
+        
+        - added more tests
+        
+        - changed info to debug logging to reduce verbosity
+        
+        - smoe minor code cleanup
+        
+        
+        0.4 - 2014-03-04
+        ----------------
+        
+        - https://github.com/ramonski/plone.jsonapi.core/issues/10
+          add the traceback to the response when an error occurs
+        - https://github.com/ramonski/plone.jsonapi.core/issues/7
+          started with doctests
+        
+        
+        0.3 - 2014-01-23
+        ----------------
+        
+        - renamed package to `plone.jsonapi.core` due to namespace conflicts with
+          `plone.jsonapi.routes`
+        - removed default plone route configuration.
+        - added `version` route
+        - changed the `url_for` method of the router to provide correct urls for
+          virtual hosting.
+        
+        
+        0.2 - 2013-08-11
+        ----------------
+        
+        - Router implementation updated to support decorated functions as route
+          providers.
+        
+        - url_for functionality implemented
+        
+        - documentation changed
+        
+        
+        0.1 - unreleased
+        ----------------
+        
+        - initial start of development
+        
+        
+Platform: UNKNOWN
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Plone
+Classifier: Framework :: Plone :: 5.2
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Operating System :: OS Independent
+Classifier: License :: OSI Approved :: GNU General Public License v2 (GPLv2)
+Provides-Extra: test

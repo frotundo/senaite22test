@@ -1,0 +1,11 @@
+Metadata-Version: 2.1
+Name: pyphen
+Version: 0.11.0
+Summary: Pure Python module to hyphenate text
+Home-page: UNKNOWN
+Author-email: Guillaume Ayoub <contact@courtbouillon.org>
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Requires-Python: >=3.6
+Provides-Extra: test

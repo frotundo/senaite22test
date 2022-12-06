@@ -1,0 +1,149 @@
+<html tal:define="profile_id request/saved | request/profile_id | nothing;
+                  prof_with_upgrades context/listProfilesWithUpgrades;
+                  prof_with_pending_upgrades context/listProfilesWithPendingUpgrades;
+                  prof_uptodate context/listUptodateProfiles;
+                  has_pending_upgrades context/hasPendingUpgrades">
+
+<span tal:replace="structure context/manage_page_header">PAGE HEADER</span>
+<span tal:replace="structure context/manage_tabs">TABS</span>
+
+<main class="container-fluid">
+
+<div class="alert alert-info" role="alert"
+     tal:condition="python:'saved' in request.form">
+  <strong>Info:</strong>
+  <span tal:replace="structure request/saved" />
+  profile run.
+</div>
+
+<h1>Upgrades</h1>
+
+<div class="alert alert-info" role="alert"
+     tal:condition="not: prof_with_upgrades">
+  <strong>Info:</strong> No profiles with registered upgrade steps.
+</div>
+
+<tal:pending condition="has_pending_upgrades">
+  <h2>
+    These profiles have pending upgrades:
+  </h2>
+  <tal:choose-pending-profile condition="prof_with_pending_upgrades">
+    <form method="post" action="manage_upgrades">
+      <select name="profile_id" class="form-control">
+        <option tal:repeat="prof_id prof_with_pending_upgrades"
+                tal:content="prof_id"
+                tal:attributes="selected python:prof_id == profile_id"/>
+      </select>
+      <div class="form-group zmi-controls">
+        <div class="input-group">
+          <input class="btn btn-primary" type="submit" value="Choose Profile" />
+        </div>
+      </div>
+    </form>
+  </tal:choose-pending-profile>
+</tal:pending>
+
+<tal:choose-uptodate-profile condition="prof_uptodate">
+  <h2>
+    These profiles have no pending upgrades, but old steps are
+    available if needed:
+  </h2>
+  <form method="post" action="manage_upgrades" id="profile_id_nopending">
+    <select name="profile_id" class="form-control"
+            tal:attributes="onchange string:document.getElementById('profile_id_nopending').submit();">
+      <option tal:repeat="prof_id prof_uptodate"
+              tal:content="prof_id"
+              tal:attributes="selected python:prof_id == profile_id"/>
+    </select>
+      <div class="form-group zmi-controls">
+        <div class="input-group">
+          <input class="btn btn-primary" type="submit" value="Choose Profile" />
+        </div>
+      </div>
+  </form>
+</tal:choose-uptodate-profile>
+
+
+
+<tal:profile-specified condition="profile_id">
+
+<p>
+  The profile <code tal:content="profile_id" /> is currently upgraded to version
+  <strong tal:define="version python:context.getLastVersionForProfile(profile_id)"
+          tal:content="python:test(same_type(version, tuple()), '.'.join(version), version)">
+    LAST UPGRADED VERSION
+  </strong>.
+</p>
+
+<p>
+  The filesystem version for the <code tal:content="profile_id" /> profile is currently
+  <strong tal:content="python:context.getVersionForProfile(profile_id)">
+    CURRENT FILESYSTEM VERSION
+  </strong>.
+</p>
+
+<tal:block define="show_old request/show_old | python:0;
+                   upgrades python:context.listUpgrades(profile_id, show_old=show_old)">
+
+<form method="post" action="manage_doUpgrades" tal:condition="upgrades">
+<h3>
+  Available upgrades:
+</h3>
+<input type="hidden" name="show_old:int" value="VALUE"
+       tal:attributes="value show_old" />
+<input type="hidden" name="profile_id" value="VALUE"
+       tal:attributes="value profile_id" />
+<table class="table table-hover">
+  <tal:block tal:repeat="upgrade_info upgrades">
+
+      <tbody tal:condition="python:not same_type(upgrade_info, [])"
+             tal:define="info upgrade_info">
+        <tr valign="top">
+          <metal:insert-step use-macro="context/upgradeStepMacro/macros/upgrade-step" />
+        </tr>
+      </tbody>
+
+      <tal:multiple tal:condition="python: same_type(upgrade_info, [])">
+        <thead>
+          <tr>
+            <th colspan="4" style="text-align: left;">Upgrade Step Group</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="text-left" tal:repeat="info upgrade_info">
+            <metal:insert-step use-macro="context/upgradeStepMacro/macros/upgrade-step" />
+          </tr>
+        </tbody>
+      </tal:multiple>
+  </tal:block>
+
+  <tr valign="top">
+    <td colspan="4">
+      <input  class="btn btn-primary" type="submit" value="Upgrade" />
+    </td>
+  </tr>
+</table>
+</form>
+
+<p tal:condition="not:upgrades">
+  No upgrade available.
+</p>
+
+<form method="post" action="manage_upgrades" tal:condition="not:show_old">
+<p>
+  <input class="btn btn-primary" type="submit" value="Show old upgrades" />
+  <input type="hidden" name="show_old:int" value="1" />
+  <input type="hidden" name="profile_id" value="VALUE"
+         tal:attributes="value profile_id" />
+</p>
+</form>
+
+</tal:block>
+
+</tal:profile-specified>
+
+</main>
+
+<h1 tal:replace="structure context/manage_page_footer">PAGE FOOTER</h1>
+
+</html>

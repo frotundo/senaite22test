@@ -1,0 +1,12 @@
+AccessControl>=3.0.0
+Acquisition
+Products.CMFCore
+Zope2
+setuptools
+six
+zope.contenttype
+zope.deferredimport
+zope.interface
+
+[test]
+plone.app.testing

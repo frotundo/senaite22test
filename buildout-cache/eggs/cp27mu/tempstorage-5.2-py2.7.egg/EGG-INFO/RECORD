@@ -1,0 +1,11 @@
+tempstorage/TemporaryStorage.py,sha256=njkzE-LRK2TC9MqJZ8SpMskFcyKj0greq0Nw-h87xD0,13145
+tempstorage/__init__.py,sha256=uCqDltEFnY1CRS_L4QEiJtWY_1azBaXAYHF_3Y55DDg,636
+tempstorage/component.xml,sha256=Taybw3xYErRhTbIn1JuIANYOMdGVthVWbP_7wvn2858,403
+tempstorage/config.py,sha256=UFREYGlbObxTMLpQWtuiPlNVW3xNU0Ub12oRFnTKmKI,847
+tempstorage/tests/__init__.py,sha256=k2T1QF0L1JYbsyJpTujcEjfIMURykv5Lljl5cM6kB2c,636
+tempstorage/tests/testTemporaryStorage.py,sha256=Y9dRZa0koKNWk3dpN71AmNN6x-O3CB7qP0VX9bvDz-I,9301
+tempstorage-5.2.dist-info/LICENSE.txt,sha256=PmcdsR32h1FswdtbPWXkqjg-rKPCDOo_r1Og9zNdCjw,2070
+tempstorage-5.2.dist-info/METADATA,sha256=E3OjjdWXPY5fwHsmav7Avu7ATgejSwJzJZrV39IBSuc,4584
+tempstorage-5.2.dist-info/WHEEL,sha256=Z-nyYpwrcSqxfdux5Mbn_DQ525iP7J2DG3JgGvOYyTQ,110
+tempstorage-5.2.dist-info/top_level.txt,sha256=oITnhpDy677UbQg9y2MfvwzDSpcwnP_Ts4m8an_813I,12
+tempstorage-5.2.dist-info/RECORD,,

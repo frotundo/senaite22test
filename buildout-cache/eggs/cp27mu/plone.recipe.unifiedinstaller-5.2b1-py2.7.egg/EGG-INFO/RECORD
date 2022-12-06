@@ -1,0 +1,16 @@
+plone.recipe.unifiedinstaller-5.2b1-py2.7-nspkg.pth,sha256=SL2XGz1wpwn_wEek10Z7PmMUVigUC2P4OmpKTWzBARc,1688
+plone/recipe/unifiedinstaller/__init__.py,sha256=xSYsy1pOL5-EaNNZhcCt4AW0d37_Ay-oYiczVolDiqI,5155
+plone/recipe/unifiedinstaller/admin_text,sha256=19b90JUJByvsJJ4E2_0NqCU-XGLeX6xrDA5EbpAa8fQ,434
+plone/recipe/unifiedinstaller/ctl.py,sha256=x0dw3uSZWfzfQAp5wiCCiv3CnFR2xO8mBJfnoUt6W4M,6794
+plone/recipe/unifiedinstaller/parts_readme_text,sha256=2vdiBQj8H5Q1vvglIhMLWVvdRlvxD1W1YP4qEwIP42A,207
+plone/recipe/unifiedinstaller/readme_html,sha256=ts7n4q7EpmUSKSByUicdMKKNqAX3fRHnAxFIQnA-vkU,3405
+plone/recipe/unifiedinstaller/readme_text,sha256=JfuZAnvt8I4-Gy8Okynu8ZpCm8603LIN_-8jIZBLbXg,2113
+plone.recipe.unifiedinstaller-5.2b1.dist-info/DESCRIPTION.rst,sha256=WVZFb-mQNaC6xY0LgoGSOXgnYMVrX564ewz7YLpTwFc,3290
+plone.recipe.unifiedinstaller-5.2b1.dist-info/METADATA,sha256=XzO4v1sTkA61nAonozLfX7tah84mO3_Svu00u3UcjLk,3893
+plone.recipe.unifiedinstaller-5.2b1.dist-info/RECORD,,
+plone.recipe.unifiedinstaller-5.2b1.dist-info/WHEEL,sha256=o2k-Qa-RMNIJmUdIc7KU6VWR_ErNRbWNlxDIpl7lm34,110
+plone.recipe.unifiedinstaller-5.2b1.dist-info/dependency_links.txt,sha256=2O9E5mAHYM6ACez_CYsBHZpVwwI0I8uRHxK5LByXqYA,39
+plone.recipe.unifiedinstaller-5.2b1.dist-info/entry_points.txt,sha256=ka9fuLRKRsKtlpt_dWOAav1KrIpNvKlyq4WSmd8IIKs,62
+plone.recipe.unifiedinstaller-5.2b1.dist-info/metadata.json,sha256=MlF0EvAWdYkbomU6WMLHgHeYmDirzKZcPLv23Mp-hFU,880
+plone.recipe.unifiedinstaller-5.2b1.dist-info/namespace_packages.txt,sha256=w-3LjpJyWhLxhR-yr2J1wNc0yz3eqI-H0E4erv1QOdY,19
+plone.recipe.unifiedinstaller-5.2b1.dist-info/top_level.txt,sha256=56bqrkG-vurYD0l15D71FPiDL7L3QqkfRWkYkdyS7WM,6

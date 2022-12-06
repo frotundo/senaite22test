@@ -1,0 +1,9 @@
+setuptools
+
+[test]
+Products.CMFPlone
+Zope2
+archetypes.schemaextender
+plone.app.testing
+six
+zope.testing

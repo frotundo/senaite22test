@@ -1,0 +1,608 @@
+Metadata-Version: 2.1
+Name: plone.rest
+Version: 1.6.2
+Summary: Plone support for HTTP verbs.
+Home-page: https://github.com/plone/plone.rest/
+Author: Plone Foundation
+Author-email: plone-developers@lists.sourceforge.net
+License: GPL version 2
+Keywords: rest http
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Plone
+Classifier: Framework :: Plone :: 4.3
+Classifier: Framework :: Plone :: 5.0
+Classifier: Framework :: Plone :: 5.1
+Classifier: Framework :: Plone :: 5.2
+Classifier: Framework :: Plone :: Core
+Classifier: Framework :: Zope2
+Classifier: Framework :: Zope :: 4
+Classifier: License :: OSI Approved :: GNU General Public License (GPL)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Requires-Dist: setuptools
+Requires-Dist: collective.monkeypatcher
+Requires-Dist: zope.component
+Requires-Dist: zope.interface
+Requires-Dist: zope.publisher
+Requires-Dist: zope.traversing
+Requires-Dist: Products.CMFCore
+Requires-Dist: Zope2
+Requires-Dist: six
+Provides-Extra: test
+Requires-Dist: plone.app.testing[robot] (>=4.2.2) ; extra == 'test'
+Requires-Dist: plone.app.robotframework ; extra == 'test'
+Requires-Dist: plone.dexterity ; extra == 'test'
+Requires-Dist: Products.CMFCore ; extra == 'test'
+Requires-Dist: requests ; extra == 'test'
+
+.. image:: https://github.com/plone/plone.rest/workflows/plone.rest%20CI/badge.svg
+   :alt: Github Actions Status
+   :target: https://github.com/plone/plone.rest/actions?query=workflow%3A%22plone.rest+CI%22
+
+.. image:: https://img.shields.io/coveralls/github/plone/plone.rest.svg
+   :alt: Coveralls github
+   :target: https://coveralls.io/github/plone/plone.restapi
+
+.. image:: https://img.shields.io/pypi/status/plone.rest.svg
+    :target: https://pypi.python.org/pypi/plone.rest/
+    :alt: Egg Status
+
+.. image:: https://img.shields.io/pypi/v/plone.rest.svg
+    :target: https://pypi.python.org/pypi/plone.rest/
+    :alt: Latest Version
+
+.. image:: https://img.shields.io/pypi/l/plone.rest.svg
+    :target: https://pypi.python.org/pypi/plone.rest/
+    :alt: License
+
+
+==========
+Plone REST
+==========
+
+Purpose
+-------
+
+plone.rest allows you to use HTTP verbs such as GET, POST, PUT, DELETE, etc. in `Plone <https://www.plone.org>`_.
+
+REST stands for `Representational State Transfer <http://en.wikipedia.org/wiki/Representational_state_transfer>`_.
+It is a software architectural principle to create loosely coupled web APIs.
+
+plone.rest provides the basic infrastructure that allows us to build RESTful endpoints in Plone.
+
+The reason for separating this infrastructure into a separate package from the 'main' full `Plone REST API <https://github.com/plone/plone.restapi>`_ is so you can create alternative endpoints tailored to specific usecases. A number of these specific endpoints are already in active use.
+
+
+Audience
+--------
+
+plone.rest is for experienced web developers who want to build their own HTTP/REST endpoints on top of Plone.
+
+If you want to **use** a ready-made full RESTful Plone API, you should use `plone.restapi <https://github.com/plone/plone.restapi>`_.
+That package uses, and depends upon, this one.
+
+
+Features
+--------
+
+* Registering RESTful service endpoints for the following HTTP verbs:
+
+  * GET
+  * POST
+  * PUT
+  * DELETE
+  * PATCH
+  * OPTIONS
+
+* Support for Dexterity and Archetypes-based content objects
+* Content negotiation: Services can be registered for arbitrary media types (e.g. 'application/json').
+* Named services allows to register service endpoints for custom URLs
+
+
+Registering RESTful Service Endpoints
+-------------------------------------
+
+plone.rest allows you to register HTTP verbs for Plone content with ZCML.
+
+This is how you would register a PATCH request on Dexterity content:
+
+.. code-block:: xml
+
+  <plone:service
+    method="PATCH"
+    accept="application/json"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    factory=".service.Patch"
+    permission="cmf.ModifyPortalContent"
+    />
+
+You have to specify the HTTP verb (GET, POST, PUT, DELETE, HEAD, OPTIONS), the
+media type used for content negotiation, the interface for the content objects,
+the factory class that actually returns the content and the permission required
+to access the service.
+
+The factory class needs to inherit from the plone.rest 'Service' class and to implement a render method that returns the body of the response::
+
+  from plone.rest import Service
+
+  class Patch(Service):
+
+      def render(self):
+          return '{"message": "PATCH: Hello World!"}'
+
+
+Content Negotiation
+-------------------
+
+To access the service endpoint we just created we have to send a GET request to a Dexterity object by setting the 'Accept' header to 'application/json'::
+
+  PATCH /Plone/doc1 HTTP/1.1
+  Host: localhost:8080
+  Accept: application/json
+
+The server then will respond with '200 OK'::
+
+  HTTP/1.1 200 OK
+  Content-Type: application/json
+
+  {
+    "message": "PATCH: Hello World!"
+  }
+
+You can try this out on the command line:
+
+.. code-block:: console
+
+    $ http --auth admin:admin PATCH localhost:8080/Plone/doc1 Accept:application/json
+
+.. note:: You have to install httpie (pip install httpie) to make this example work.
+
+Here is a list of examples for all supported HTTP verbs:
+
+GET::
+
+  $ http --auth admin:admin GET localhost:8080/Plone/doc1 Accept:application/json
+
+POST::
+
+  $ http --auth admin:admin POST localhost:8080/Plone/doc1 Accept:application/json
+
+PUT::
+
+  $ http --auth admin:admin PUT localhost:8080/Plone/doc1 Accept:application/json
+
+DELETE::
+
+  $ http --auth admin:admin DELETE localhost:8080/Plone/doc1 Accept:application/json
+
+PATCH::
+
+  $ http --auth admin:admin PATCH localhost:8080/Plone/doc1 Accept:application/json
+
+OPTIONS::
+
+  $ http --auth admin:admin OPTIONS localhost:8080/Plone/doc1 Accept:application/json
+
+
+Named Services
+--------------
+
+Named services can be registered by providing a 'name' attribute in the service directive:
+
+.. code-block:: xml
+
+  <plone:service
+    method="GET"
+    accept="application/json"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    factory=".service.Search"
+    name="search"
+    permission="zope2.View"
+    />
+
+This registers a service endpoint accessible at the site root using the
+following request::
+
+  GET /Plone/search HTTP/1.1
+  Host: localhost:8080
+  Accept: application/json
+
+
+Additional Path Segments
+------------------------
+
+To handle additional path segments after the service url like `/Plone/myservice/1/2`
+a service has to implement `IPublishTraverse`. The following example simply
+stores all path segments in an array in `self.params`.
+
+.. code-block:: python
+
+  from plone.rest import Service
+  from zope.interface import implements
+  from zope.publisher.interfaces import IPublishTraverse
+
+  class MyService(Service):
+
+      implements(IPublishTraverse)
+
+      def __init__(self, context, request):
+          super(MyService, self).__init__(context, request)
+          self.params = []
+
+      def publishTraverse(self, request, name):
+          self.params.append(name)
+          return self
+
+      def render(self):
+          return {'service': 'named get', 'params': self.params}
+
+
+See also the implementation of the workflow transition endpoint in
+plone.restapi for an other example.
+
+
+CORS
+----
+
+plone.rest allows you to define CORS policies for services in ZCML. The
+following example defines a policy for all services.
+
+.. code-block:: xml
+
+  <plone:CORSPolicy
+    allow_origin="http://example.net"
+    allow_methods="DELETE,GET,OPTIONS,PATCH,POST,PUT"
+    allow_credentials="true"
+    expose_headers="Content-Length,X-My-Header"
+    allow_headers="Accept,Authorization,Content-Type,X-Custom-Header"
+    max_age="3600"
+    />
+
+CORS policies can be bound to specific interfaces of content objects and to
+specific browser layers. This allows us to define different policies for
+different content types or to override existing policies. The following example
+defines a policy for the site root.
+
+.. code-block:: xml
+
+  <plone:CORSPolicy
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    layer="myproduct.interfaces.IMyBrowserLayer"
+    allow_origin="*"
+    allow_methods="GET"
+    />
+
+The CORSPolicy directive supports the following options:
+
+allow_origin
+  Origins that are allowed to access the resource. Either a comma separated
+  list of origins, e.g. "http://example.net,http://mydomain.com" or "*".
+
+allow_methods
+  A comma separated list of HTTP method names that are allowed by this CORS
+  policy, e.g. "DELETE,GET,OPTIONS,PATCH,POST,PUT". If not specified, all
+  methods for which there's a service registerd are allowed.
+
+allow_credentials
+  Indicates whether the resource supports user credentials in the request.
+
+allow_headers
+  A comma separated list of request headers allowed to be sent by the client,
+  e.g. "X-My-Header"
+
+expose_headers
+  A comma separated list of response headers clients can access,
+  e.g. "Content-Length,X-My-Header".
+
+max_age
+  Indicates how long the results of a preflight request can be cached.
+
+for
+  Specifies the interface for which the CORS policy is registered. If this
+  attribute is not specified, the CORS policy applies to all objects.
+
+layer
+  A browser layer for which this CORS policy is registered. Useful for
+  overriding existing policies or for making them available only if a specific
+  add-on has been installed.
+
+
+Installation
+------------
+
+Install plone.rest by adding it to your buildout::
+
+   [buildout]
+
+    ...
+
+    eggs =
+        plone.rest
+
+and then running "bin/buildout"
+
+
+Redirects
+---------
+
+plone.rest will handle redirects created by ``plone.app.redirector`` pretty
+much the same way as regular Plone.
+
+If a redirect exists for a given URL, a ``GET`` request will be answered with
+``301``, and the new location for the resource is indicated in the ``Location``
+header::
+
+  HTTP/1.1 301 Moved Permanently
+
+  Content-Type: application/json
+  Location: http://localhost:8080/Plone/my-folder-new-location
+
+Any other request method than GET (``POST``, ``PATCH``, ...) will be answered
+with ``308 Permanent Redirect``. This status code instructs the client that
+it should NOT switch the method, but retry (if desired) the request with the
+*same* method at the new location.
+
+In practice, both the Python ``requests`` library a well as Postman seem to
+honour this behavior by default.
+
+
+Contribute
+----------
+
+- Issue Tracker: https://github.com/plone/plone.rest/issues
+- Source Code: https://github.com/plone/plone.rest
+- Documentation: https://pypi.python.org/pypi/plone.rest
+
+
+Support
+-------
+
+This package is maintained by Timo Stollenwerk <tisto@plone.org> and Ramon Navarro Bosch <ramon.nb@gmail.com>.
+
+If you are having issues, please `let us know <https://github.com/plone/plone.rest/issues>`_.
+
+
+License
+-------
+
+The project is licensed under the GPLv2.
+
+
+Changelog
+=========
+
+.. You should *NOT* be adding new change log entries to this file.
+   You should create a file in the news directory instead.
+   For helpful instructions, please see:
+   https://github.com/plone/plone.releaser/blob/master/ADD-A-NEWS-ITEM.rst
+
+.. towncrier release notes start
+
+1.6.2 (2021-02-20)
+------------------
+
+Bug fixes:
+
+
+- Explicitly make ``allow_credentials`` required in CORS policy.
+  This was the default for Bool fields until and including zope.schema 6.0.1, but in 6.1.0 this changed.
+  [maurits] (#104)
+
+
+1.6.1 (2020-03-22)
+------------------
+
+Bug fixes:
+
+
+- CORS preflight should happen for all error codes, fixes #101
+  [sneridagh] (#101)
+
+
+1.6.0 (2019-10-15)
+------------------
+
+New features:
+
+
+- Remove CMFPlone and make plone.app.redirector dependency optional [timo] (#81)
+
+
+1.5.1 (2019-10-15)
+------------------
+
+- Brown bag release.
+
+
+1.5.0 (2019-10-13)
+------------------
+
+- Brown bag release.
+
+
+1.4.0 (2018-11-08)
+------------------
+
+New features:
+
+- Python 3 compatibility
+  [tschorr,pbauer,frapell]
+
+
+1.3.0 (2018-09-11)
+------------------
+
+New features:
+
+- Remove unnecessary dependency on Products.CMFPlone.
+  Import ISiteRoot from Products.CMFCore.interfaces instead of
+  IPloneSiteRoot from Products.CMFPlone.interfaces.siteroot.
+  [jordic]
+
+
+1.2.0 (2018-06-29)
+------------------
+
+New features:
+
+- Add support for redirects from plone.app.redirector.
+  [lgraf]
+
+
+1.1.1 (2018-06-22)
+------------------
+
+Bugfixes:
+
+- Re-release 1.1.0.
+
+
+1.1.0 (2018-06-22)
+------------------
+
+New features:
+
+- Get rid of Products.Five.metaclass dependency for Zope 4 compatibility.
+  [timo]
+
+
+1.0.0 (2018-01-17)
+------------------
+
+New features:
+
+- Add support for Plone 5.1.
+  [timo]
+
+- Add Plone 4.3, 5.0 and 5.1 to list classifiers in setup.py.
+  [timo]
+
+- Set development status to production/stable in setup.py.
+  [timo]
+
+
+1.0b1 (2017-05-14)
+------------------
+
+Bugfixes:
+
+- Do not render service in preflight requests when no CORS policy was defined.
+  Fixes: https://github.com/plone/plone.rest/issues/63
+  [buchi]
+
+
+1.0a7 (2016-11-21)
+------------------
+
+Bugfixes:
+
+- Do not handle view namespace at all. This fixes: https://github.com/plone/plone.rest/issues/50
+  [buchi]
+
+
+1.0a6 (2016-05-22)
+------------------
+
+- Add support for CORS policies.
+  [buchi]
+
+- Remove JSON render implementation in service base class. Services
+  must provide their own render implementation.
+  [buchi]
+
+- Fallback to regular views during traversal to ensure compatibility with
+  views beeing called with a specific Accept header.
+  [buchi]
+
+
+1.0a5 (2016-02-27)
+------------------
+
+- Implement permission handling. The permission required to access a service
+  must be declared in the service directive.
+  [buchi]
+
+- Register services with the Zope configuration system. This provides better
+  conflict detection and resolution.
+  [buchi]
+
+- Improve message for 404 Not Found exceptions (don't return HTML).
+  [lgraf]
+
+- Add regression tests for service dispatching.
+  [lgraf]
+
+- Restrict traversal of REST requests to content objects. This allows us to
+  override existing views with a named service (e.g. /search).
+  [buchi]
+
+- Allow virtual hosting scenarios. This fixes #48.
+  [tomgross]
+
+
+1.0a4 (2016-02-07)
+------------------
+
+- Refactor Dexterity tests to make sure services return the correct object.
+  [timo]
+
+- Add support for browser layers. REST services can now be registered to a
+  specific browser layer using the 'layer' attribute.
+  [buchi]
+
+- Remove request method specific marker interfaces (IGET, IPOST, etc.) because
+  they're no longer required for service lookup.
+  [buchi]
+
+- Add support for content negotiation. REST services are no longer hardwired
+  to 'application/json' Accept headers. Instead the media type can be
+  configured with the service directive.
+  [buchi]
+
+- Refactor traversal of REST requests by using a traversal adapter on the site
+  root instead of a traversal adapter for each REST service. This prevents
+  REST services from being overriden by other traversal adapters.
+  [buchi]
+
+
+1.0a3 (2015-12-16)
+------------------
+
+- Release fix. 1.0a2 was a brown-bag release. This fixes https://github.com/plone/plone.rest/issues/34.
+  [timo]
+
+
+1.0a2 (2015-12-10)
+------------------
+
+- Simplify patch of DynamicType pre-traversal hook and actually make it work
+  with Archetypes.
+  [buchi]
+
+- Render errors as JSON.
+  [jone]
+
+- Add support for named services which allows registering services like
+  ``GET /Plone/search`` or ``GET /Plone/doc1/versions/1`` using a 'name' attribute.
+  [jone, lukasgraf, buchi]
+
+- Remove "layer" from service directive for now,
+  because it is not yet implemented properly.
+  [jone]
+
+
+1.0a1 (2015-08-01)
+------------------
+
+- Initial release.
+  [bloodbare, timo]
+
+
+
+

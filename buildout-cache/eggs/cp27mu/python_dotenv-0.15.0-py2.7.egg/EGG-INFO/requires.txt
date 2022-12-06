@@ -1,0 +1,4 @@
+typing
+
+[cli]
+click>=5.0

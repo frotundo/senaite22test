@@ -1,0 +1,13 @@
+Products.ExtendedPathIndex-4.0.1-py2.7-nspkg.pth,sha256=nq2GLEDBKV9G0i4LEhkEEQT0gMqQlG1ToxVfs90lBMs,549
+Products/ExtendedPathIndex/ExtendedPathIndex.py,sha256=rhCI0dXR1lE1LKyINlZ-DWuiwHyF9ugy-tlgdA2OJF8,14418
+Products/ExtendedPathIndex/__init__.py,sha256=GXAEwo7RPU1CZ8rObCqA8kSnRNmUgregNLz1aYVa6SU,565
+Products/ExtendedPathIndex/dtml/addExtendedPathIndex.dtml,sha256=4zYGq2A2kGfKes1AessfH0uOC3YEy_F3EH64Sa_TtKI,1544
+Products/ExtendedPathIndex/tests/__init__.py,sha256=MsSFjiLMLJZ7QhUPpVBWKiyDnCzryquRyr329NoCACI,2
+Products/ExtendedPathIndex/tests/testExtendedPathIndex.py,sha256=Ig5vqOuxoGh3jtyKQtpjxaqsm7H7KRfiTdWdVsj5wds,11132
+Products/ExtendedPathIndex/tests/testIndexedAttrs.py,sha256=KllZd0xWgCq0ALTG3TSw2rlOsf7FEqA4yDXuZqH6a24,4146
+Products/ExtendedPathIndex/www/index.gif,sha256=3qkCuShbSaoiQtXatNypnQ3mPRgADFNvT9ze-Xe1Bao,199
+Products.ExtendedPathIndex-4.0.1.dist-info/METADATA,sha256=CMoAZxe_DlIDHn1vwyp57-wL4p7nOE--aVoOL6aWf-k,10758
+Products.ExtendedPathIndex-4.0.1.dist-info/WHEEL,sha256=kGT74LWyRUZrL4VgLh6_g12IeVl_9u9ZVhadrgXZUEY,110
+Products.ExtendedPathIndex-4.0.1.dist-info/namespace_packages.txt,sha256=UgMr3LVXWHS9vjnxTk8VOZd7xxgBn5T02HOaMRXjjTM,9
+Products.ExtendedPathIndex-4.0.1.dist-info/top_level.txt,sha256=UgMr3LVXWHS9vjnxTk8VOZd7xxgBn5T02HOaMRXjjTM,9
+Products.ExtendedPathIndex-4.0.1.dist-info/RECORD,,

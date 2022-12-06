@@ -1,0 +1,15 @@
+Products.DateRecurringIndex-3.0.1-py2.7-nspkg.pth,sha256=Bxm3KBLV40cyDuQCgcDy64Pf9yIjWR2ibWhLxkQQ3iw,565
+Products/DateRecurringIndex/__init__.py,sha256=ndLW0lrQacnfSDuylYoj71Y-6yy_6fUlMKCZUY2fuDk,384
+Products/DateRecurringIndex/index.py,sha256=oKpLT3paAcZtu-W8G78P0cEBNoPnB5bX1svyNxH4IuQ,5815
+Products/DateRecurringIndex/testing.py,sha256=PypCWJhzV0tuZqw3DYeTG2Cp7ajPZiWjoZ9OfwWXWd0,420
+Products/DateRecurringIndex/tests.py,sha256=BnyN7AJEAKhThyqNhQJY5_nw-FGvaOphiky0QvF75tM,5235
+Products/DateRecurringIndex/www/addDRIndex.dtml,sha256=kChdzFZdYLs11Oq9mJ6TlKp5hEkr6jClNQVX-ajRmFw,1042
+Products/DateRecurringIndex/www/browseIndex.dtml,sha256=gG50Ryud4U4dsG9eMmmGdJwEEzMSJBQK_b_8woWCzaA,2229
+Products/DateRecurringIndex/www/index.gif,sha256=3qkCuShbSaoiQtXatNypnQ3mPRgADFNvT9ze-Xe1Bao,199
+Products/DateRecurringIndex/www/manageDRIndex.zpt,sha256=Hl5wOtPa65pIEvnZJ1km2AySVZ817C3t0HLUiPdYSiA,674
+Products.DateRecurringIndex-3.0.1.dist-info/LICENSE.rst,sha256=8QxuumYhdByq8jFjsDWhJI-EvAe4UyFjUiA7BG8rlmE,1574
+Products.DateRecurringIndex-3.0.1.dist-info/METADATA,sha256=fRTQpg4y_oDSe-buKwBlLxq7uLUtXYbuSyNT_OycsBM,6718
+Products.DateRecurringIndex-3.0.1.dist-info/WHEEL,sha256=h_aVn5OB2IERUjMbi2pucmR_zzWJtk303YXvhh60NJ8,110
+Products.DateRecurringIndex-3.0.1.dist-info/namespace_packages.txt,sha256=UgMr3LVXWHS9vjnxTk8VOZd7xxgBn5T02HOaMRXjjTM,9
+Products.DateRecurringIndex-3.0.1.dist-info/top_level.txt,sha256=UgMr3LVXWHS9vjnxTk8VOZd7xxgBn5T02HOaMRXjjTM,9
+Products.DateRecurringIndex-3.0.1.dist-info/RECORD,,

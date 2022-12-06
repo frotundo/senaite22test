@@ -1,0 +1,5 @@
+zopyx/txng3/ext/levenshtein.so
+zopyx/txng3/ext/normalizer.so
+zopyx/txng3/ext/splitter.so
+zopyx/txng3/ext/stemmer.so
+zopyx/txng3/ext/support.so

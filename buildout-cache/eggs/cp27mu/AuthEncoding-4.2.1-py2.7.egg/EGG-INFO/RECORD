@@ -1,0 +1,10 @@
+AuthEncoding/AuthEncoding.py,sha256=-doyZ0oRN_BqUPIs2OLcXgPz5qpFlwTvOaALAP2rsaI,8429
+AuthEncoding/__init__.py,sha256=v4d8whdg5XfGlO3JeXCqRDICbkkko2Hi4x5vyMVwcc8,943
+AuthEncoding/compat.py,sha256=lEy6F711mXKwsG6FvMEbmMd4fEL2hiYJomPFrshHqPM,377
+AuthEncoding/tests/__init__.py,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
+AuthEncoding/tests/test_AuthEncoding.py,sha256=zP6ZEqsIcLhe8_xYw1__E0yhuRKpDuMVPaEnTAxX08o,4324
+AuthEncoding-4.2.1.dist-info/LICENSE.txt,sha256=PmcdsR32h1FswdtbPWXkqjg-rKPCDOo_r1Og9zNdCjw,2070
+AuthEncoding-4.2.1.dist-info/METADATA,sha256=SsQSKwz81znv_Vita20fA_zSAwWeQjUvyM50Cljz5yI,2525
+AuthEncoding-4.2.1.dist-info/WHEEL,sha256=h_aVn5OB2IERUjMbi2pucmR_zzWJtk303YXvhh60NJ8,110
+AuthEncoding-4.2.1.dist-info/top_level.txt,sha256=r_cFzzt28gdOYPoRX7HjrbsJE6G-ZPK0n3sWbqE4PdQ,13
+AuthEncoding-4.2.1.dist-info/RECORD,,

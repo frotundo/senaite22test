@@ -1,0 +1,3 @@
+plone.uuid
+setuptools
+six

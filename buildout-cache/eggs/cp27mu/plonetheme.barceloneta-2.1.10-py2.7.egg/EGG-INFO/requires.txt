@@ -1,0 +1,5 @@
+plone.app.theming
+plone.batching>1.0.999
+setuptools
+
+[test]

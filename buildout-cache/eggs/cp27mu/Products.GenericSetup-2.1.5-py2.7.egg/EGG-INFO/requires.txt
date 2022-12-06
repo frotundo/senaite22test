@@ -1,0 +1,10 @@
+Products.PythonScripts
+Products.ZCatalog
+Zope>=4.0b4
+five.localsitemanager
+setuptools
+six
+
+[docs]
+Sphinx
+repoze.sphinx.autointerface

@@ -1,0 +1,12 @@
+cffi
+zope.interface
+
+[docs]
+Sphinx
+repoze.sphinx.autointerface
+
+[test]
+manuel
+zope.testrunner
+
+[testing]

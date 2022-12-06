@@ -1,0 +1,16 @@
+plone.subrequest-1.9.3-py2.7-nspkg.pth,sha256=A-p3CbMuHePaPWt53bhXUnHzJhSeZf4O2eZeA-vKGms,534
+plone/subrequest/__init__.py,sha256=zR15VfW2shYey-p_b8Ay3ABWzipug7m3ouodlRPMJto,7270
+plone/subrequest/configure.zcml,sha256=CEE3ahc7xqPkKeGiof18s-ysLEEbpxzA7jH1qo3BWZI,65
+plone/subrequest/interfaces.py,sha256=XR0EOqrj8-6hP2wPpJ6E5eORa2kJvt_CpRYrW0FI39k,164
+plone/subrequest/subresponse.py,sha256=6LQcrKnCoCCkOaskX_B5TA91RsR91pQncUXIhCRn21I,1987
+plone/subrequest/testfile.txt,sha256=Uy6qvZV0iA2_drm4zACDLCCm7BE9aCKZVQ16bg80XiU,4
+plone/subrequest/testing.py,sha256=zzkg_i-2X3MFPzPtb_fCp-MUUW51xKp4q_GOAEjp3iY,5204
+plone/subrequest/testing.zcml,sha256=H-WBAZPTmwhxzUJWHfc4hlolZB699yroEELpj33rPLI,2435
+plone/subrequest/tests.py,sha256=NWWUHuLM11Kmlvq7C3vLiTnaq7qsUFuv-pvVpGjrmWs,10114
+plone/subrequest/usage.rst,sha256=iSOEa9-xRS23FUjHEu4fnKNhdkKuZDeaBzlKrDWEdtg,3857
+plone.subrequest-1.9.3.dist-info/METADATA,sha256=t0JeeZSIfgT1EOkFFg59voQJ5fZwdRMYRf4j7u5O60o,11050
+plone.subrequest-1.9.3.dist-info/WHEEL,sha256=kGT74LWyRUZrL4VgLh6_g12IeVl_9u9ZVhadrgXZUEY,110
+plone.subrequest-1.9.3.dist-info/entry_points.txt,sha256=6WD-GIHhN2Y_T4tg_CjfFcOrwZNi8w3aHWMspVDFtT0,53
+plone.subrequest-1.9.3.dist-info/namespace_packages.txt,sha256=56bqrkG-vurYD0l15D71FPiDL7L3QqkfRWkYkdyS7WM,6
+plone.subrequest-1.9.3.dist-info/top_level.txt,sha256=56bqrkG-vurYD0l15D71FPiDL7L3QqkfRWkYkdyS7WM,6
+plone.subrequest-1.9.3.dist-info/RECORD,,

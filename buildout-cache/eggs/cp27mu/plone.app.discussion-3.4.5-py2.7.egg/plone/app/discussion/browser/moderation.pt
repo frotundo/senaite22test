@@ -1,0 +1,214 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+<body>
+
+<metal:override fill-slot="top_slot"
+    tal:define="disable_column_one python:request.set('disable_plone.leftcolumn',1);
+                disable_column_two python:request.set('disable_plone.rightcolumn',1);"/>
+
+<metal:main fill-slot="main">
+    <tal:main-macro metal:define-macro="main"
+        tal:define="toLocalizedTime nocall:context/@@plone/toLocalizedTime;
+                    items view/comments;
+                    filter request/review_state|nothing;
+                    Batch python:modules['Products.CMFPlone'].Batch;
+                    b_size python:30;
+                    b_start python:0;
+                    b_start request/b_start | b_start;
+                    moderation_enabled view/moderation_enabled;
+                    colorclass python:lambda x: 'state-private' if x=='rejected' else ('state-internal' if x=='spam' else 'state-'+x);
+                    translationhelper nocall:context/@@translationhelper;
+                    ">
+        <script type="text/javascript"
+            tal:attributes="src string:${context/portal_url}/++plone++plone.app.discussion.javascripts/moderation.js">
+        </script>
+        <style>
+            #review-comments th label {
+                margin-right: 1em;
+            }
+        </style>
+
+        <h1 class="documentFirstHeading" i18n:translate="heading_moderate_comments">
+            Moderate comments
+        </h1>
+
+        <div class="portalMessage warning"
+             role="status"
+             tal:condition="not: moderation_enabled">
+            <strong i18n:translate="">Warning</strong>
+            <span tal:omit-tag="" i18n:translate="message_moderation_disabled">
+                Moderation workflow is disabled. You have to
+                <a i18n:name="enable_comment_workflow"
+                   i18n:translate="message_enable_comment_workflow" href=""
+                   tal:attributes="href string:${context/portal_url}/@@content-controlpanel?type_id=Discussion Item">
+                enable the 'Comment Review Workflow' for the Comment content
+                type</a> before you can moderate comments here.
+            </span>
+        </div>
+
+      <form
+            method="post"
+            action="#"
+            tal:condition="moderation_enabled"
+            tal:attributes="action string:${context/absolute_url}/@@bulk-actions"
+            tal:define="batch python:Batch(items, b_size, int(b_start), orphan=1);">
+          <fieldset id="fieldset-moderate-comments" class="formPanel">
+
+              <div metal:use-macro="here/batch_macros/macros/navigation" />
+              <table id="review-comments" class="listing">
+                  <thead>
+                      <tr>
+                          <th colspan="7">
+                              <fieldset tal:condition="view/moderation_multiple_state_enabled">
+                                <input type="radio" id="all" name="review_state" value="all"
+                                    tal:attributes="checked python:request.review_state=='all'" />
+                                <label for="all" i18n:translate="">all</label>
+                                <tal:workflow-filter tal:repeat="review_state python:['pending', 'published', 'rejected', 'spam']">
+                                    <input type="radio" name="review_state"
+                                        tal:attributes="
+                                            value review_state;
+                                            id review_state;
+                                            checked python:request.review_state==review_state" />
+                                    <label tal:attributes="for review_state"><span tal:content="python:translationhelper.translate_comment_review_state(review_state)">review_state</span></label>
+                                </tal:workflow-filter>
+                              </fieldset>
+                          </th>
+                      </tr>
+                      <tr tal:condition="items">
+                          <th id="bulkactions" class="nosort" colspan="7">
+                              <select name="form.select.BulkAction">
+                                  <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
+                                  <tal:comment tal:replace="nothing"></tal:comment>
+                                  <option value="publish"
+                                          i18n:translate="bulkactions_publish"
+                                          tal:condition="python: filter != 'published'">Approve</option>
+                                  <option value="mark_as_spam"
+                                          tal:condition="python: filter != 'spam'">Spam</option>
+                                  <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
+                              </select>
+                              <input type="hidden" name="filter" tal:attributes="value filter" />
+                              <input id="dobulkaction"
+                                     type="submit"
+                                     class="standalone allowMultiSubmit"
+                                     value="Apply"
+                                     name="form.button.BulkAction"
+                                     i18n:attributes="value label_apply;" />
+                          </th>
+                      </tr>
+                      <tr tal:condition="items">
+                          <th class="nosort"><input name="check_all" type="checkbox" value="0" /></th>
+                          <th class="nosort" i18n:translate="heading_commenter">Commenter</th>
+                          <th class="nosort" i18n:translate="heading_date">Date</th>
+                          <th class="nosort" i18n:translate="heading_in_reponse_to">In Response To</th>
+                          <th class="nosort" i18n:translate="heading_comment">Comment</th>
+                          <th class="nosort" i18n:translate="heading_changedby">Last Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tal:block repeat="item batch"
+                          tal:condition="items">
+                          <tr class="commentrow"
+                              tal:define="even repeat/item/even;
+                                          item_obj item/getObject;
+                                          email item_obj/author_email;
+                                          item_url item/getURL;"
+                              tal:attributes="class python: even and 'odd' or 'even'">
+                              <td class="notDraggable">
+                                  <input type="checkbox"
+                                         class="noborder"
+                                         name="paths:list" id="#"
+                                         value="#"
+                                         tal:attributes="value   item/getPath;
+                                                         id      string:cb_${item/id};
+                                                         checked item/checked|nothing;
+                                                         alt     string:Select ${item/Title};
+                                                         title   string:Select ${item/Title}" />
+                                  <input type="hidden" name="selected_obj_paths:list" value="#"
+                                         tal:attributes="value item/getURL" />
+                              </td>
+                              <td>
+                                  <span tal:content="python:item.author_name or item.Creator">Name</span>
+                                  <tal:email tal:condition="email">
+                                      <br/>
+                                      <a tal:attributes="href string:mailto:$email;"
+                                         tal:content="email">Email
+                                      </a>
+                                  </tal:email>
+                              </td>
+                              <td style="white-space: nowrap;" tal:content="python:toLocalizedTime(item.created, long_format=1)"/>
+                              <td>
+                                  <a tal:attributes="href item_url" target="_blank"
+                                     tal:content="item/in_response_to" />
+                              </td>
+                              <td tal:attributes="class  python:colorclass(item.review_state)">
+                                  <div>
+                                      <span tal:replace="item/Description"/>
+                                      <a href=""
+                                         tal:attributes="href string:$item_url/getText"
+                                         tal:condition="python:item.Description.endswith('[...]')"
+                                         i18n:translate="label_show_full_comment_text"
+                                         class="show-full-comment-text">show full comment text</a>
+                                  </div>
+                                  <div class="actions input-group-addon">
+                                      <input
+                                          type="hidden"
+                                          name="selected_obj_paths:list"
+                                          value="#"
+                                          tal:attributes="value item/getURL"
+                                          />
+                                      <!-- delete -->
+                                      <input id=""
+                                          class="destructive comment-delete-button"
+                                          type="submit"
+                                          value="Delete"
+                                          name="form.button.moderation.DeleteComment"
+                                          i18n:attributes="value label_delete;"
+                                          tal:attributes="id item/id"
+                                          />
+                                      <!-- edit -->
+                                      <a class="pat-plone-modal context" href="#"
+                                          tal:attributes="href python:item_url+'/@@edit-comment?review_state=' + item.review_state">Edit</a>
+
+                                      <!-- workflow actions -->
+                                      <tal:transitions
+                                          tal:define="
+                                            transitions python:view.allowed_transitions(item_obj)">
+                                          <input name="form.button.moderation.TransmitComment"
+                                              tal:repeat="transition transitions"
+                                              class="context"
+                                              type="submit"
+                                              value="Label"
+                                              tal:attributes="id string:${item/id}_${transition/id};
+                                                    data-transition transition/id;
+                                                    value python:translationhelper.translate(transition['title']);
+                                                    style python:transition['id']=='publish' and 'background-color: #5cb85c;; border-color: #4cae4c;;' or '';
+                                                    "
+                                                 />
+                                      </tal:transitions>
+                                  </div>
+                              </td>
+                              <td>
+                                  <span class="last-history-entry"
+                                      tal:attributes="data-href string:$item_url/@@contenthistorypopup">
+                                      last history entry
+                                  </span>
+                              </td>
+                          </tr>
+                      </tal:block>
+                  </tbody>
+              </table>
+              <div metal:use-macro="here/batch_macros/macros/navigation" />
+          </fieldset>
+      </form>
+
+
+    </tal:main-macro>
+</metal:main>
+
+</body>
+</html>

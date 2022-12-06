@@ -1,0 +1,8 @@
+
+[docs]
+Sphinx
+sphinx-rtd-theme
+
+[test]
+pytest
+pytest-mock

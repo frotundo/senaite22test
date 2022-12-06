@@ -1,0 +1,599 @@
+Metadata-Version: 2.1
+Name: plone.staticresources
+Version: 1.4.4
+Summary: Static resources for Plone
+Home-page: https://github.com/plone/plone.staticresources
+Author: Plone Foundation
+Author-email: plone-developers@lists.sourceforge.net
+License: GPL version 2
+Keywords: Python Plone
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Plone
+Classifier: Framework :: Plone :: 5.2
+Classifier: Framework :: Plone :: Core
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Operating System :: OS Independent
+Classifier: License :: OSI Approved :: GNU General Public License v2 (GPLv2)
+Requires-Dist: Products.GenericSetup
+Requires-Dist: setuptools
+Requires-Dist: plone.resource
+Provides-Extra: test
+Requires-Dist: plone.app.testing ; extra == 'test'
+Requires-Dist: plone.testing ; extra == 'test'
+
+plone.staticresources
+=====================
+
+This add-on contains all static JavaScript and CSS resources used by Plone.
+
+
+Target audience
+---------------
+
+This documentation aims at:
+
+- **Theme Authors:** who want to change the look and feel of a Plone site and need to:
+
+  - understand how to correctly bundle changes made into existing or new frontend code.
+
+- **Integrators and Developers:** who want to customize or maintain the front end of a Plone site for their customers:
+
+  - upgrade existing versions or install new ``npm`` packages.
+
+  - integrate new JavaScript/CSS behavior, eventually wrapped in a ``pattern`` for optimal integration and reuse within Plone front end ecosystem.
+
+- **Plone Core Developers:** who want to fix Plone bugs or enhance this add-on.
+
+
+How to upgrade the resources in this package
+--------------------------------------------
+
+.. note::
+  Changes to JavaScript functionality must be done outside this package.
+  If you want to fix something or add functionality in Mockup you have to do it there.
+  This package is only to deliver the generated bundles as well as the npm dependencies so that building bundles is possible.
+
+1. Add ``plone.staticresources`` (and maybe also ``mockup``) to ``checkouts.cfg`` in ``buildout.coredev``
+   and do the buildout. This is important because otherwise ``./bin/plone-compile-resources`` will put the
+   generated bundles in the released egg!
+
+2. Don't run ``yarn upgrade`` in this package. If you want to upgrade all
+   packages, do it in ``../src/mockup`` with ``rm yarn.lock && yarn`` (important: cannot be ``npm``) and execute the tests
+   with ``make test`` there, commit the changes if all looks good.
+
+3. In this package, increase npm package versions in ``package.json``, in sections ``dependencies`` or ``devDependencies``.
+   If you increase the mockup version, please verify the resolutions section in
+   ``package.json`` matches the one from mockup ``package.json``.
+   Verify that the jquery version used is the same version that in mockup too.
+   Then copy the yarn.lock from mockup ``cp ../src/mockup/yarn.lock .`` and run ``yarn``.
+   This is to be sure we create the bundles with the same versions that mockup
+   was tested with. Commit the changes made to ``package.json`` and
+   ``yarn.lock``. Do a separate commit with the changes made in the ``components`` folder.
+
+4. Run ``./bin/plone-compile-resources -b plone`` or ``./bin/plone-compile-resources -b plone-logged-in`` (whichever bundle you need to re-build). If you are unsure, build them all: ``./bin/plone-compile-resources``
+
+5. Increase the ``last_compilation`` date in ``src/plone/staticresources/profiles/last_compilation/registry/bundles.xml``.
+
+6. Create an upgrade step in ``plone.staticresources`` (most probably increasing ``last_compilation`` date).
+   See ``upgrades/14.zcml`` for an example.
+   Increment the version in ``src/plone/staticresources/profiles/default/metadata.xml``.
+
+7. Submit a Pull Request and run the tests on Jenkins.
+
+
+What has changed
+----------------
+
+Between Plone 5.0 and 5.1 these resources were located in ``static/`` directory of ``Products.CMFPlone`` package.
+Starting with Plone 5.2 they are distributed in this independent package due to the specific tooling and workflows used to build frontend resources and also the different maintenance and release needs of ``Products.CMFPlone``.
+For a complete list of reasons, read `PLIP 1653 <https://github.com/plone/Products.CMFPlone/issues/1653>`_.
+
+.. note::
+  A note on Yarn: we require the use of Yarn because it supports installing packages in a custom named directory, which Npm does not (even using ``--prefix``, ``node_modules`` is hardcoded).
+  Our package directory is located at: ``src/plone/staticresources/static/components``.
+
+Changes since Plone 5.1.x
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- The ``toolbar`` pattern from ``Products.CMFPlone.static.toolbar`` has been moved to ``mockup`` package.
+- ``mockup`` package now uses Npm's registry and Yarn instead of Bower.
+
+Besides the following has been moved in here:
+
+- All static Resources from ``Products.CMFPlone.static``: bundle resources, compiled bundles, external packages
+- Bundle and Resource registrations from ``Products.CMFPlone``'s ``dependencies`` profile
+- ``plone-compile-resources`` script
+- ``thememapper`` bundle from ``plone.app.theming``
+- ``plone.resourceeditor`` bundle from ``plone.resourceeditor``
+
+
+Compiling Bundles
+-----------------
+
+The front end resources in this package should be updated with the script called ``plone-compile-resources``, available in the ``bin`` directory of a default Plone buildout installation.
+This script compiles the final CSS and JS resources that will be served to end users.
+
+Building the ``plone`` bundle::
+
+  ./bin/plone-compile-resources -b plone
+
+Building the ``plone-logged-in`` bundle::
+
+  ./bin/plone-compile-resources -b plone-logged-in
+
+.. note::
+  You can see all the options of this executable by running ``./bin/plone-compile-resources --help``.
+
+
+Resources, Bundles, Patterns and the Resource Registry
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The ``plone-compile-resources`` script collects Resources from source packages (e.g. ``mockup``) and compiles them in ``plone/staticresources/static/`` into minified versions with source maps and, for JavaScript only, also into an un-minified version.
+The output directory is configurable by using ``csscompilation`` and ``jscompilation`` attributes of the bundle registration.
+
+Bundles are groups of resources. By default Plone comes configured to serve two main bundles:
+
+- ``plone``: containing JS and CSS used for anonymous visitors
+- ``plone-logged-in``: with additional resources for authenticated visitors, e.g. for editor and management user interfaces
+
+Finally Plone encapsulates most of its CSS and JS into units called Patterns that live in the ``mockup`` package.
+Although Patterns provide their own registered Resources, those are not registered to Plone main bundles.
+Instead, they are imported through native LESS and Require JS "entry points" that live in ``plone.staticresource``:
+
+- `plone/staticresources/static/plone.js
+  <https://github.com/plone/plone.staticresources/blob/master/src/plone/staticresources/static/plone.js>`__
+- `plone/staticresources/static/plone.less
+  <https://github.com/plone/plone.staticresources/blob/master/src/plone/staticresources/static/plone.less>`__
+- `plone/staticresources/static/plone-logged-in.js
+  <https://github.com/plone/plone.staticresources/blob/master/src/plone/staticresources/static/plone-logged-in.js>`__
+- `plone/staticresources/static/plone-logged-in.less
+  <https://github.com/plone/plone.staticresources/blob/master/src/plone/staticresources/static/plone-logged-in.less>`__
+
+When editing a pattern (e.g. in ``mockup`` package), it is important to know for which bundle it is registered, which can be done by checking where it is imported in the entry points above.
+The bundle name will be useful as parameter for ``plone-compile-resources`` script.
+
+.. note::
+  Patterns are also available as independent resources in `Resource Registries` control panel but they are not registered to default Plone bundles, which instead use the entry point approach.
+  Pattern's resources may be useful if needed to be injected in specific views.
+
+In production mode (``./bin/instance start``), since version 5.1, Plone is configured to serve Aggregate Bundles, single files to minimize network requests (`aggregate bundles <https://docs.plone.org/adapt-and-extend/theming/resourceregistry.html#resource-bundle-aggregation>`_).
+In that case final production resource URLs will be similar to:
+
+- http://localhost:8080//++plone++production/++unique++TIMESTAMP/default.js
+- http://localhost:8080//++plone++production/++unique++TIMESTAMP/default.css
+
+If you enable `Development Mode` for JavaScript and CSS in `Resource Registries` control panel, Plone will omit timestamp from path and serve fresh copies of the resources of the selected bundle(s).
+Those are compiled in-browser, on the fly for each page load and requested by XHR requests to URLs like:
+
+- http://localhost:8080/++resource++plone.js
+- http://localhost:8080/++plone++static/plone.less
+- http://localhost:8080/++resource++plone-logged-in.js
+- http://localhost:8080/++plone++static/plone-logged-in.less
+
+These entry points will then cause Patterns themselves to be loaded through in-browser XHR requests to URLs like:
+
+- http://localhost:8080/Plone/++resource++mockup/livesearch/pattern.js
+- http://localhost:8080/Plone/++resource++mockup/livesearch/pattern.livesearch.less
+
+If you do enable Development Mode, and yet do not select any bundles, Plone serves static resources in URLs similar to:
+
+- http://localhost:8080/++plone++static/++unique++TIMESTAMP/plone-compiled.min.js
+- http://localhost:8080/++plone++static/++unique++TIMESTAMP/plone-compiled.css
+- http://localhost:8080/++plone++static/++unique++TIMESTAMP/plone-logged-in-compiled.min.js
+- http://localhost:8080/++plone++static/++unique++TIMESTAMP/plone-logged-in-compiled.css
+
+
+Development tips
+^^^^^^^^^^^^^^^^
+
+When fixing Plone bugs or improving functionality:
+
+- Dependencies upgrades (e.g. ``moment.js``) should be done in ``mockup`` and after the PR is merged, propagated here (i.e. static resources needs to be recompiled)
+- Likewise, CSS and JS should be developed not in ``plone.staticresources`` but in their own package's source (for instance, in ``mockup``)
+- To see the new changes in the browser, enable `Development Mode` in `Resource Registries` control panel.
+  Next the desired bundle (that contains the modified files) must be set to either "Develop JavaScript", "Develop CSS" or both.
+  This causes each of the bundle resources to be served individually, easing development.
+  In this case, bundle resources are served from the source package (e.g. ``mockup``) instead of ``plone.staticresources``.
+- To identify which bundle contains the modified resource, see section "Entry Points" below.
+  Keep in mind the more bundles selected for development mode the slower are page reloads, so it is recommended to select only what is being developed.
+- Alternatively you may run ``./bin/plone-compile-resources`` between changes and avoid `Development Mode`'s in-browser compilation (fastest browser loading time).
+
+
+Entry Points
+^^^^^^^^^^^^
+
+The current list of registered patterns for each entry point is available in:
+
+- `plone/staticresources/static/plone.js
+  <https://github.com/plone/plone.staticresources/blob/master/src/plone/staticresources/static/plone.js>`__
+- `plone/staticresources/static/plone.less
+  <https://github.com/plone/plone.staticresources/blob/master/src/plone/staticresources/static/plone.less>`__
+- `plone/staticresources/static/plone-logged-in.js
+  <https://github.com/plone/plone.staticresources/blob/master/src/plone/staticresources/static/plone-logged-in.js>`__
+- `plone/staticresources/static/plone-logged-in.less
+  <https://github.com/plone/plone.staticresources/blob/master/src/plone/staticresources/static/plone-logged-in.less>`__
+
+Here's a snapshot:
+
+For anonymous users
+~~~~~~~~~~~~~~~~~~~
+
++---------------------------------------+------------------------------------+
+| JS                                    | LESS                               |
++=======================================+====================================+
+| - jquery                              | - mockup-patterns-autotoc          |
+| - pat-registry                        | - mockup-patterns-livesearch       |
+| - mockup-patterns-base                | - mockup-patterns-markspeciallinks |
+| - mockup-patterns-autotoc             | - mockup-patterns-modal            |
+| - mockup-patterns-contentloader       | - mockup-patterns-pickadate        |
+| - mockup-patterns-cookietrigger       | - mockup-patterns-select2          |
+| - mockup-patterns-formautofocus       |                                    |
+| - mockup-patterns-formunloadalert     |                                    |
+| - mockup-patterns-livesearch          |                                    |
+| - mockup-patterns-markspeciallinks    |                                    |
+| - mockup-patterns-modal               |                                    |
+| - mockup-patterns-moment              |                                    |
+| - mockup-patterns-pickadate           |                                    |
+| - mockup-patterns-navigationmarker    |                                    |
+| - mockup-patterns-preventdoublesubmit |                                    |
+| - mockup-patterns-select2             |                                    |
+| - bootstrap-collapse                  |                                    |
+| - bootstrap-dropdown                  |                                    |
+| - bootstrap-tooltip                   |                                    |
++---------------------------------------+------------------------------------+
+
+For logged-in users
+~~~~~~~~~~~~~~~~~~~
+
++--------------------------------------------+--------------------------------+
+| JS                                         | LESS                           |
++============================================+================================+
+| - mockup-patterns-inlinevalidation         | - mockup-patterns-querystring  |
+| - mockup-patterns-querystring              | - mockup-patterns-recurrence   |
+| - mockup-patterns-recurrence               | - mockup-patterns-relateditems |
+| - mockup-patterns-relateditems             | - mockup-patterns-structure    |
+| - mockup-patterns-structure                | - mockup-patterns-tinymce      |
+| - mockup-patterns-structureupdater         | - mockup-patterns-upload       |
+| - mockup-patterns-textareamimetypeselector | - plone-patterns-toolbar       |
+| - mockup-patterns-tinymce                  |                                |
+| - plone-patterns-portletmanager            |                                |
+| - plone-patterns-toolbar                   |                                |
++--------------------------------------------+--------------------------------+
+
+Developing patterns
+-------------------
+
+All JavaScript code in this package is downloaded via ``yarn`` into ``src/plone/staticresources/static/components``.
+Nothing in that directory should be manually edited.
+If you need to fix something, do it in the original repository and eventually upgrade its version (next section).
+
+For Mockup, the original repository is: https://github.com/plone/mockup/
+
+For Patternslib, visit: http://github.com/patternslib/Patterns
+
+
+Generating the ``plone-compile-resources`` script
+-------------------------------------------------
+
+The ``plone-compile-resources`` script can be used to compile bundles from the command line.
+In short, the script starts up a Plone instance, reads the resources and bundles configured in the registry and compiles a JS/CSS bundle based on that configuration.
+See ``plone-compile-resources --help`` for more information.
+
+When using buildout, ``plone-compile-resources`` script is automatically generated.
+If you use a custom buildout, you might need to add something similar to:
+
+.. code-block:: ini
+
+  [buildout]
+  parts =
+    # ...
+    zopepy
+  # ...
+  [instance]
+  # ...
+
+  [zopepy]
+  recipe = zc.recipe.egg
+  eggs =
+      ${instance:eggs}
+  interpreter = zopepy
+  scripts =
+      zopepy
+      plone-compile-resources
+
+
+More on the Resource Registry and its modes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Have a look on how ``plone.staticresources`` and ``mockup`` register their resources:
+
+In ZCML:
+
+- https://github.com/plone/mockup/blob/master/mockup/configure.zcml
+- https://github.com/plone/plone.staticresources/blob/master/src/plone/staticresources/configure.zcml
+
+In the resource registry:
+
+- https://github.com/plone/plone.staticresources/blob/master/src/plone/staticresources/profiles/default/registry/bundles.xml
+- https://github.com/plone/plone.staticresources/blob/master/src/plone/staticresources/profiles/default/registry/resources.xml
+
+For more information on the Plone resource registry see the documentation at:
+
+- https://docs.plone.org/adapt-and-extend/theming/resourceregistry.html
+
+
+License
+-------
+
+The project is licensed under the GPLv2.
+
+
+Changelog
+=========
+
+.. You should *NOT* be adding new change log entries to this file.
+   You should create a file in the news directory instead.
+   For helpful instructions, please see:
+   https://github.com/plone/plone.releaser/blob/master/ADD-A-NEWS-ITEM.rst
+
+.. towncrier release notes start
+
+1.4.4 (2021-10-22)
+------------------
+
+New features:
+
+
+- Upgrade Mockup to 3.7.2.
+  [thet] (#172)
+
+
+Bug fixes:
+
+
+- Add missing upgrade profiles to hidden profiles.
+  [thet] (#172)
+
+
+1.4.3 (2021-03-22)
+------------------
+
+Bug fixes:
+
+
+- Reduce bundle sizes by not inlining fonts in each bundle - moved plone-fontello and glyphicons to their own bundle. Icon font bundles use fonts from ++plone++static/fonts/.
+  Based on mockup 1.2.6.
+  [agitator] (#131)
+
+
+1.4.2 (2021-02-19)
+------------------
+
+New features:
+
+
+- Upgrade to latest mockup from 3.x branch with structure fixes, 3.2.5.
+  [thet] (#125)
+
+
+Bug fixes:
+
+
+- Remove bundle with typo.
+  [petschki] (#123)
+- Include upgrade step 12, which was missing.
+  [thet] (#123)
+- Replaced most upgrade profiles with one last_compilation profile.
+  [maurits] (#126)
+
+
+1.4.1 (2020-11-11)
+------------------
+
+Bug fixes:
+
+
+- Update mockup to 3.2.4.
+  [maurits] (#1031)
+
+
+1.4.0 (2020-10-30)
+------------------
+
+New features:
+
+
+- Updated Bootstrap Icons to 1.0.0 final.
+  [santonelli] (#3162)
+
+
+Bug fixes:
+
+
+- Bumps bl from 4.0.2 to 4.0.3. [dependabot, jensens] (#97)
+- Build bundles with latest mockup 3.x.
+  [maurits] (#1026)
+- Fixed deprecation warning for zope.site.hooks.
+  [maurits] (#3130)
+
+
+1.3.2 (2020-08-14)
+------------------
+
+Bug fixes:
+
+
+- Update static resources.
+  [pbauer] (#94)
+- Fix content type icons not showing in the toolbar Add menu on Safari.
+  This fixes https://github.com/plone/Products.CMFPlone/issues/3163
+  [vincentfretin] (#95)
+
+
+1.3.1 (2020-07-17)
+------------------
+
+Bug fixes:
+
+
+- Update static resources.  Now in line with mockup 3.2.1.
+  [vincentfretin] (#91)
+
+
+1.3.0 (2020-06-28)
+------------------
+
+New features:
+
+
+- Add figcaption support - https://github.com/plone/mockup/pull/911
+  [thet] (#30)
+- Register icon resources & add bootstrap-icons
+  [agitator] (#75)
+- Adapt ``pat-plone-modal`` and ``pat-inlinevalidation`` to work with barceloneta LTS.
+  Add missing ``plone.svg`` icon.
+  [petschki, agitator] (#76)
+- Update static resources.
+  [thet] (#82)
+
+
+Bug fixes:
+
+
+- Fix buildout and use latest Plone 5.2.
+  [thet] (#51)
+- Fix missing styles in plone-datatables bundle.
+  [agitator] (#62)
+- Upgrade resources with latest mockup.
+  [thet] (#64)
+- Move ``metadata.xml`` from async/registry profile directory to correct location. (#65)
+- Add jQuery workaround for XSS vulnerability - https://github.com/plone/plone.staticresources/issues/69
+  [frapell] (#69)
+- Fix ``pat-querystring`` to set value of RelativeDateWidget correctly when editing
+  [petschki] (#78)
+- Hide upgrade profile
+  [petschki] (#83)
+- fix syntax in `upgrades/profiles/8/registry.xml`
+  [petschki] (#85)
+
+
+1.2.1 (2020-01-12)
+------------------
+
+Bug fixes:
+
+
+- Fixed drag problem on click on sortable items in folder contents. (#56)
+- Fix problem with TTW compilation of bundles. (#58)
+
+
+1.2.0 (2019-11-14)
+------------------
+
+New features:
+
+
+- Update jQuery from version 1.11.3 to 1.12.4
+  [davilima6] (#34)
+- Recompile 'plone' bundle after updating jQuery-related packages (#40)
+- Update all components and recompile bundles. (#44)
+- Split up bundles for more flexibility and optimized resource loading.
+  Move select2 and datepicker to logged-in bundle.
+  Move toolbar, portletmanager, querystring and structure pattern to editor bundle.
+  Move tinymce to it's own bundle.
+  Single out moment.js to reduce plone bundle size and allow async loading.
+  Add optional datatables bundle.
+  [agitator] (#46)
+
+
+Bug fixes:
+
+
+- Fix autotoc pattern: activate the element link with active class during initialization
+  [mamico] (#37)
+- Fix Tinymce pattern: Link popup looses tab selection on active linktype
+  [mamico] (#37)
+- build js/css for mockup changes plone/mockup#922
+  [mamico] (#37)
+- When compiling a bundle and including a resource from a request, open the
+  temporary file in binary mode.
+  [frapell] (#38)
+- Bring fix for https://github.com/plone/mockup/issues/923
+  [frapell] (#41)
+- Fix "TTW Bundle compilation broken".
+  Refs: https://github.com/plone/Products.CMFPlone/issues/2969
+  [thet] (#43)
+
+
+1.1.0 (2019-06-22)
+------------------
+
+New features:
+
+- Add support for asynchronous loading of javascript resources.
+  A new plone-base bundle is added with the minimum required scripts from plone bundle.
+  Import the extra profile to enable experimental async loading.
+  [agitator] (#27)
+
+Bug fixes:
+
+- Fixes plone/mockup#895 again. (#24)
+- Fixed plone/Products.CMFPlone#2490 conflict in z-index between main toolbar and structure pattern toolbar (#25)
+- Integrate https://github.com/plone/mockup/pull/906 which fixes wrong in-path marking for similar pathnames. #26
+  [agitator] (#26)
+
+
+1.0.2 (2019-03-21)
+------------------
+
+Bug fixes:
+
+- Fix highlight of current item in nav for image and file.
+  [agitator] (#18)
+- Fix less building error.
+  [vangheem] (#19)
+- Update resources after alignment fix in Select2-based widgets
+  [davilima6] (#21)
+
+
+1.0.1 (2019-03-12)
+------------------
+
+Bug fixes:
+
+- Fix highlight of current item in nav for image and file.
+  [agitator] (#18)
+- Update resources after alignment fix in Select2-based widgets
+  [davilima6] (#21)
+
+
+1.0.0 (2019-03-04)
+------------------
+
+New features:
+
+- Ship moment.js without locales, which are now lazily loaded in 'mockup' package
+  [davilima6] (#10)
+
+Bug fixes:
+
+- Customize select2 to work better with relateditems pattern, update compiled resources: plone, logged-in
+  [MrTango] (#16)
+
+
+1.0a1 (2019-02-13)
+------------------
+
+New features:
+
+- Put together all Plone assets in a single package. [thet] (#1)
+
+
+
+

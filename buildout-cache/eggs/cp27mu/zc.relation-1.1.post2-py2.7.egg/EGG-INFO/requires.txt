@@ -1,0 +1,8 @@
+ZODB3>=3.8dev
+setuptools
+six
+zope.interface
+zope.testing
+
+[test]
+zc.relationship>=2.0c1

@@ -1,0 +1,7 @@
+Products.CMFCore>=2.4.0dev
+Products.ZCatalog>=4.1.1
+Zope
+setuptools
+
+[test]
+zope.testing>=3.7.0

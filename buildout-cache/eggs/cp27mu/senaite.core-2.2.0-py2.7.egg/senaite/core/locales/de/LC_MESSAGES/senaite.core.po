@@ -1,0 +1,1453 @@
+#
+# Translators:
+# Marc Jedrzejas <marc.jedr@gmail.com>, 2018
+# Stefan Gruber <s.gruber@liscon.de>, 2019
+# Jordi Puiggené <jpuiggene@naralabs.com>, 2021
+# Ramon Bartl <rb@ridingbytes.com>, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2022-06-11 20:25+0000\n"
+"PO-Revision-Date: 2018-06-01 18:44+0000\n"
+"Last-Translator: Ramon Bartl <rb@ridingbytes.com>, 2022\n"
+"Language-Team: German (https://www.transifex.com/senaite/teams/87045/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+"Language: de\n"
+
+#: senaite/core/browser/samples/templates/dispatch_samples.pt:23
+msgid "${back_link}"
+msgstr "${back_link}"
+
+#: senaite/core/exportimport/setupdata/__init__.py:58
+msgid "%s has no '%s' column."
+msgstr "% hat keine '%' Spalte."
+
+#: senaite/core/browser/samples/templates/dispatch_samples.pt:23
+msgid "&larr; Back"
+msgstr "&larr; Zurück"
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:260
+msgid "(Blank)"
+msgstr "(Blindwert)"
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:267
+msgid "(Control)"
+msgstr "(Kontroll-Standard)"
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:274
+msgid "(Duplicate)"
+msgstr "(Doppelbestimmung)"
+
+#: senaite/core/browser/install/templates/senaite-addsite.pt:66
+msgid "A short title for the site. This will be shown in the title of the browser window on each page."
+msgstr "Ein kurzer Titel für die Website. Dies wird im Titel des Browserfensters auf jeder Seite angezeigt."
+
+#: senaite/core/profiles/default/workflows/senaite_client_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_clientcontact_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_deactivable_type_workflow/definition.xml
+msgid "Activate"
+msgstr "Aktivieren"
+
+#: senaite/core/browser/controlpanel/instrumentlocations.py:71
+#: senaite/core/browser/controlpanel/interpretationtemplates.py:65
+#: senaite/core/browser/controlpanel/samplecontainers.py:62
+msgid "Active"
+msgstr "Aktiv"
+
+#: senaite/core/browser/controlpanel/instrumentlocations.py:43
+#: senaite/core/browser/controlpanel/interpretationtemplates.py:46
+#: senaite/core/browser/controlpanel/samplecontainers.py:24
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:310
+msgid "Add Attachment"
+msgstr "Anhang hinzufügen"
+
+#: senaite/core/browser/viewlets/templates/add_samples.pt:22
+msgid "Add Samples"
+msgstr ""
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:210
+#: senaite/core/browser/viewlets/templates/worksheet_attachments.pt:38
+msgid "Add new Attachment"
+msgstr "Neuen Anhang hinzufügen"
+
+#: senaite/core/browser/install/templates/senaite-addsite.pt:169
+msgid "Add-ons"
+msgstr ""
+
+#: senaite/core/z3cform/widgets/address.py:119
+msgid "Address"
+msgstr "Adresse"
+
+#: senaite/core/behaviors/configure.zcml:23
+msgid "Adds the ability to share a content across clients"
+msgstr ""
+
+#: senaite/core/browser/install/templates/senaite-overview.pt:138
+msgid "Advanced"
+msgstr "Erweitert"
+
+#: senaite/core/browser/controlpanel/instrumentlocations.py:81
+#: senaite/core/browser/controlpanel/interpretationtemplates.py:77
+#: senaite/core/browser/controlpanel/samplecontainers.py:72
+msgid "All"
+msgstr "Alle"
+
+#: senaite/core/browser/viewlets/templates/worksheet_attachments.pt:41
+msgid "All Analyses of Service"
+msgstr "Alle Analysen zur Analysenleistung"
+
+#: senaite/core/browser/samples/view.py:545
+msgid "All analyses assigned"
+msgstr "Alle zugeordneten Analysen"
+
+#: senaite/core/browser/dashboard/dashboard.py:585
+#: senaite/core/browser/viewlets/sampleanalyses.py:32
+msgid "Analyses"
+msgstr "Analysen"
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:68
+#: senaite/core/browser/viewlets/templates/worksheet_attachments.pt:40
+msgid "Analysis"
+msgstr "Analyse"
+
+#: senaite/core/browser/modals/analysis.py:93
+msgid "Analysis conditions updated: {}"
+msgstr ""
+
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+msgid "Assign"
+msgstr "Zuweisen"
+
+#: senaite/core/browser/samples/view.py:389
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_duplicateanalysis_workflow/definition.xml
+msgid "Assigned"
+msgstr "Zugewiesen"
+
+#: senaite/core/browser/dashboard/dashboard.py:548
+msgid "Assignment pending"
+msgstr "Zuweisung ausstehend"
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:249
+msgid "Attach to Sample"
+msgstr "An die Probe anhängen"
+
+#: senaite/core/browser/attachment/attachment.py:207
+msgid "Attachment added to all '{}' analyses"
+msgstr "Anhang wurde allen '{}' Analysen zugewiesen"
+
+#: senaite/core/browser/attachment/attachment.py:174
+msgid "Attachment added to analysis '{}'"
+msgstr "Anhang wurde der Analyse '{}' zugewiesen"
+
+#: senaite/core/browser/attachment/attachment.py:277
+msgid "Attachment added to the current sample"
+msgstr "Anhang wurde zu dieser Probe hinzugefügt"
+
+#: senaite/core/browser/attachment/attachment.py:349
+msgid "Attachment(s) deleted"
+msgstr "Anhänge gelöscht"
+
+#: senaite/core/browser/attachment/attachment.py:129
+msgid "Attachment(s) updated"
+msgstr "Anhänge aktualisiert"
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:10
+#: senaite/core/browser/viewlets/templates/worksheet_attachments.pt:10
+msgid "Attachments"
+msgstr "Anhänge"
+
+#: senaite/core/profiles/default/actions.xml
+msgid "Audit Log"
+msgstr ""
+
+#: senaite/core/exportimport/import.pt:55
+msgid "Auto Import"
+msgstr "Automatisierter Import"
+
+#: senaite/core/browser/install/templates/senaite-addsite.pt:138
+msgid "Base configuration"
+msgstr "Basiskonfiguration"
+
+#: senaite/core/browser/samples/view.py:134
+msgid "Batch ID"
+msgstr "Batch ID"
+
+#: senaite/core/browser/dashboard/templates/dashboard.pt:539
+msgid "Biannual"
+msgstr "Halbjährlich"
+
+#: senaite/core/z3cform/widgets/address.py:122
+msgid "Billing address"
+msgstr "Rechnungsadresse"
+
+#: senaite/core/z3cform/widgets/address.py:123
+msgid "Business address"
+msgstr ""
+
+#: senaite/core/browser/form/adapters/method.py:100
+msgid "Calculation '{}' is used by service '{}'"
+msgstr "Berechnung '{}' wird von der Analysenleistung '{}' verwendet"
+
+#: senaite/core/browser/samples/templates/dispatch_samples.pt:83
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_batch_workflow/definition.xml
+msgid "Cancel"
+msgstr "Stornieren"
+
+#: senaite/core/browser/samples/dispatch_samples.py:52
+#: senaite/core/browser/samples/view.py:349
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+msgid "Cancelled"
+msgstr "Storniert"
+
+#: senaite/core/browser/controlpanel/samplecontainers.py:49
+#: senaite/core/content/samplecontainer.py:54
+msgid "Capacity"
+msgstr "Kapazität"
+
+#: senaite/core/browser/viewlets/resultsinterpretation.py:40
+msgid "Changes Saved"
+msgstr "Änderungen gespeichert"
+
+#: senaite/core/content/samplecontainer.py:62
+msgid "Check this box if this container is already preserved.Setting this will short-circuit the preservation workflow for sample partitions stored in this container."
+msgstr "Aktivieren Sie dieses Kontrollkästchen, wenn dieser Behälter bereits konserviert ist. Dies hat zur Folge, dass der Konservierungsworkflow für Proben in diesem Behälter umgangen wird."
+
+#: senaite/core/z3cform/widgets/address.py:225
+msgid "City"
+msgstr "Stadt"
+
+# senaite.app.listing: ButtonBar
+msgid "Clear selection"
+msgstr "Auswahl aufheben"
+
+# senaite.app.listing: TableColumnConfig
+msgid "Click to toggle the visibility or drag&drop to change the order"
+msgstr "Klicken um die Sichtbarkeit zu wechseln oder Drag&Drop um die Reihenfolge zu ändern"
+
+#: senaite/core/browser/samples/view.py:139
+msgid "Client"
+msgstr "Kunde"
+
+#: senaite/core/browser/samples/view.py:145
+msgid "Client ID"
+msgstr "Kunden-ID"
+
+#: senaite/core/browser/samples/view.py:92
+msgid "Client Order"
+msgstr "Kundenbestellung"
+
+#: senaite/core/browser/samples/view.py:163
+msgid "Client Ref"
+msgstr "Kundenreferenz"
+
+#: senaite/core/browser/samples/view.py:168
+msgid "Client SID"
+msgstr "Kunden-Proben-ID"
+
+#: senaite/core/behaviors/configure.zcml:23
+msgid "ClientShareableBehavior"
+msgstr ""
+
+#: senaite/core/behaviors/clientshareable.py:57
+msgid "Clients"
+msgstr "Kunden"
+
+#: senaite/core/behaviors/clientshareable.py:58
+msgid "Clients with whom this content will be shared across. This content will become available on searches to users that belong to any of the selected clients thanks to the role 'ClientGuest'"
+msgstr ""
+
+#: senaite/core/profiles/default/workflows/senaite_batch_workflow/definition.xml
+msgid "Close"
+msgstr "Schließen"
+
+#: senaite/core/profiles/default/workflows/senaite_batch_workflow/definition.xml
+msgid "Closed"
+msgstr "Geschlossen"
+
+# senaite.app.listing: TableColumnConfig
+msgid "Configure Table Columns"
+msgstr "Tabellenspalten konfigurieren"
+
+#: senaite/core/browser/samples/view.py:171
+msgid "Contact"
+msgstr "Kontakt"
+
+#: senaite/core/browser/controlpanel/samplecontainers.py:38
+msgid "Container"
+msgstr "Behälter"
+
+#: senaite/core/browser/controlpanel/samplecontainers.py:46
+#: senaite/core/content/samplecontainer.py:46
+msgid "Container Type"
+msgstr "Behältertyp"
+
+#: senaite/core/browser/samples/view.py:698
+msgid "Copy to new"
+msgstr "Kopie erzeugen"
+
+#: senaite/core/browser/idserver/view.py:68
+msgid "Could not convert '{}' to an integer"
+msgstr "Wert '{}' nicht in Ganzzahl konvertierbar"
+
+#: senaite/core/z3cform/widgets/address.py:222
+msgid "Country"
+msgstr "Land"
+
+#: senaite/core/browser/install/templates/senaite-addsite.pt:214
+msgid "Create SENAITE Site"
+msgstr "SENAITE Seite erstellen"
+
+#: senaite/core/browser/samples/view.py:672
+msgid "Create Worksheet"
+msgstr ""
+
+#: senaite/core/browser/install/templates/senaite-overview.pt:134
+msgid "Create a new SENAITE site"
+msgstr "Neue SENAITE Seite erstellen"
+
+#: senaite/core/browser/samples/view.py:676
+msgid "Create a new worksheet for the selected samples"
+msgstr ""
+
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Create partitions"
+msgstr "Partitionen erzeugen"
+
+#: senaite/core/browser/modals/sample.py:46
+msgid "Created worksheet %s"
+msgstr ""
+
+#: senaite/core/browser/samples/view.py:96
+msgid "Creator"
+msgstr "Ersteller"
+
+#: senaite/core/profiles/default/workflows/senaite_referencesample_workflow/definition.xml
+msgid "Current"
+msgstr "Aktuell"
+
+#: senaite/core/browser/form/adapters/analysisservice.py:187
+msgid "Current keyword '{}' used in calculation '{}'"
+msgstr "Schlüsselwort '{}' wird in Berechnung '{}' verwendet"
+
+#: senaite/core/browser/dashboard/templates/dashboard.pt:535
+msgid "Daily"
+msgstr "Täglich"
+
+#: senaite/core/browser/form/adapters/data_import.py:53
+msgid "Data import successful"
+msgstr ""
+
+#: senaite/core/browser/samples/view.py:115
+msgid "Date Preserved"
+msgstr "Konservierungsdatum"
+
+#: senaite/core/browser/samples/view.py:131
+msgid "Date Published"
+msgstr "Veröffentlichungsdatum"
+
+#: senaite/core/browser/samples/view.py:121
+msgid "Date Received"
+msgstr "Empfangsdatum"
+
+#: senaite/core/browser/samples/view.py:101
+msgid "Date Registered"
+msgstr "Registrierdatum"
+
+#: senaite/core/browser/samples/view.py:109
+msgid "Date Sampled"
+msgstr "Probenahmedatum"
+
+#: senaite/core/browser/samples/view.py:127
+msgid "Date Verified"
+msgstr "Verifizierungsdatum"
+
+#: senaite/core/profiles/default/workflows/senaite_client_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_clientcontact_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_deactivable_type_workflow/definition.xml
+msgid "Deactivate"
+msgstr "Deaktivieren"
+
+#: senaite/core/browser/install/templates/senaite-addsite.pt:97
+msgid "Default timezone"
+msgstr "Standard Zeitzone"
+
+#: senaite/core/behaviors/clientshareable.py:89
+#: senaite/core/browser/controlpanel/instrumentlocations.py:62
+#: senaite/core/browser/controlpanel/interpretationtemplates.py:58
+msgid "Description"
+msgstr "Beschreibung"
+
+msgid "Deselect all"
+msgstr ""
+
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Detach"
+msgstr "Ausgliedern"
+
+#: senaite/core/browser/samples/templates/dispatch_samples.pt:78
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Dispatch"
+msgstr "Ausliefern"
+
+#: senaite/core/browser/samples/templates/dispatch_samples.pt:15
+msgid "Dispatch samples"
+msgstr "Proben ausliefern"
+
+#: senaite/core/browser/samples/view.py:337
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Dispatched"
+msgstr "Ausgeliefert"
+
+# bika.lims.bikalisting.js
+msgid "Display Columns"
+msgstr "Spalten anzeigen"
+
+#: senaite/core/profiles/default/workflows/senaite_referencesample_workflow/definition.xml
+msgid "Dispose"
+msgstr "Entsorgen"
+
+#: senaite/core/profiles/default/workflows/senaite_referencesample_workflow/definition.xml
+msgid "Disposed"
+msgstr "Entsorgt"
+
+#: senaite/core/browser/samples/view.py:157
+#: senaite/core/z3cform/widgets/address.py:224
+msgid "District"
+msgstr "Bezirk"
+
+#: senaite/core/browser/samples/view.py:285
+msgid "Due"
+msgstr "Fällig"
+
+#: senaite/core/browser/samples/view.py:124
+msgid "Due Date"
+msgstr "Fälligkeit"
+
+#: senaite/core/exportimport/import.pt:159
+msgid "Each import interface can define a folder, where the system looks for the results files while automatically importing results when calling the <code>auto_import_results</code> view."
+msgstr ""
+
+#: senaite/core/browser/dashboard/dashboard.py:579
+msgid "Evolution of Analyses"
+msgstr "Entwicklung der Analysen"
+
+#: senaite/core/browser/dashboard/dashboard.py:471
+msgid "Evolution of Samples"
+msgstr "Entwicklung der Proben"
+
+#: senaite/core/browser/dashboard/dashboard.py:522
+msgid "Evolution of Worksheets"
+msgstr "Entwicklung der Arbeitsblätter"
+
+#: senaite/core/exportimport/import.pt:166
+msgid "Example Cronjob to execute the auto import every 10 minutes"
+msgstr ""
+
+#: senaite/core/browser/install/templates/senaite-addsite.pt:125
+msgid "Example content"
+msgstr "Beispielinhalt"
+
+#: senaite/core/browser/samples/view.py:561
+msgid "Exclude from invoice"
+msgstr "Von der Rechnung ausschließen"
+
+#: senaite/core/browser/samples/view.py:105
+msgid "Expected Sampling Date"
+msgstr "geplantes Probenahmedatum"
+
+#: senaite/core/profiles/default/workflows/senaite_referencesample_workflow/definition.xml
+msgid "Expire"
+msgstr "Verfallen lassen"
+
+#: senaite/core/profiles/default/workflows/senaite_referencesample_workflow/definition.xml
+msgid "Expired"
+msgstr "Verfallen"
+
+#: senaite/core/browser/viewlets/sampleanalyses.py:63
+msgid "Field Analyses"
+msgstr "Feldanalysen"
+
+#: senaite/core/browser/dashboard/templates/dashboard.pt:528
+msgid "From"
+msgstr "Von"
+
+#: senaite/core/browser/samples/view.py:558
+msgid "Future dated sample"
+msgstr "In der Zukunft datierte Probe"
+
+#: senaite/core/browser/viewlets/templates/resultsinterpretation.pt:99
+msgid "General"
+msgstr ""
+
+#: senaite/core/browser/viewlets/templates/resultsinterpretation.pt:26
+msgid "General Department"
+msgstr ""
+
+#: senaite/core/browser/install/templates/senaite-overview.pt:44
+msgid "Go to your instance"
+msgstr "Zur SENAITE Seite gehen"
+
+#: senaite/core/browser/samples/view.py:564
+msgid "Hazardous"
+msgstr "Gefährlich"
+
+#: senaite/core/browser/idserver/templates/numbergenerator.pt:50
+msgid "ID Template"
+msgstr "ID Vorlage"
+
+#: senaite/core/exportimport/import.pt:85
+msgid "If the system doesn't find any match (AnalysisRequest, Sample, Reference Analysis or Duplicate), it will use the record's identifier to find matches with Reference Sample IDs. If a Reference Sample ID is found, the system will automatically create a Calibration Test (Reference Analysis) and will link it to the instrument selected above.<br /> If no instrument selected, no Calibration Test will be created for orphan IDs."
+msgstr "Wenn das System keine Übereinstimmung findet (Probe, Sample, Referenz Analysis oder Duplikat), verwendet es die Kennung des Datensatzes, um Übereinstimmungen mit Referenzproben-IDs zu finden. Wenn eine Referenzproben-ID gefunden wird, erstellt das System automatisch einen Kalibrierungstest (Referenzanalyse) und verknüpft ihn mit dem oben ausgewählten Instrument. <br /> Wenn kein Prüfgerät ausgewählt ist, wird kein Kalibrierungstest für verwaiste IDs erstellt."
+
+#: senaite/core/exportimport/import.pt:14
+#: senaite/core/profiles/default/actions.xml
+msgid "Import"
+msgstr "Import"
+
+#: senaite/core/exportimport/import.pt:94
+msgid "Import Interface"
+msgstr "Importschnittstelle"
+
+#: senaite/core/browser/controlpanel/instrumentlocations.py:76
+#: senaite/core/browser/controlpanel/interpretationtemplates.py:71
+#: senaite/core/browser/controlpanel/samplecontainers.py:67
+msgid "Inactive"
+msgstr "Inaktiv"
+
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+msgid "Initialize"
+msgstr "Initialisieren"
+
+#: senaite/core/browser/install/templates/senaite-addsite.pt:13
+msgid "Install SENAITE LIMS"
+msgstr "SENAITE LIMS installieren"
+
+#: senaite/core/browser/form/adapters/method.py:74
+msgid "Instrument '{}' is used by service '{}'"
+msgstr "Prüfgerät '{}' wird von der Analysenleistung '{}' verwendet"
+
+#: senaite/core/exportimport/import.pt:36
+msgid "Instrument Import"
+msgstr "Geräteimport"
+
+#: senaite/core/profiles/default/types/InstrumentLocation.xml
+msgid "Instrument Location"
+msgstr "Gerätestandort"
+
+#: senaite/core/browser/controlpanel/instrumentlocations.py:50
+#: senaite/core/profiles/default/types/InstrumentLocations.xml
+msgid "Instrument Locations"
+msgstr "Gerätestandorte"
+
+#: senaite/core/browser/form/adapters/data_import.py:77
+msgid "Instrument import finished"
+msgstr ""
+
+#: senaite/core/exportimport/import.pt:156
+msgid "Instruments can be configured with one or multiple import data interfaces."
+msgstr ""
+
+#: senaite/core/browser/samples/view.py:567
+msgid "Internal use"
+msgstr "Interne Verwendung"
+
+#: senaite/core/profiles/default/types/InterpretationTemplate.xml
+msgid "Interpretation Template"
+msgstr "Vorlagen Ergebnisinterpretation"
+
+#: senaite/core/profiles/default/types/InterpretationTemplates.xml
+msgid "Interpretation Templates"
+msgstr "Vorlagen Ergebnisinterpretationen"
+
+#: senaite/core/browser/dashboard/dashboard.py:603
+#: senaite/core/browser/samples/view.py:359
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Invalid"
+msgstr "Ungültig"
+
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Invalidate"
+msgstr "Invalidieren"
+
+#: senaite/core/exportimport/setupdata/__init__.py:2314
+msgid "InvoiceBatch has no End Date"
+msgstr "Rechnungs Batch hat kein Enddatum"
+
+#: senaite/core/exportimport/setupdata/__init__.py:2311
+msgid "InvoiceBatch has no Start Date"
+msgstr "RechnungsBatch hat kein Startdatum"
+
+#: senaite/core/exportimport/setupdata/__init__.py:2308
+msgid "InvoiceBatch has no Title"
+msgstr "RechnungsBatch hat keinen Titel"
+
+#: senaite/core/browser/idserver/templates/numbergenerator.pt:35
+msgid "Key"
+msgstr "Schlüssel"
+
+#: senaite/core/browser/form/adapters/analysisservice.py:51
+msgid "Keyword is used in active analyses and can not be changed anymore"
+msgstr "Schlüsselwort wird bereits für aktive Analysen verwendet und kann nicht mehr geändert werden"
+
+#: senaite/core/browser/form/adapters/analysisservice.py:180
+msgid "Keyword required"
+msgstr "Schlüsselwort benötigt"
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:69
+#: senaite/core/browser/viewlets/templates/worksheet_attachments.pt:42
+msgid "Keywords"
+msgstr "Schlüsselwörter"
+
+#: senaite/core/browser/install/templates/senaite-addsite.pt:74
+msgid "Language"
+msgstr "Sprache"
+
+#: senaite/core/browser/samples/view.py:415
+msgid "Late"
+msgstr "Verspätet"
+
+#: senaite/core/browser/samples/view.py:553
+msgid "Late Analyses"
+msgstr "Verspätete Analysen"
+
+#: senaite/core/exportimport/import.pt:46
+msgid "Load Setup Data"
+msgstr "Setup-Daten laden"
+
+#: senaite/core/exportimport/import.pt:115
+msgid "Load from file"
+msgstr "Aus Datei laden"
+
+#: senaite/core/browser/controlpanel/instrumentlocations.py:59
+msgid "Location"
+msgstr "Ort"
+
+#: senaite/core/browser/idserver/templates/numbergenerator.pt:12
+msgid "Manage Numbergenerator"
+msgstr "Nummerngenerator verwalten"
+
+#: senaite/core/exportimport/import.pt:186
+msgid "Manually trigger auto import"
+msgstr ""
+
+#: senaite/core/content/samplecontainer.py:55
+msgid "Maximum possible size or volume of samples"
+msgstr ""
+
+#: senaite/core/browser/install/templates/senaite-overview.pt:153
+msgid "Meet the community, browse the code and get support on"
+msgstr "Treffen Sie die Community, durchsuchen Sie den Code und erhalten Sie Unterstützung"
+
+#: senaite/core/browser/dashboard/dashboard.py:358
+msgid "Mine"
+msgstr "Mein"
+
+#: senaite/core/browser/dashboard/templates/dashboard.pt:537
+msgid "Monthly"
+msgstr "Monatlich"
+
+#: senaite/core/profiles/default/actions.xml
+msgid "My organization"
+msgstr "Meine Organisation"
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:65
+msgid "Name"
+msgstr "Name"
+
+#: senaite/core/browser/controlpanel/samplecontainers.py:110
+msgid "No"
+msgstr "Nein"
+
+#: senaite/core/exportimport/instruments/eltra/cs/cs2000.py:51
+msgid "No Analysis Services defined"
+msgstr "Keine Analysenleistungen definiert"
+
+#: senaite/core/browser/form/adapters/worksheettemplate.py:49
+msgid "No Instrument"
+msgstr ""
+
+#: senaite/core/browser/form/adapters/analysisservice.py:43
+msgid "No Method selected for this Service"
+msgstr "Keine Methode für diese Analysenleistung ausgewählt"
+
+#: senaite/core/browser/attachment/attachment.py:211
+msgid "No analysis found for service '{}'"
+msgstr "Keine Analysen für die Analysenleistung '{}' gefunden"
+
+#: senaite/core/exportimport/instruments/biodrop/ulite/ulite.py:53
+#: senaite/core/exportimport/instruments/lifetechnologies/qubit/qubit.py:54
+msgid "No analysis selected"
+msgstr "Keine Analyse ausgewählt"
+
+#: senaite/core/exportimport/instruments/thermoscientific/multiskan/go.py:51
+msgid "No analysis service selected"
+msgstr "Keine Analysenleistungen ausgewählt"
+
+#: senaite/core/exportimport/instruments/abaxis/vetscan/vs2.py:47
+#: senaite/core/exportimport/instruments/abbott/m2000rt/m2000rt.py:60
+#: senaite/core/exportimport/instruments/alere/pima/beads.py:47
+msgid "No file selected"
+msgstr "Keine Datei ausgewählt"
+
+#: senaite/core/browser/form/adapters/data_import.py:62
+msgid "No importer not found for interface '{}'"
+msgstr ""
+
+#: senaite/core/browser/form/adapters/data_import.py:107
+msgid "No instrument import interfaces available for {}"
+msgstr ""
+
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "No sampling workflow"
+msgstr "Kein Probenahme Worfkflow"
+
+#: senaite/core/browser/form/adapters/analysisservice.py:67
+#: senaite/core/browser/form/adapters/labcontact.py:23
+msgid "None"
+msgstr "Keine"
+
+#: senaite/core/browser/modals/analysis.py:87
+msgid "Not allowed to update conditions: {}"
+msgstr ""
+
+#: senaite/core/browser/samples/view.py:529
+msgid "Not printed yet"
+msgstr "Noch nicht gedruckt"
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:173
+msgid "Note: You can also drag and drop the attachment rows to change the order they appear in the report."
+msgstr "Hinweis: Man kann die Reihenfolge im Bericht mittels Drag and Drop der Anhangsblöcke ändern."
+
+#: senaite/core/browser/samples/view.py:207
+msgid "Number of Analyses"
+msgstr "Anzahl der Analysen"
+
+#: senaite/core/profiles/default/workflows/senaite_batch_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_worksheet_workflow/definition.xml
+msgid "Open"
+msgstr "Offen"
+
+#: senaite/core/z3cform/widgets/address.py:124
+msgid "Other address"
+msgstr ""
+
+#: senaite/core/browser/dashboard/dashboard.py:721
+msgid "Other status"
+msgstr "Anderer Status"
+
+#: senaite/core/browser/install/templates/senaite-addsite.pt:50
+msgid "Path identifier"
+msgstr "Pfadkennung"
+
+#: senaite/core/z3cform/widgets/address.py:120
+msgid "Physical address"
+msgstr "Besucheradresse"
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:170
+msgid "Please click the update button after your changes."
+msgstr "Bitte Update-Button nach Änderungen klicken"
+
+#: senaite/core/browser/attachment/attachment.py:216
+msgid "Please select an analysis or service for the attachment"
+msgstr "Bitte wählen Sie eine Analyse oder Analysenleistung für den Anhang aus"
+
+#: senaite/core/browser/samples/dispatch_samples.py:43
+msgid "Please specify a reason"
+msgstr "Bitte Grund angeben"
+
+#: senaite/core/browser/samples/templates/dispatch_samples.pt:71
+msgid "Please write a comment where the listed sample(s) are dispatched"
+msgstr "Bitte kommentieren Sie wohin die ausgewählte(n) Probe(n) ausgeliefert werden"
+
+#: senaite/core/z3cform/widgets/address.py:121
+msgid "Postal address"
+msgstr "Postanschrift"
+
+#: senaite/core/z3cform/widgets/address.py:226
+msgid "Postal code"
+msgstr "Postleitzahl"
+
+#: senaite/core/browser/controlpanel/samplecontainers.py:52
+#: senaite/core/content/samplecontainer.py:61
+msgid "Pre-preserved"
+msgstr "Vorkonservierung"
+
+#: senaite/core/content/samplecontainer.py:76
+msgid "Pre-preserved containers must have a preservation selected"
+msgstr ""
+
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Prepublish"
+msgstr "Vorveröffentlichen"
+
+#: senaite/core/content/samplecontainer.py:90
+msgid "Preservation"
+msgstr "Konservierung"
+
+#: senaite/core/content/samplecontainer.py:93
+msgid "Preservation method of this container"
+msgstr ""
+
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Preserve"
+msgstr "Konservieren"
+
+#: senaite/core/browser/samples/view.py:198
+msgid "Preserver"
+msgstr "Konservierer"
+
+#: senaite/core/browser/viewlets/templates/toolbar.pt:44
+msgid "Press Ctrl+Space to trigger the Spotlight search"
+msgstr "Drücken Sie Strg+Leertaste, um die Spotlight-Suche auszulösen"
+
+#: senaite/core/browser/samples/view.py:659
+msgid "Print"
+msgstr "Drucken"
+
+#: senaite/core/browser/samples/view.py:230
+msgid "Print stickers"
+msgstr "Drucke Etiketten"
+
+#: senaite/core/browser/samples/view.py:217
+msgid "Printed"
+msgstr "Gedruckt"
+
+#: senaite/core/browser/samples/view.py:202
+msgid "Profile"
+msgstr "Profil"
+
+#: senaite/core/browser/samples/view.py:151
+msgid "Province"
+msgstr "Provinz"
+
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Publish"
+msgstr "Veröffentlichen"
+
+#: senaite/core/browser/dashboard/dashboard.py:452
+#: senaite/core/browser/samples/view.py:327
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+msgid "Published"
+msgstr "Veröffentlicht"
+
+#: senaite/core/browser/viewlets/sampleanalyses.py:70
+msgid "QC Analyses"
+msgstr "QC Analysen"
+
+#: senaite/core/browser/dashboard/templates/dashboard.pt:538
+msgid "Quarterly"
+msgstr "Vierteljährlich"
+
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Receive"
+msgstr "Empfangen"
+
+#: senaite/core/browser/samples/view.py:297
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Received"
+msgstr "Empfangen"
+
+#: senaite/core/browser/dashboard/dashboard.py:424
+msgid "Reception pending"
+msgstr "Empfang ausstehend"
+
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Registered"
+msgstr "Registriert"
+
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_batch_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_cancellable_type_workflow/definition.xml
+msgid "Reinstate"
+msgstr "Wiedereinstellen"
+
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_worksheet_workflow/definition.xml
+msgid "Reject"
+msgstr "Ablehnen"
+
+#: senaite/core/browser/dashboard/dashboard.py:593
+#: senaite/core/browser/samples/view.py:378
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+msgid "Rejected"
+msgstr "Abgelehnt"
+
+#: senaite/core/browser/viewlets/remarks.py:13
+msgid "Remarks"
+msgstr "Bemerkungen"
+
+#: senaite/core/profiles/default/workflows/senaite_duplicateanalysis_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_referenceanalysis_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_worksheet_workflow/definition.xml
+msgid "Remove"
+msgstr "Entfernen"
+
+#: senaite/core/browser/idserver/view.py:72
+msgid "Removed key {} from storage"
+msgstr "Aus Speicher entfernter Schlüssel {}"
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:70
+msgid "Report Option"
+msgstr "Berichtsoption"
+
+#: senaite/core/profiles/default/actions.xml
+msgid "Reports"
+msgstr "Berichte"
+
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Republish"
+msgstr "Wiederveröffentlichen"
+
+#: senaite/core/browser/samples/view.py:536
+msgid "Republished after last print"
+msgstr "Neu veröffentlicht nach letztem Druck"
+
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Restore"
+msgstr "Wiederherstellen"
+
+#: senaite/core/browser/samples/view.py:548
+msgid "Results have been withdrawn"
+msgstr "Ergebnisse wurden zurückgezogen"
+
+#: senaite/core/browser/viewlets/resultsinterpretation.py:21
+msgid "Results interpretation"
+msgstr "Ergebnisinterpretation"
+
+#: senaite/core/browser/dashboard/dashboard.py:431
+msgid "Results pending"
+msgstr "Ausstehende Ergebnisse"
+
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+msgid "Retest"
+msgstr "Erneut prüfen"
+
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_duplicateanalysis_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_referenceanalysis_workflow/definition.xml
+msgid "Retract"
+msgstr "Zurückziehen"
+
+#: senaite/core/browser/dashboard/dashboard.py:594
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_duplicateanalysis_workflow/definition.xml
+msgid "Retracted"
+msgstr "Zurückgezogen"
+
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_worksheet_workflow/definition.xml
+msgid "Rollback"
+msgstr "Zurückrollen"
+
+#: senaite/core/configure.zcml:43
+msgid "SENAITE CORE"
+msgstr ""
+
+#: senaite/core/configure.zcml:43
+msgid "SENAITE CORE Add-on"
+msgstr ""
+
+#: senaite/core/browser/frontpage/configure.zcml:23
+msgid "SENAITE LIMS front-page"
+msgstr "SENAITE LIMS Startseite"
+
+#: senaite/core/browser/frontpage/configure.zcml:23
+msgid "SENAITE front-page"
+msgstr "SENAITE Startseite"
+
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Sample"
+msgstr "Probe"
+
+#: senaite/core/profiles/default/types/SampleContainer.xml
+msgid "Sample Container"
+msgstr ""
+
+#: senaite/core/browser/controlpanel/samplecontainers.py:30
+#: senaite/core/profiles/default/types/SampleContainers.xml
+msgid "Sample Containers"
+msgstr ""
+
+#: senaite/core/browser/samples/view.py:87
+msgid "Sample ID"
+msgstr "Proben ID"
+
+#: senaite/core/browser/samples/view.py:180
+msgid "Sample Point"
+msgstr "Probenahmestelle"
+
+#: senaite/core/browser/samples/view.py:176
+msgid "Sample Type"
+msgstr "Probenart"
+
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Sample due"
+msgstr "Probe ausstehend"
+
+#: senaite/core/browser/dashboard/dashboard.py:630
+msgid "Sample received"
+msgstr "Probe erhalten"
+
+#: senaite/core/browser/samples/view.py:195
+msgid "Sampler"
+msgstr "Probenehmer"
+
+#: senaite/core/browser/dashboard/dashboard.py:478
+#: senaite/core/browser/samples/view.py:60
+#: senaite/core/profiles/default/types/Samples.xml
+msgid "Samples"
+msgstr "Proben"
+
+#: senaite/core/browser/dashboard/dashboard.py:451
+msgid "Samples published"
+msgstr "Proben veröffentlicht"
+
+#: senaite/core/browser/dashboard/dashboard.py:416
+msgid "Samples scheduled for sampling"
+msgstr "Proben für die Probennahme eingeplant"
+
+#: senaite/core/browser/dashboard/dashboard.py:409
+msgid "Samples to be preserved"
+msgstr "Proben zu konservieren"
+
+#: senaite/core/browser/dashboard/dashboard.py:459
+msgid "Samples to be printed"
+msgstr "Zu druckende Proben"
+
+#: senaite/core/browser/dashboard/dashboard.py:423
+msgid "Samples to be received"
+msgstr "Proben zu empfangen"
+
+#: senaite/core/browser/dashboard/dashboard.py:402
+msgid "Samples to be sampled"
+msgstr "Proben zu beproben"
+
+#: senaite/core/browser/dashboard/dashboard.py:437
+msgid "Samples to be verified"
+msgstr "Zu überprüfende Proben"
+
+#: senaite/core/browser/dashboard/dashboard.py:444
+msgid "Samples verified"
+msgstr "Proben überpfüft"
+
+#: senaite/core/browser/dashboard/dashboard.py:430
+msgid "Samples with results pending"
+msgstr "Proben mit ausstehenden Ergebnissen"
+
+#: senaite/core/browser/samples/view.py:190
+msgid "Sampling Deviation"
+msgstr "Probenahme-Abweichung"
+
+#: senaite/core/browser/dashboard/dashboard.py:417
+msgid "Sampling scheduled"
+msgstr "Probennahme geplant"
+
+#: senaite/core/browser/viewlets/templates/resultsinterpretation.pt:156
+msgid "Save"
+msgstr "Speichern"
+
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Schedule sampling"
+msgstr "Plane Probennahme"
+
+#: senaite/core/browser/samples/view.py:275
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "Scheduled sampling"
+msgstr "Geplante Probennahme"
+
+#: senaite/core/browser/controlpanel/samplecontainers.py:55
+#: senaite/core/content/samplecontainer.py:98
+msgid "Security seal intact"
+msgstr ""
+
+#: senaite/core/browser/idserver/templates/numbergenerator.pt:58
+msgid "Seed"
+msgstr "Setzen"
+
+#: senaite/core/browser/idserver/view.py:75
+msgid "Seeding key {} to {}"
+msgstr "Schlüssel {} auf {} gesetzt"
+
+# senaite.core.browser.modals.templates.create_worksheet.pt
+msgid "Select all"
+msgstr ""
+
+#: senaite/core/browser/install/templates/senaite-addsite.pt:203
+msgid "Select any add-ons you want to activate immediately. You can also activate add-ons after the site has been created using the Add-ons control panel."
+msgstr ""
+
+#: senaite/core/exportimport/import.pt:129
+msgid "Select existing file"
+msgstr "Bestehende Datei wählen"
+
+#: senaite/core/browser/viewlets/templates/resultsinterpretation.pt:76
+msgid "Select template"
+msgstr "Vorlage auswählen"
+
+#: senaite/core/browser/modals/templates/set_analysis_conditions.pt:95
+msgid "Set Conditions"
+msgstr ""
+
+#: senaite/core/browser/install/templates/senaite-addsite.pt:127
+msgid "Should the default example content be added to the site?"
+msgstr ""
+
+#: senaite/core/exportimport/import.pt:180
+msgid "Show last auto import logs"
+msgstr ""
+
+#: senaite/core/browser/dashboard/templates/dashboard.pt:522
+msgid "Show/hide timeline summary"
+msgstr "Zeige/verberge Zeitstrahl-Zusammenfassung"
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:67
+msgid "Size"
+msgstr "Größe"
+
+#: senaite/core/browser/samples/view.py:222
+#: senaite/core/z3cform/widgets/address.py:223
+msgid "State"
+msgstr "Status"
+
+#: senaite/core/browser/samples/view.py:185
+msgid "Storage Location"
+msgstr "Lagerort"
+
+#: senaite/core/exportimport/import.pt:118
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_duplicateanalysis_workflow/definition.xml
+msgid "Submit"
+msgstr "Einreichen"
+
+#: senaite/core/exportimport/import.pt:108
+msgid "Submit a valid Open XML (.XLSX) file containing setup records to continue."
+msgstr "Senden Sie eine gültige Open XML-Datei (.XLSX) mit Setup-Datensätzen, um fortzufahren."
+
+#: senaite/core/browser/dashboard/templates/dashboard.pt:15
+msgid "Switch to Frontpage"
+msgstr "Zur Startseite wechseln"
+
+#: senaite/core/browser/frontpage/templates/frontpage.pt:6
+msgid "Switch to dashboard"
+msgstr "Zum Dashboard wechseln"
+
+#: senaite/core/browser/dashboard/templates/dashboard.pt:6
+msgid "Switch to frontpage"
+msgstr "Zur Startseite wechseln"
+
+#: senaite/core/browser/dashboard/templates/dashboard.pt:12
+msgid "System Dashboard"
+msgstr "System Dashboard"
+
+#: senaite/core/browser/samples/view.py:212
+#: senaite/core/browser/viewlets/templates/resultsinterpretation.pt:69
+msgid "Template"
+msgstr "Vorlage"
+
+#: senaite/core/browser/install/templates/senaite-addsite.pt:54
+msgid "The ID of the site. This ends up as part of the URL. No special characters or spaces are allowed."
+msgstr "Die ID der Seite. Dies endet als Teil der URL. Es sind keine Sonderzeichen oder Leerzeichen erlaubt."
+
+#: senaite/core/browser/install/templates/senaite-addsite.pt:113
+msgid "The default timezone setting of the portal. Users will be able to set their own timezone, if available timezones are defined in the date and time settings."
+msgstr ""
+
+#: senaite/core/browser/samples/templates/dispatch_samples.pt:47
+msgid "The following sample(s) will be dispatched"
+msgstr "Die folgende(n) Probe(n) werden versendet"
+
+#: senaite/core/browser/install/templates/senaite-addsite.pt:90
+msgid "The main language of the site."
+msgstr "Die Hauptsprache der Website."
+
+#: senaite/core/browser/controlpanel/instrumentlocations.py:51
+msgid "The place where the instrument is located in the laboratory"
+msgstr "Der Ort an dem das Prüfmittel im Labor steht"
+
+#: senaite/core/browser/dashboard/templates/dashboard.pt:548
+msgid "There is no available data for the selected period"
+msgstr "Keine verfügbaren Daten für gewählten Zeitraum"
+
+#: senaite/core/browser/install/templates/senaite-overview.pt:57
+msgid "This site configuration is outdated and needs to be upgraded:"
+msgstr ""
+
+#: senaite/core/exportimport/import.pt:123
+msgid "Tip. Attached documents will not be loaded unless they are present in the instance."
+msgstr "Angehängte Dokumente werden nicht geladen solange sie nicht verfügbar sind"
+
+#: senaite/core/behaviors/clientshareable.py:84
+#: senaite/core/browser/controlpanel/interpretationtemplates.py:55
+#: senaite/core/browser/widgets/referencewidget.py:53
+msgid "Title"
+msgstr "Name"
+
+#: senaite/core/browser/samples/view.py:265
+msgid "To Be Preserved"
+msgstr "Zu konservieren"
+
+#: senaite/core/browser/samples/view.py:256
+msgid "To Be Sampled"
+msgstr "Zu beproben"
+
+#: senaite/core/browser/dashboard/dashboard.py:410
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "To be preserved"
+msgstr "Zu konservieren"
+
+#: senaite/core/browser/dashboard/dashboard.py:460
+msgid "To be printed"
+msgstr "Zu drucken"
+
+#: senaite/core/browser/dashboard/dashboard.py:403
+#: senaite/core/profiles/default/workflows/senaite_sample_workflow/definition.xml
+msgid "To be sampled"
+msgstr "Zu beproben"
+
+#: senaite/core/browser/dashboard/dashboard.py:438
+#: senaite/core/browser/samples/view.py:307
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+msgid "To be verified"
+msgstr "Zu verifizieren"
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:66
+#: senaite/core/browser/viewlets/templates/worksheet_attachments.pt:39
+msgid "Type"
+msgstr "Typ"
+
+#: senaite/core/content/samplecontainer.py:49
+msgid "Type of the container"
+msgstr ""
+
+#: senaite/core/browser/controlpanel/templates/setupview.pt:27
+msgid "Type to filter ..."
+msgstr "Tippen um zu filtern ..."
+
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+msgid "Unassign"
+msgstr "Zuweisung aufheben"
+
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+msgid "Unassigned"
+msgstr "Nicht zugeordnet"
+
+#: senaite/core/exportimport/instruments/panalytical/omnia/axios_xrf.py:53
+msgid "Unrecognized file format ${file_format}"
+msgstr "Unbekanntes Dateiformat ${file_format}"
+
+#: senaite/core/exportimport/instruments/abaxis/vetscan/vs2.py:51
+#: senaite/core/exportimport/instruments/abbott/m2000rt/m2000rt.py:64
+#: senaite/core/exportimport/instruments/alere/pima/beads.py:51
+msgid "Unrecognized file format ${fileformat}"
+msgstr "Unbekanntes Dateiformat ${file_format}"
+
+#: senaite/core/exportimport/instruments/horiba/jobinyvon/icp.py:57
+msgid "Unrecognized file format ${format}"
+msgstr "Unbekanntes Dateiformat ${format}"
+
+#: senaite/core/browser/samples/view.py:401
+msgid "Unsassigned"
+msgstr "Nicht zugewiesen"
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:180
+msgid "Update Attachments"
+msgstr "Anhänge Aktualisieren"
+
+#: senaite/core/browser/viewlets/templates/resultsinterpretation.pt:84
+msgid "Use Template"
+msgstr ""
+
+#: senaite/core/z3cform/error.py:14
+msgid "Validation failed."
+msgstr ""
+
+#: senaite/core/browser/dashboard/dashboard.py:445
+#: senaite/core/browser/samples/view.py:317
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+msgid "Verified"
+msgstr "Verifiziert"
+
+#: senaite/core/profiles/default/workflows/senaite_analysis_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_duplicateanalysis_workflow/definition.xml
+#: senaite/core/profiles/default/workflows/senaite_referenceanalysis_workflow/definition.xml
+msgid "Verify"
+msgstr "Verifizieren"
+
+#: senaite/core/browser/install/templates/senaite-overview.pt:52
+msgid "View your SENAITE site"
+msgstr ""
+
+#: senaite/core/browser/dashboard/templates/dashboard.pt:477
+msgid "Visibility"
+msgstr "Sichtbarkeit"
+
+#: senaite/core/browser/dashboard/templates/dashboard.pt:536
+msgid "Weekly"
+msgstr "Wöchentlich"
+
+#: senaite/core/browser/frontpage/templates/frontpage.pt:16
+msgid "Welcome to"
+msgstr ""
+
+#: senaite/core/browser/install/templates/senaite-overview.pt:14
+msgid "Welcome to SENAITE"
+msgstr ""
+
+#: senaite/core/browser/dashboard/dashboard.py:529
+msgid "Worksheets"
+msgstr "Arbeitsblätter"
+
+#: senaite/core/browser/dashboard/templates/dashboard.pt:540
+msgid "Yearly"
+msgstr "Jährlich"
+
+#: senaite/core/browser/controlpanel/samplecontainers.py:108
+msgid "Yes"
+msgstr "Ja"
+
+#: senaite/core/browser/install/templates/senaite-overview.pt:124
+msgid "You can add another SENAITE site:"
+msgstr ""
+
+#: senaite/core/browser/viewlets/templates/attachments.pt:303
+msgid "You can use the browse button to select and upload a new attachment."
+msgstr "Sie können den Durchsuchen Button verwenden um neue Anhänge auszuwählen und hochzuladen"
+
+#: senaite/core/browser/install/templates/senaite-overview.pt:78
+msgid "You have multiple SENAITE sites:"
+msgstr ""
+
+#: senaite/core/browser/install/templates/senaite-addsite.pt:159
+msgid "You normally don't need to change anything here unless you have specific reasons and know what you are doing."
+msgstr ""
+
+#: senaite/core/exportimport/instruments/sysmex/xs/i500.py:77
+msgid "You should introduce a default result key."
+msgstr "Sie sollten einen Standard Ergebnisschlüsselwert anlegen"
+
+#: senaite/core/browser/install/templates/senaite-overview.pt:121
+msgid "Your SENAITE site has not been added yet:"
+msgstr ""
+
+#. Default: "${Y}-${m}-${d} ${I}:${M} ${p}"
+#. The variables used here are the same as used in the strftime formating.
+#. Supported are ${A}, ${a}, ${B}, ${b}, ${H}, ${I}, ${m}, ${d}, ${M}, ${p},
+#. ${S}, ${Y}, ${y}, ${Z}, each used as variable in the msgstr.
+#. For example: "${A} ${d}. ${B} ${Y}, ${H}:${M} ${Z}"
+#. In english speaking countries default is:
+#. ${b} ${d}, ${Y} ${I}:${M} ${p}
+#: ./TranslationServiceTool.py
+msgid "date_format_long"
+msgstr "${d}.${m}.${Y} ${H}:${M}"
+
+#. Default: "${Y}-${m}-${d}"
+#. The variables used here are the same as used in the strftime formating.
+#. Supported are ${A}, ${a}, ${B}, ${b}, ${H}, ${I}, ${m}, ${d}, ${M}, ${p},
+#. ${S}, ${Y}, ${y}, ${Z}, each used as variable in the msgstr.
+#. For example: "${A} ${d}. ${B} ${Y}, ${H}:${M} ${Z}"
+#. In english speaking countries default is:
+#. ${b} ${d}, ${Y}
+#: ./TranslationServiceTool.py
+msgid "date_format_short"
+msgstr "${d}.${m}.${Y}"
+
+#. Date format used with the datepicker jqueryui plugin.
+#. Please only use 'dd', 'mm', 'yy', '-', '/', '.' in this string.
+#. Default: "mm/dd/yy"
+#, fuzzy
+msgid "date_format_short_datepicker"
+msgstr "dd.mm.yy"
+
+#. Default: "${copyright} 2017-${current_year} ${senaitelims}"
+#: senaite/core/browser/viewlets/templates/footer.pt:13
+msgid "description_copyright"
+msgstr ""
+
+#. Default: "<span>x</span> <a href=\"http://plone.org\" title=\"x\">x</a>"
+#: senaite/core/browser/viewlets/templates/colophon.pt:12
+msgid "label_powered_by"
+msgstr ""
+
+#. Default: "Plone & Python"
+#: senaite/core/browser/viewlets/templates/colophon.pt:12
+msgid "label_powered_by_plone"
+msgstr ""
+
+#. Default: "SENAITE LIMS"
+#: senaite/core/browser/viewlets/templates/footer.pt:14
+msgid "label_senaite"
+msgstr ""
+
+#. Default: "Title"
+#: senaite/core/browser/install/templates/senaite-addsite.pt:62
+msgid "label_title"
+msgstr "Titel"
+
+#. Default: "Upgrade…"
+#: senaite/core/browser/install/templates/senaite-overview.pt:67
+msgid "label_upgrade_hellip"
+msgstr ""
+
+#. Default: "SENAITE is powered by"
+#: senaite/core/browser/viewlets/templates/colophon.pt:11
+msgid "labwl_powered_by"
+msgstr ""
+
+#: senaite/core/browser/dashboard/dashboard.py:377
+msgid "of"
+msgstr "von"
+
+#. Default: "This sample has been dispatched by ${actor} on ${date}"
+#: senaite/core/browser/viewlets/templates/sample_dispatched_viewlet.pt:14
+msgid "this_sample_has_been_dispatched_by"
+msgstr "Diese Probe wurde von ${actor} am ${date} versandt."
+
+#. Default: "${I}:${M} ${p}"
+#. The variables used here are the same as used in the strftime formating.
+#. Supported are ${A}, ${a}, ${B}, ${b}, ${H}, ${I}, ${m}, ${d}, ${M}, ${p},
+#. ${S}, ${Y}, ${y}, ${Z}, each used as variable in the msgstr.
+#. For example: "${A} ${d}. ${B} ${Y}, ${H}:${M} ${Z}"
+#. In english speaking countries default is:
+#. ${I}:${M} ${p}
+#: ./TranslationServiceTool.py
+msgid "time_format"
+msgstr "${H}:${M}"
+
+#. Default: "This site was built using the Plone Open Source CMS/WCM."
+#: senaite/core/browser/viewlets/templates/colophon.pt:12
+msgid "title_built_with_plone"
+msgstr ""
+
+#. Default: "Copyright"
+#: senaite/core/browser/viewlets/templates/footer.pt:11
+msgid "title_copyright"
+msgstr ""
+
+#. Default: "Required"
+#: senaite/core/browser/modals/templates/set_analysis_conditions.pt:38
+msgid "title_required"
+msgstr "Titel fehlt"
+
+#: senaite/core/browser/dashboard/templates/dashboard.pt:530
+msgid "to"
+msgstr "An"
+
+#: senaite/core/browser/dashboard/templates/dashboard.pt:532
+msgid "updated every 2 hours"
+msgstr "Aktualisiert alle 2 Stunden"

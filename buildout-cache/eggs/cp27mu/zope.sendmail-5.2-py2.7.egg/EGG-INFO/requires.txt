@@ -1,0 +1,17 @@
+setuptools
+transaction
+zope.component>=3.8.0
+zope.configuration
+zope.i18nmessageid
+zope.interface
+zope.schema
+
+[docs]
+Sphinx
+repoze.sphinx.autointerface
+sphinxcontrib-programoutput
+
+[test]
+zope.security
+zope.testing
+zope.testrunner

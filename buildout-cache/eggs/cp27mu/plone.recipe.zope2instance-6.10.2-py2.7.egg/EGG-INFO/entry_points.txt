@@ -1,0 +1,12 @@
+[paste.filter_factory]
+sentry = plone.recipe.zope2instance.sentry:sdk_init
+
+[paste.server_factory]
+main = plone.recipe.zope2instance.ctl:server_factory
+
+[paste.server_runner]
+main = plone.recipe.zope2instance.ctl:serve_paste
+
+[zc.buildout]
+default = plone.recipe.zope2instance.recipe:Recipe
+

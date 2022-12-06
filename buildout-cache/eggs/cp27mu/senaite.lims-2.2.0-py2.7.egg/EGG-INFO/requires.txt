@@ -1,0 +1,14 @@
+Plone==5.2.7
+senaite.core==2.2.0
+senaite.app.listing==2.2.0
+senaite.app.spotlight==2.2.0
+senaite.app.supermodel==2.2.0
+senaite.impress==2.2.0
+senaite.jsonapi==2.2.0
+setuptools
+
+[test]
+Products.PloneTestCase
+Products.SecureMailHost
+plone.app.testing
+unittest2

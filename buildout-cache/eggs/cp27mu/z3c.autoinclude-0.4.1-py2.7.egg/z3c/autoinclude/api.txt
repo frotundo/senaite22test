@@ -1,0 +1,71 @@
+=============
+API functions
+=============
+
+The ``api.py`` module has some helpful functions.
+
+
+Plugins
+=======
+
+We can disable and enable autoincluding the plugins::
+
+    >>> from z3c.autoinclude import api
+    >>> api.plugins_disabled()
+    False
+    >>> api.disable_plugins()
+    >>> api.plugins_disabled()
+    True
+    >>> api.disable_plugins()  # called twice to see if this breaks
+    >>> api.plugins_disabled()
+    True
+    >>> api.enable_plugins()
+    >>> api.plugins_disabled()
+    False
+    >>> api.enable_plugins()  # called twice to see if this breaks
+    >>> api.plugins_disabled()
+    False
+
+
+Dependencies
+============
+
+We can disable and enable autoincluding the dependencies::
+
+    >>> from z3c.autoinclude import api
+    >>> api.dependencies_disabled()
+    False
+    >>> api.disable_dependencies()
+    >>> api.dependencies_disabled()
+    True
+    >>> api.disable_dependencies()  # called twice to see if this breaks
+    >>> api.dependencies_disabled()
+    True
+    >>> api.enable_dependencies()
+    >>> api.dependencies_disabled()
+    False
+    >>> api.enable_dependencies()  # called twice to see if this breaks
+    >>> api.dependencies_disabled()
+    False
+
+
+Debug
+=====
+
+We can disable and enable the debug report of autoincluded packages::
+
+    >>> from z3c.autoinclude import api
+    >>> api.debug_enabled()
+    False
+    >>> api.enable_debug()
+    >>> api.debug_enabled()
+    True
+    >>> api.enable_debug()  # called twice to see if this breaks
+    >>> api.debug_enabled()
+    True
+    >>> api.disable_debug()
+    >>> api.debug_enabled()
+    False
+    >>> api.disable_debug()  # called twice to see if this breaks
+    >>> api.debug_enabled()
+    False

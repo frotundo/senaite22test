@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<metadata>
+  <version>16</version>
+  <dependencies>
+    <dependency>profile-plone.resource:default</dependency>
+    <dependency>profile-plone.staticresources:last_compilation</dependency>
+  </dependencies>
+</metadata>

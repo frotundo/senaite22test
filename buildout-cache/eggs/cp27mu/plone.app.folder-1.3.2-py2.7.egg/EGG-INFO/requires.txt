@@ -1,0 +1,15 @@
+Products.CMFCore
+Products.GenericSetup
+Zope2
+plone.app.layout
+plone.folder
+setuptools
+six
+
+[atct]
+Products.ATContentTypes
+Products.Archetypes
+Products.BTreeFolder2
+
+[test]
+plone.app.testing

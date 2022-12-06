@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="plone.restapi"
+    >
+
+  <permission
+      id="plone.restapi.UseRESTAPI"
+      title="plone.restapi: Use REST API"
+      />
+
+  <permission
+      id="plone.restapi.vocabularies"
+      title="plone.restapi: Access Plone vocabularies"
+      />
+
+  <permission
+      id="plone.restapi.getusers"
+      title="plone.restapi: Access Plone user information"
+      />
+
+</configure>

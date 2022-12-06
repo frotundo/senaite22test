@@ -1,0 +1,112 @@
+Metadata-Version: 2.1
+Name: plone.synchronize
+Version: 1.0.4
+Summary: Simple decorators to support synchronized methods
+Home-page: https://pypi.org/project/plone.synchronize
+Author: Martin Aspeli
+Author-email: optilude@gmail.com
+License: BSD
+Keywords: synchronized lock decorator
+Platform: UNKNOWN
+Classifier: Development Status :: 6 - Mature
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: License :: OSI Approved :: BSD License
+Requires-Dist: setuptools
+
+Introduction
+============
+
+.. image:: https://secure.travis-ci.org/pyrenees/plone.synchronize.png
+   :target: http://travis-ci.org/pyrenees/plone.synchronize
+
+This package provides a simple decorator to help synchronize methods across
+threads, to avoid problems of concurrent access.
+
+It can be used like this::
+
+    from threading import Lock
+    from plone.synchronize import synchronized
+
+    class StupidStack(object):
+
+        _elements = [] # not thread safe
+        _lock = Lock()
+
+        @synchronized(_lock)
+        def push(self, item):
+            self._elements.append(item)
+
+        @synchronized(_lock)
+        def pop(self):
+            last = self._elements[-1]
+            del self._elements[-1]
+            return last
+
+The decorator takes care of calling lock.acquire() just before the method
+is executed, and lock.release() just after. If an exception is raised in the
+method, the lock will still be released.
+
+Changelog
+=========
+
+.. You should *NOT* be adding new change log entries to this file.
+   You should create a file in the news directory instead.
+   For helpful instructions, please see:
+   https://github.com/plone/plone.releaser/blob/master/ADD-A-NEWS-ITEM.rst
+
+.. towncrier release notes start
+
+1.0.4 (2020-04-22)
+------------------
+
+New features:
+
+
+- Drop Python 2.6 support.
+  Support 2.7, 3.5-3.8, PyPy2/3.
+  Added tox for local testing.
+  [maurits] (#2)
+
+
+1.0.3 (2018-03-10)
+------------------
+
+Bug fixes:
+
+- Release it as a wheel as well as an egg.
+  [gforcada]
+
+1.0.2 (2016-11-01)
+------------------
+
+New features:
+
+- Test Python 3 compatibility.
+  [datakurre]
+
+
+1.0.1 - 2011-05-20
+------------------
+
+* Add license metadata.
+  [davisagli]
+
+1.0 - 2011-04-30
+----------------
+
+* No changes
+
+1.0b1 - 2009-03-30
+------------------
+
+* Initial release
+
+

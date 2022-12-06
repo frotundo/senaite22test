@@ -1,0 +1,16 @@
+Products.SiteErrorLog-5.5-py3.7-nspkg.pth,sha256=nq2GLEDBKV9G0i4LEhkEEQT0gMqQlG1ToxVfs90lBMs,549
+Products/SiteErrorLog/SiteErrorLog.py,sha256=R1F-TjB2j8o9f9k4EpQqKis3OvaLkaQUHGSmThDQ7g4,12735
+Products/SiteErrorLog/__init__.py,sha256=sohQfQVzMSTzD6g9N8jLoAeMhWfMZuWMVjSE_cvNALQ,1332
+Products/SiteErrorLog/configure.zcml,sha256=ewqv5n-mF4RtctKJ1-dVW2zizA1foDS8g3UyIrHZ3Q8,285
+Products/SiteErrorLog/interfaces.py,sha256=wd1EzcdZI66Xu4mzNHCwuOothIBHAfkZ5_cfX-zCtVA,239
+Products/SiteErrorLog/tests/__init__.py,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
+Products/SiteErrorLog/tests/testInitialization.py,sha256=VCxEA_F6zYIeH15T0sAlphPl_mtTHIynJT4FTFD5Y8w,2770
+Products/SiteErrorLog/tests/testSiteErrorLog.py,sha256=I-R4mSGyjj_j3Lj0VlqGfDTQbjA36XgopoubLoIFKAA,13973
+Products/SiteErrorLog/www/main.pt,sha256=yc9QLxBMrGVRhDDEhu8fqyBKytQGUdPISZCuSGWsduE,3438
+Products/SiteErrorLog/www/showEntry.pt,sha256=GY3xfFruqev7xst8ripEZarGokRg-S9IJmiWjO5eiRY,2419
+Products.SiteErrorLog-5.5.dist-info/LICENSE.txt,sha256=PmcdsR32h1FswdtbPWXkqjg-rKPCDOo_r1Og9zNdCjw,2070
+Products.SiteErrorLog-5.5.dist-info/METADATA,sha256=GGKBuJCIXdcelTDvWFOrSAgRFyW4gY-JL_HKgntDRr0,4675
+Products.SiteErrorLog-5.5.dist-info/WHEEL,sha256=Z-nyYpwrcSqxfdux5Mbn_DQ525iP7J2DG3JgGvOYyTQ,110
+Products.SiteErrorLog-5.5.dist-info/namespace_packages.txt,sha256=UgMr3LVXWHS9vjnxTk8VOZd7xxgBn5T02HOaMRXjjTM,9
+Products.SiteErrorLog-5.5.dist-info/top_level.txt,sha256=UgMr3LVXWHS9vjnxTk8VOZd7xxgBn5T02HOaMRXjjTM,9
+Products.SiteErrorLog-5.5.dist-info/RECORD,,

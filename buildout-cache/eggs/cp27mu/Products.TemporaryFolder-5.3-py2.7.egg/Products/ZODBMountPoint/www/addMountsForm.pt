@@ -1,0 +1,65 @@
+<h1 tal:replace="structure here/manage_page_header">Header</h1>
+
+<main class="container-fluid">
+	<h2 tal:define="form_title string:Add ZODB Mount Points"
+		tal:replace="structure here/manage_form_title">Form Title</h2>
+
+	<p class="form-help">
+		Use this form to finalize the mount points configured in zope.conf.
+		To make more mount points available, edit zope.conf.
+	</p>
+
+	<div tal:define="stats here/manage_getMountStatus">
+		<div tal:condition="stats">
+			<form action="manage_addMounts" method="POST">
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="zmi-mounts-id">&nbsp;</th>
+							<th class="zmi-mounts-path">Path</th>
+							<th class="zmi-mounts-database">Database</th>
+							<th class="zmi-mounts-status">Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr tal:repeat="stat stats">
+							<td class="zmi-mounts-id">
+								<input tal:condition="not: stat/exists" 
+									tal:attributes="value stat/path"
+									type="checkbox" name="paths:list" checked="checked" />
+							</td>
+							<td class="zmi-mounts-path">
+								<span tal:content="stat/path">/virtual_hosts</span>
+							</td>
+							<td class="zmi-mounts-database">
+								<span tal:content="stat/name">Virtual Hosts</span>
+							</td>
+							<td class="zmi-mounts-status">
+								<span tal:content="stat/status">Ok</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<div class="form-check">
+						<input type="checkbox" class="form-check-input" name="create_mount_points" id="create_mount_points" />
+						<label for="create_mount_points" class="form-check-label">Create new folders if the mounted objects don't yet exist</label>
+				</div>
+
+				<div class="zmi-controls">
+					<input class="btn btn-primary" type="submit" name="submit" value="Create selected mount points" />
+				</div>
+
+			</form>
+
+		</div>
+
+		<div tal:condition="not:stats">
+			<div class="alert alert-danger">No mount points configured.</div>
+		</div>
+
+	</div>
+
+</main>
+
+<h1 tal:replace="structure here/manage_page_footer">Footer</h1>

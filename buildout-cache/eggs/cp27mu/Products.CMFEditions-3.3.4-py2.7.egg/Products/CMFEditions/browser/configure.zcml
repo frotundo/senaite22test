@@ -1,0 +1,76 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+    <browser:page
+        for="*"
+        name="history"
+        class=".diff.DiffView"
+        permission="CMFEditions.AccessPreviousVersions"
+        />
+
+    <configure zcml:condition="installed Products.Archetypes">
+      <browser:viewlet
+          name="cmfeditions.versioningfields"
+          manager="Products.Archetypes.interfaces.IEditAfterFieldsets"
+          template="edit.pt"
+          permission="cmf.ModifyPortalContent"
+          />
+    </configure>
+
+    <browser:page
+        for="*"
+        name="candiff"
+        class=".diff.CanDiff"
+        attribute="can_diff"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="*"
+        name="get_macros"
+        class=".utils.GetMacros"
+        attribute="get_macros"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="*"
+        name="update_version_on_edit"
+        class=".views.UpdateVersionOnEditView"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="*"
+        name="update_version_before_edit"
+        class=".views.UpdateVersionBeforeEditView"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="*"
+        name="version_file_view"
+        class=".views.VersionView"
+        template="templates/version_file_view.pt"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="*"
+        name="version_image_view"
+        class=".views.VersionView"
+        template="templates/version_image_view.pt"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="*"
+        name="version_metadata_view"
+        template="templates/version_metadata_view.pt"
+        permission="zope2.View"
+        />
+
+</configure>
+

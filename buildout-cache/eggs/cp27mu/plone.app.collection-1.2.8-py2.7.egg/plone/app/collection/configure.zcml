@@ -1,0 +1,46 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:five="http://namespaces.zope.org/five"
+  xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+  i18n_domain="plone">
+
+  <five:registerPackage package="." initialize=".initialize" />
+
+  <include package="plone.app.querystring" />
+  <include package="plone.app.contentlisting" />
+  <include package=".browser" />
+
+  <genericsetup:registerProfile
+    name="default"
+    title="Archetypes-based collections"
+    directory="profiles/default"
+    description="plone.app.collection, the new style Archetypes collections in Plone 4"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:registerProfile
+    name="uninstall"
+    title="Uninstall Archetypes-based collections"
+    directory="profiles/uninstall"
+    description="plone.app.collection (uninstall)"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <!-- hide profiles for our widget/field dependencies -->
+  <utility
+    factory=".integration.HiddenProfiles"
+    name="plone.app.collection" />
+
+  <permission
+    id="plone.app.collection.addCollection"
+    title="plone.app.collection: Add Collection"
+    />
+
+  <class class=".collection.Collection">
+    <require
+      permission="zope2.View"
+      interface=".interfaces.ICollection"
+      />
+  </class>
+
+</configure>

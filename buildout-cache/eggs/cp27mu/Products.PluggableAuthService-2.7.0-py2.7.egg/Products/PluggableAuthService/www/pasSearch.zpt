@@ -1,0 +1,143 @@
+<h1 tal:replace="structure here/manage_page_header"> PAGE HEADER </h1>
+<h2 tal:replace="structure here/manage_tabs"> TABS </h2>
+
+<main class="container-fluid"
+      tal:define="my_url here/absolute_url;
+                  s_param request/s_param|options/s_param|nothing;
+                  s_term request/s_term|options/s_term|nothing;">
+
+  <p class="form-help">
+    Use this form to search for user accounts by Login or by ID. Selecting
+    <i>Exact Match</i> will return a single result (if a match is found)
+    corresponding to the search term. Otherwise any record where the Login
+    or ID <i>contains</i> the term is shown.
+  </p>
+  
+  <form method="get" action=""
+        tal:attributes="action string:${my_url}/manage_search">
+    <table class="table Xtable-sm mb-5 Xtable-borderless">
+      <thead>
+        <tr>
+          <th scope="col" class="pl-3">Search on</th>
+          <th scope="col">Search term</th>
+          <th scope="col">Exact match</th>
+          <th scope="col">Max results</th>
+          <th scope="col">Sort on</th>
+          <th scope="col">&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="pl-3">
+            <select class="form-control" name="s_param">
+              <option value="login"> Login </option>
+              <option value="id"> User ID </option>
+            </select>
+          </td>
+          <td>
+            <input class="form-control" type="text" name="s_term" 
+              placeholder="Enter search term" />
+          </td>
+          <td class="pl-4" style="vertical-align:middle">
+            <input type="checkbox" name="exact_match:int" value="1" />
+          </td>
+          <td>
+            <input class="form-control" type="text" size="4" name="max_results" />
+          </td>
+          <td>
+            <select class="form-control" name="sort_by">
+              <option value="login">Login</option>
+              <option value="id">User ID</option>
+            </select>
+          </td>
+          <td>
+            <input class="btn btn-primary" type="submit" value=" Search " />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  
+    <div tal:condition="python:s_param and s_term">
+      <div tal:define="id python: s_param=='id' and s_term or '';
+                      login python: s_param=='login' and s_term or '';
+                      match request/exact_match|options/exact_match|nothing;
+                      sort_by request/sort_by|options/sort_by|nothing;
+                      max request/max_results|options/max_results|nothing;
+                      results python: here.searchUsers( id=id
+                                                      , login=login
+                                                      , exact_match=match
+                                                      , sort_by=sort_by
+                                                      , max_results=max
+                                                      );
+                      batch python: here.resultsBatch(results, request);
+                      b_len batch/sequence_length;
+                      b_start batch/start;
+                      b_end batch/end;"
+          tal:omit-tag="">
+        <div class="form-help">
+          <span class="form-label"
+                tal:content="string: Results ${b_start}-${b_end} out of ${b_len} matches for search term '${s_term}'">
+            30 results for 'login=foo'
+          </span>
+          <span class="form-label"
+                tal:condition="request/previous_batch_url|nothing">
+            <a href=""
+              tal:attributes="href request/previous_batch_url">
+              &lt;&lt; Previous
+            </a>
+          </span>
+          <span class="form-label"
+                tal:condition="request/next_batch_url|nothing">
+            <a href=""
+              tal:attributes="href request/next_batch_url">
+              &nbsp;&nbsp;Next &gt;&gt;
+            </a>
+          </span>
+        </div>
+    
+        <table class="table table-striped table-hover table-sm">
+
+          <tal:block tal:condition="results">
+            <thead>
+              <tr>
+                <th class="pl-3" scope="col">Internal ID</th>
+                <th scope="col">Login</th>
+                <th scope="col">User ID</th>
+                <th scope="col">Source Plugin</th>
+                <th scope="col">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr tal:repeat="res batch"
+                  tal:attributes="class python: repeat['res'].odd() and 'row-normal' or default">
+                <td class="pl-3" tal:content="res/id">Internal ID</td>
+                <td tal:content="res/login">ID</td>
+                <td tal:content="res/userid">Login</td>
+                <td tal:content="res/pluginid|nothing">Plugin ID</td>
+                <td>
+                  <a href=""
+                    tal:condition="res/editurl|nothing"
+                    tal:attributes="href res/editurl|nothing">
+                    <i class="far fa-edit"></i>
+                    Edit
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </tal:block>
+          <tal:block tal:condition="not: results"> 
+            <tbody>
+              <tr>
+                <td class="zmi-object-id"> No results found. </td>
+              </tr>
+            </tbody>
+          </tal:block>
+
+        </table>
+      </div>
+    </div>
+  </form>
+</main>
+
+<h1 tal:replace="structure here/manage_page_footer"> PAGE FOOTER </h1>

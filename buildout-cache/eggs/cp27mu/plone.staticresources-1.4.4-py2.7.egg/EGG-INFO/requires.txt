@@ -1,0 +1,7 @@
+Products.GenericSetup
+plone.resource
+setuptools
+
+[test]
+plone.app.testing
+plone.testing

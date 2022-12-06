@@ -1,0 +1,14 @@
+setuptools
+beautifulsoup4==4.9.3
+CairoSVG==1.0.20
+cairocffi<1.0.0
+WeasyPrint==0.42.3
+tinycss2<1.0.0
+cssselect2<0.3.0
+pyphen==0.11.0
+
+[test]
+Products.PloneTestCase
+Products.SecureMailHost
+plone.app.testing
+unittest2

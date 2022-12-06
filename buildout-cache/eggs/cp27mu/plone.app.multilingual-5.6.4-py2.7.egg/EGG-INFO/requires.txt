@@ -1,0 +1,11 @@
+Products.CMFPlone>=5.2rc4
+plone.i18n>=4.0.4
+setuptools
+six
+
+[archetypes]
+archetypes.multilingual
+
+[test]
+plone.app.robotframework
+plone.app.testing[robot]

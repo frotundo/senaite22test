@@ -1,0 +1,9 @@
+plone.indexer
+plone.uuid
+setuptools
+zope.interface
+zope.publisher
+
+[test]
+plone.app.testing
+plone.dexterity

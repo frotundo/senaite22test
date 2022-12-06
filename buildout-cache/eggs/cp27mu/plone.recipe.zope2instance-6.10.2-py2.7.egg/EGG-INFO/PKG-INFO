@@ -1,0 +1,2352 @@
+Metadata-Version: 2.1
+Name: plone.recipe.zope2instance
+Version: 6.10.2
+Summary: Buildout recipe for creating a Zope instance
+Home-page: https://github.com/plone/plone.recipe.zope2instance
+Author: Hanno Schlichting
+Author-email: hanno@hannosch.eu
+Maintainer: Plone Release Team
+Maintainer-email: releaseteam@plone.org
+License: ZPL 2.1
+Keywords: zope buildout
+Platform: UNKNOWN
+Classifier: Development Status :: 6 - Mature
+Classifier: Framework :: Buildout
+Classifier: Framework :: Plone
+Classifier: Framework :: Plone :: 5.2
+Classifier: Framework :: Plone :: 6.0
+Classifier: Framework :: Plone :: Core
+Classifier: Framework :: Zope :: 4
+Classifier: Framework :: Zope :: 5
+Classifier: License :: OSI Approved :: Zope Public License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Requires-Python: >=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*
+Requires-Dist: zc.buildout
+Requires-Dist: setuptools
+Requires-Dist: six
+Requires-Dist: zc.recipe.egg
+Requires-Dist: Zope (>=4.0b1)
+Requires-Dist: ZODB (>=5.1.1)
+Requires-Dist: ZEO
+Requires-Dist: waitress (>=1.2.0)
+Requires-Dist: Paste
+Requires-Dist: python-dotenv (<0.19) ; python_version < "3"
+Requires-Dist: python-dotenv ; python_version >= "3"
+Provides-Extra: profile
+Requires-Dist: repoze.profile ; extra == 'profile'
+Provides-Extra: sentry
+Requires-Dist: sentry-sdk ; extra == 'sentry'
+Provides-Extra: test
+Requires-Dist: zope.testrunner ; extra == 'test'
+Requires-Dist: sentry-sdk ; extra == 'test'
+
+Introduction
+============
+
+.. image:: http://img.shields.io/pypi/v/plone.recipe.zope2instance.svg
+   :target: https://pypi.org/project/plone.recipe.zope2instance
+
+.. image:: http://img.shields.io/travis/plone/plone.recipe.zope2instance.svg
+   :target: https://travis-ci.org/plone/plone.recipe.zope2instance
+
+.. image:: https://github.com/plone/plone.recipe.zope2instance/workflows/Test/badge.svg?branch=master
+   :target: https://github.com/plone/plone.recipe.zope2instance/actions?query=workflow%3ATest+branch%3Amaster
+
+This recipe creates and configures a Zope instance in parts.
+(Despite its name it nowadays only works for Zope 4+.) It also
+installs a control script, which is like zopectl, in the bin/ directory.
+The name of the control script is the name of the part in buildout.
+By default various runtime and log information will be stored inside the var/
+directory.
+
+You can use it with a part like this::
+
+  [instance]
+  recipe = plone.recipe.zope2instance
+  user = admin:admin
+  http-address = 8080
+  eggs = my.distribution
+  zcml = my.distribution
+
+.. ATTENTION::
+   This release is targeted at Plone 5.2, ZODB 5, Zope 4 and Zope 5, and
+   Python 2.7 and 3.5-3.9. If you are using this recipe with earlier versions,
+   you should use one of the releases from the 4.x series.
+
+
+.. contents:: **Contents**
+
+
+Options
+=======
+
+Common options
+--------------
+
+eggs
+  The list of distributions you want to make available to the instance.
+
+zcml
+  Install ZCML slugs for the distributions listed, separated by whitespace. You
+  can specify the type of slug by appending '-' and the type of slug you want
+  to create. Some examples: ``my.distribution`` ``my.distribution-meta``.
+
+http-address
+  Set the address of the HTTP server.
+  Can be either a port or a socket address.
+  Defaults to 0.0.0.0:8080.
+
+ip-address
+  The default IP address on which Zope's various server protocol
+  implementations will listen for requests. If this is unset, Zope will listen
+  on all IP addresses supported by the machine. This directive can be
+  overridden on a per-server basis in the servers section. Defaults to not
+  setting an ip-address. Used for ZServer only, not WSGI.
+
+threads
+  Specify the number of worker threads used to service requests.
+  The default is 4 for WSGI (since this is the waitress default) and 2 for ZServer.
+
+zodb-cache-size
+  Set the ZODB cache size, i.e. the number of objects which the ZODB cache
+  will try to hold. Defaults to 30000.
+
+zserver-threads
+  Deprecated, use `threads` instead.
+  Specify the number of threads that Zope's ZServer web server will use to
+  service requests. The recipes default is 2. Used for ZServer only, not WSGI.
+
+environment-vars
+  Define arbitrary key-value pairs for use as environment variables during
+  Zope's run cycle. Example::
+
+    environment-vars =
+      TZ US/Eastern
+      zope_i18n_allowed_languages en
+      zope_i18n_compile_mo_files true
+
+initialization
+   Specify some Python initialization code to include within the generated
+   ``sitecustomize.py`` script (Buildout >= 1.5) or within the instance script
+   (Buildout < 1.5). This is very limited. In particular, be aware that leading
+   whitespace is stripped from the code given. *added in version 4.2.14*
+
+wsgi
+   By default this recipe creates a Python script that uses ``waitress`` as a
+   WSGI server. When running Python 2 you can disable WSGI and use ZServer by
+   setting ``wsgi = off`` and including ZServer in the ``eggs`` specification
+   list. Example::
+
+     wsgi = off
+     eggs =
+       ...
+       ZServer
+
+   You can use other PasteDeploy-compatible WSGI servers by passing a path
+   to a WSGI configuration file here and including the WSGI server's egg in the
+   ``eggs`` specification. Example::
+
+     wsgi = ${buildout:directory}/etc/gunicorn.ini
+     eggs =
+       ...
+       gunicorn
+
+   The WSGI configuration file will not be created for you in this case,
+   unlike the built-in ``waitress`` support. You have to provide it yourself.
+
+max-request-body-size
+   Specify the maximum request body size in bytes
+   The default is 1073741824 (since this is the waitress default)
+
+
+Theme resources
+---------------
+
+Please refer to `<https://pypi.org/project/plone.resource>`_ for more
+details and setup instructions.
+
+resources
+  Specify a central resource directory. Example::
+
+    resources = ${buildout:directory}/resources
+
+Locales
+-------
+
+locales
+  Specify a locales directory. Example::
+
+    locales = ${buildout:directory}/locales
+
+This registers a locales directory with extra or different translations.
+If you want to override a few translations from the `plone` domain in the
+English language, you can add a ``en/LC_MESSAGES/plone.po`` file in this
+directory, with standard headers at the top, followed by something like
+this::
+
+  #. Default: "You are here:"
+  msgid "you_are_here"
+  msgstr "You are very welcome here:"
+
+Translations for other message ids are not affected and will continue
+to work.
+
+Development options
+-------------------
+
+verbose-security
+  Set to `on` to turn on verbose security (and switch to the Python security
+  implementation). Defaults to `off` (and the C security implementation).
+
+debug-exceptions
+  WSGI only: set to ``on`` to disable exception views including
+  ``standard_error_message``. Exceptions other than ``Unauthorized`` or
+  ``ConflictError`` can then travel up into the WSGI stack. Use this option
+  if you want more convenient error debugging offered by WSGI middleware
+  such as the `werkzeug debugger
+  <https://werkzeug.palletsprojects.com/en/0.15.x/debug/>`_. See the `Zope
+  WSGI documentation <https://zope.readthedocs.io/en/latest/wsgi.html>`_ for
+  examples.
+
+profile
+  Set to ``on`` enables `repoze.profile <https://github.com/repoze/repoze.profile>`_.
+  Defaults to ``off``,
+  If switched on there are further options prefixed with ``profile_`` to configure it as below.
+  You will need to add the `repoze.profile` package, either by adding it to your eggs section directly or by using the extra `plone.recipe.zope2instance[profile]`.
+
+profile_log_filename
+  Filename of the raw profile data.
+  Default to ``profile-SECTIONNAME.raw``.
+  This file contains the raw profile data for further analysis.
+
+profile_cachegrind_filename
+  If the package ``pyprof2calltree`` is installed, another file is written.
+  It is meant for consumation with any cachegrind compatible application.
+  Defaults to ``cachegrind.out.SECTIONNAME``.
+
+profile_discard_first_request
+  Defaults to ``true``.
+  See `repoze.profile docs <https://repozeprofile.readthedocs.io/en/latest/#configuration-via-python>`_ for details.
+
+profile_path
+  Defaults to ``/__profile__``.
+  The path for through the web access to the last profiled request.
+
+profile_flush_at_shutdown
+  Defaults to ``true``.
+  See `repoze.profile docs <https://repozeprofile.readthedocs.io/en/latest/#configuration-via-python>`_ for details.
+
+profile_unwind
+  Defaults to ``false``.
+  See `repoze.profile docs <https://repozeprofile.readthedocs.io/en/latest/#configuration-via-python>`_ for details.
+
+
+Direct storage
+--------------
+
+If you have only one application process, it can open the database files
+directly without running a database server process.
+
+file-storage
+  The filename where the ZODB data file will be stored.
+  Defaults to `${buildout:directory}/var/filestorage/Data.fs`.
+
+blob-storage
+  The name of the directory where the ZODB blob data will be stored, defaults
+  to `${buildout:directory}/var/blobstorage`.
+
+Basic ZEO storage
+-----------------
+
+If you want multiple application processes you need to run a separate
+database server process and connect to it, either via ZEO or RelStorage.
+
+zeo-address
+  Set the address of the ZEO server. Defaults to 8100. You can set
+  more than one address (white space delimited). Alternative addresses will
+  be used if the primary address is down.
+
+zeo-client
+  Set to 'on' to make this instance a ZEO client. In this case, setting the
+  zeo-address option is required, and the file-storage option has no effect.
+  To set up a ZEO server, you can use the plone.recipe.zeoserver recipe.
+  Defaults to 'off'.
+
+blob-storage
+  The location of the blob zeocache, defaults to `var/blobcache`. If
+  `shared-blob` is on it defaults to `${buildout:directory}/var/blobstorage`.
+
+shared-blob
+  Defaults to `off`. Set this to `on` if the ZEO server and the instance have
+  access to the same directory. Either by being on the same physical machine or
+  by virtue of a network file system like NFS. Make sure this instances
+  `blob-storage` is set to the same directory used for the ZEO servers
+  `blob-storage`. In this case the instance will not stream the blob file
+  through the ZEO connection, but just send the information of the file
+  location to the ZEO server, resulting in faster execution and less memory
+  overhead.
+
+zeo-client-read-only-fallback
+  A flag indicating whether a read-only remote storage should be acceptable as
+  a fallback when no writable storages are available. Defaults to false.
+
+read-only
+  Set zeo client as read only *added in version 4.2.12*
+
+ZEO authentication
+------------------
+
+You need to activate ZEO auth on the server side as well, for this to work.
+Without this anyone that can connect to the database servers socket can read
+and write arbitrary data.
+
+zeo-username
+  Enable ZEO authentication and use the given username when accessing the
+  ZEO server. It is obligatory to also specify a zeo-password.
+
+zeo-password
+  Password to use when connecting to a ZEO server with authentication
+  enabled.
+
+zeo-realm
+  Authentication realm to use when authentication with a ZEO server. Defaults
+  to 'ZEO'.
+
+RelStorage
+----------
+
+Please refer to `<https://pypi.org/project/RelStorage>`_ for more details
+and setup instructions.
+
+rel-storage
+  Allows to set a RelStorage instead of a FileStorage.
+
+  Contains settings separated by newlines, with these values:
+
+  - type: any database type supported (postgresql, oracle, mysql)
+  - RelStorage specific keys, like `cache-servers` and `poll-interval`
+  - all other keys are passed on to the database-specific RelStorage adapter.
+
+  Example::
+
+    rel-storage =
+      type oracle
+      dsn (DESCRIPTION=(ADDRESS=(HOST=s01))(CONNECT_DATA=(SERVICE_NAME=d01)))
+      user tarek
+      password secret
+
+Logging
+-------
+
+In most cases you don't need to adjust any of this, you might want to adjust
+log levels or configure `mailinglogger`.
+
+event-log
+  The filename of the event log. Defaults to ${buildout:directory}/var/log/${partname}.log
+  Setting this value to 'disable' will make the <eventlog> section to be omitted,
+  disabling logging events by default to a .log file.
+
+event-log-level
+  Set the level of the console output for the event log. Level may be any of
+  CRITICAL, ERROR, WARN, INFO, DEBUG, or ALL. Defaults to INFO.
+
+event-log-max-size
+  Maximum size of event log file. Enables log rotation.
+  Used for ZServer only, not WSGI.
+
+event-log-old-files
+  Number of previous log files to retain when log rotation is enabled.
+  Defaults to 1. Used for ZServer only, not WSGI.
+
+event-log-custom
+  A custom section for the eventlog, to be able to use another
+  event logger than `logfile`. Used for ZServer only, not WSGI.
+
+mailinglogger
+  A mailinglogger section added into the event log.
+  Used for ZServer only, not WSGI. Example snippet::
+
+    <mailing-logger>
+      level error
+      flood-level 10
+      smtp-server smtp.mydomain.com
+      from logger@mydomain.com
+      to errors@mydomain.com
+      subject [My domain error] [%(hostname)s] %(line)s
+    </mailing-logger>
+
+  You will need to add `mailinglogger` to your buildout's egg section to make this work.
+
+access-log, z2-log
+  The filename for the Z2 access log. Defaults to var/log/${partname}-Z2.log
+  (var/log/${partname}-access.log) for WSGI).
+  You can disable access logging by setting this value to 'disable'.
+  For ZServer this will omit the `<logger access>` section in `zope.conf`.
+  For WSGI, the logging handler will be a `NullHandler <https://docs.python.org/3/library/logging.handlers.html#nullhandler>`_.
+
+access-log-level, z2-log-level
+  Set the log level for the access log. Level may be any of CRITICAL, ERROR,
+  WARN, INFO, DEBUG, or ALL. Defaults to WARN (INFO for WSGI).
+
+access-log-max-size
+  Maximum size of access log file. Enables log rotation.
+  Used for ZServer only, not WSGI.
+
+access-log-old-files
+  Number of previous log files to retain when log rotation is enabled.
+  Defaults to 1. Used for ZServer only, not WSGI.
+
+access-log-custom
+  Like `event-log-custom`, a custom section for the access logger, to be able
+  to use another event logger than `logfile`. Used for ZServer only, not WSGI.
+
+sentry_dsn
+  Provide a Sentry DSN here to enable basic Sentry logging documented
+  in `<https://docs.sentry.io/platforms/python/logging/>`_. You will need to add the
+  Python Sentry SDK, either by adding it to your eggs section directly or by adding
+  `plone.recipe.zope2instance[sentry]`.
+  Available for WSGI only.
+
+sentry_level
+  Set the logging level for Sentry breadcrumbs.
+  Available for WSGI only.
+
+sentry_event_level
+  Set the logging level for Sentry events.
+  Available for WSGI only.
+
+sentry_ignore
+  Set the (space separated list of) logger names that are ignored by Sentry.
+  Available for WSGI only.
+
+Advanced logging options for WSGI
+---------------------------------
+
+For more complex logging configuration, the zope2instance recipe exposes the
+underlaying `logging.handlers` functionality through the `access-log-handler`
+and `event-log-handler` configuration options. This allows you to configure an
+arbitrary logging handler for Python as defined in
+`here <https://docs.python.org/3/library/logging.handlers.html>`_.
+
+The supplementary options `event-log-args`, `event-log-kwargs` and
+`access-log-args`, `access-log-kwargs` can be used for passing positional and
+keyword arguments to the constructor of the underlaying handler.
+
+access-log-handler
+  The (dotted) name of an importable Python logging handler like
+  `logging.handlers.RotatingFileHandler`.
+
+  Default: `FileHandler`
+
+access-log-args
+  A python tuple which usually refers to the logging filename and opening mode
+  of the file like `("access.log", "a")`.  Note that you a Python tuple with
+  only one element (e.g. only the filename) must have a trailing comma like
+  `("access.log", )` The `access-log-args` is used to specify the positional
+  parameters for the logging handler configured through `access-log-handler`.
+
+  Default: `(r"access.log", "a")`
+
+access-log-kwargs
+  A python dictionary used for passing keyword argument for the logging handler
+  configured through `access-log-handler` e.g.  `{"when": "h", "interval": 1}`.
+
+  Default: `{}`
+
+event-log-handler
+    Same as `access-log-handler` but for the configuration of the event log of Plone.
+
+event-log-args
+    Same as `access-log-args` but for the configuration of the event log of Plone.
+
+event-log-kwargs
+    Same as `access-log-kwargs` but for the configuration of the event log of Plone.
+
+Example (access log rotation based on file size)
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+This example uses a `RotatingFileHandler` https://docs.python.org/3/library/logging.handlers.html#rotatingfilehandler
+which rotates the access log when it becomes larger than 10 MB while keeping seven copies::
+
+    access-log-handler = logging.handlers.RotatingFileHandler
+    access-log-args  = (r"access.log", "a")
+    access-log-kwargs = {"maxBytes": 10000000, "maxCount": 7}
+
+Example (rotating of event log after each day)
+++++++++++++++++++++++++++++++++++++++++++++++
+
+This example uses a `TimedRotatingFileHandler` https://docs.python.org/3/library/logging.handlers.html#timedrotatingfilehandler
+for rotating the event log every 24 hours or one day::
+
+    event-log-handler = logging.handlers.TimedRotatingFileHandler
+    event-log-args = (r"event.log", )
+    event-log-kwargs = {"when": "D", "interval": 1}
+
+Load non-setuptools compatible Python libraries
+-----------------------------------------------
+
+products
+  A list of paths where Zope 2 products are installed. The first path takes
+  precedence in case the same product is found in more than one directory.
+  Zope 2 products are deprecated and won't work any longer in a future version
+  of Zope/Plone.
+
+extra-paths
+  A list of paths where additional Python packages are installed. The paths
+  are searched in the given order after all egg and products paths.
+
+Advanced ZCML options
+---------------------
+
+site-zcml
+  If you want a custom `site.zcml` file, put its content here. If this option
+  is used the `zcml` and `zcml-additional` options are ignored.
+
+zcml-additional
+  Extra ZCML statements that should be included in the generated `site.zcml`
+  file.
+
+Advanced ZEO options
+--------------------
+
+zeo-client-cache-size
+  Set the size of the ZEO client cache. Defaults to '128MB'. The ZEO cache is
+  a disk based cache shared between application threads. It is stored either in
+  temporary files or, in case you activate persistent cache files with the
+  option `client` (see below), in the folder designated by the `zeo-var`
+  option.
+
+zeo-client-client
+  Set the persistent cache name that is used to construct the cache
+  filenames. This enables the ZEO cache to persist across application restarts.
+  Persistent cache files are disabled by default.
+
+zeo-client-blob-cache-size
+  Set the maximum size of the ZEO blob cache, in bytes.  If not set, then
+  the cache size isn't checked and the blob directory will grow without bound.
+
+zeo-client-blob-cache-size-check
+  Set the ZEO check size as percent of `zeo-client-blob-cache-size` (for
+  example, `10` for 10%). The ZEO cache size will be checked when this many
+  bytes have been loaded into the cache. Defaults to 10% of the blob cache
+  size. This option is ignored if `shared-blob` is enabled.
+
+zeo-client-drop-cache-rather-verify
+  Indicates that the cache should be dropped rather than verified when
+  the verification optimization is not available (e.g. when the ZEO server
+  restarted). Defaults to 'False'.
+
+zeo-storage
+  Set the storage number of the ZEO storage. Defaults to '1'.
+
+zeo-var
+  Used in the ZEO storage snippets to configure the ZEO var folder, which
+  is used to store persistent ZEO client cache files. Defaults to the system
+  temporary folder.
+
+Advanced options
+----------------
+
+wsgi-ini-template
+  By default `plone.recipe.zope2instances` uses a hard-coded template for the
+  generated WSGI configuration in `parts/<partname>/etc/wsgi.ini`. The template
+  is defined as `wsgi_ini_template` variable within the `recipe.py
+  <https://github.com/plone/plone.recipe.zope2instance/blob/master/src/plone/recipe/zope2instance/recipe.py>`_
+  file.
+
+  You can override the template with a custom template file using this option.
+
+  Example::
+
+      wsgi-ini-template = /path/to/wsgi_template.ini
+
+  The available variables for variable substition can be found within the existing template (see above).
+
+
+before-storage
+  Wraps the base storage in a "before storage" which sets it in
+  read-only mode from the time given (or "now" for the current time).
+
+  This option is normally used together with demo-storage for a
+  normally running site in order for changes to be made to the
+  database.
+
+client-home
+  Sets the clienthome for the generated instance.
+  Defaults to ${buildout:directory}/var/<name of the section>.
+
+clear-untrusted-proxy-headers
+  This tells Waitress to remove any untrusted proxy headers
+  ("Forwarded", "X-Forwarded-For", "X-Forwarded-By",
+  "X-Forwarded-Host", "X-Forwarded-Port", "X-Forwarded-Proto").
+  The default in waitress 1 is false, but waitress 2 changes this to true.
+  We explicitly default to false.
+  When you set it to true, you may need to set other ``wsgi.ini`` options like
+  ``trusted_proxy_headers`` and ``trusted_proxy``.
+  Setting those is not supported by the recipe yet.
+  Used for WSGI only, not ZServer.
+
+default-zpublisher-encoding
+  This controls what character set is used to encode unicode data that reaches
+  ZPublisher without any other specified encoding. This defaults to 'utf-8'.
+  Plone requires this to be set to `utf-8`.
+
+demo-storage
+  If 'on' it enables the demo storage. By default, this is a
+  memory-based storage option; changes are not persisted (see the
+  demo-file-storage option to use a persistent storage for changes
+  made during the demonstration).
+
+  To use with a base storage option configured with a blob-storage,
+  you must set a demo-blob-storage.
+
+demo-file-storage
+  If provided, the filename where the ZODB data file for changes
+  committed during a demonstration will be stored.
+
+demo-blob-storage
+  If provided, the name of the directory where demonstration ZODB blob
+  data will be stored.
+
+  This storage may be connected to a demonstration file storage, or
+  used with the default memory-based demo storage (in this case you
+  might want to use a temporary directory).
+
+storage-wrapper
+  Template for arbitrary configuration to be wrapped around the main storage.
+  %s will be replaced with the existing storage configuration.
+
+effective-user
+  The name of the effective user for the Zope process. Defaults to not setting
+  an effective user.
+
+enable-product-installation
+  Enable the persistent product registry by setting this to ``on``. By default
+  the registry is turned ``off``. Enabling the registry is deprecated.
+
+ftp-address
+  Give a port for the FTP server. This enables the FTP server.
+  Used for ZServer only, not WSGI.
+
+http-force-connection-close
+  Set to `on` to enforce Zope to set ``Connection: close header``.
+  This is useful if for example a 304 leaves the connection open with
+  Varnish in front and Varnish tries to reuse the connection.
+
+http-fast-listen
+  Set to `off` to defer opening of the HTTP socket until the end of the Zope
+  startup phase. Defaults to on.
+
+icp-address
+  Give a port for the ICP server. This enables the ICP server.
+  Used for ZServer only, not WSGI.
+
+import-directory
+  Used to configure the import directory for instance.
+  Defaults to `<client-home>/import`.
+
+port-base
+  Offset applied to the port numbers used for ZServer configurations. For
+  example, if the http-server port is 8080 and the port-base is 1000, the HTTP
+  server will listen on port 9080. This makes it easy to change the complete
+  set of ports used by a Zope server process. Zope defaults to 0.
+
+python-check-interval
+  An integer telling the Python interpreter to check for asynchronous events
+  every number of instructions. This affects how often thread switches occur.
+  Defaults to 1000.
+
+relative-paths
+  Set this to `true` to make the generated scripts use relative
+  paths. You can also enable this in the `[buildout]` section.
+
+scripts
+  Add this parameter with no arguments to suppress script generation.
+  Otherwise (i.e. without this parameter), scripts for packages added
+  to the `eggs` parameter will be generated. You may also configure
+  per package. E.g.::
+
+    [instance]
+    recipe = plone.recipe.zope2instance
+    eggs =
+      Plone
+      mr.migrator
+      my.package
+    scripts = my_package_script
+
+  In the above example, only `my_package_script` will be generated. Keep in
+  mind that the egg containing the script (``my.package`` in the example) must
+  be listed explicitly in the eggs option, even if it is a dependency of an
+  already listed egg.
+
+template-cache
+  Used to configure the cache for page-template files. Chameleon will write
+  compile page-templates into this directory and use it as a cache.
+  See https://chameleon.readthedocs.io/en/latest/configuration.html for more info.
+  Valid options are off or on or a directory-location.
+  Defaults to ${buildout:directory}/var/cache (it also confirms to what var is set to).
+
+var
+  Used to configure the base directory for all things going into var.
+  Defaults to ${buildout:directory}/var.
+
+webdav-address
+  Give a port for the WebDAV server.  This enables the WebDAV server.
+  Used for ZServer only, not WSGI.
+
+webdav-force-connection-close
+  Valid options are off and on. Defaults to off.
+  Used for ZServer only, not WSGI.
+
+pipeline
+   The main application pipeline served by the wsgi server.
+   By default the pipeline is::
+
+     translogger
+     egg:Zope#httpexceptions
+     zope
+
+   The ``translogger`` line in the pipeline will be removed
+   if ``z2-log`` is set to ``disabled`` or if it is not set
+   and ``access-log`` is set to ``disabled`` (case insensitive).
+   Used for WSGI only, not ZServer.
+
+zlib-storage
+  Adds support for file compression on a file storage database. The
+  option accepts the values 'active' (compress new records) or
+  'passive' (do not compress new records). Both options support
+  already compressed records.
+
+  You can use the 'passive' setting while you prepare a number of
+  connected clients for compressed records.
+
+zodb-cache-size-bytes
+  Set the ZODB cache sizes in bytes. This feature is still experimental.
+
+zodb-temporary-storage
+  If given Zope's default temporary storage definition will be replaced by
+  the lines of this parameter. If set to "off" or "false", no temporary storage
+  definition will be created. This prevents startup issues for basic Zope 4
+  sites as it does not ship with the required packages by default anymore.
+
+zope-conf
+  A relative or absolute path to a `zope.conf` file. If this is given, many of
+  the options in the recipe will be ignored.
+
+zope-conf-imports
+  You can define custom sections within zope.conf using the ZConfig API.
+  But, in order for Zope to understand your custom sections, you'll have to
+  import the python packages that define these custom sections using `%import`
+  syntax.
+
+  Example::
+
+    zope-conf-imports =
+      mailinglogger
+      eea.graylogger
+
+zope-conf-additional
+  Give additional lines to `zope.conf`. Make sure you indent any lines after
+  the one with the parameter.
+
+  Example::
+
+    zope-conf-additional =
+      locale fr_FR
+      http-realm Slipknot
+
+zopectl-umask
+  Manually set the umask for the zopectl process.
+
+  Example::
+
+    zopectl-umask = 002
+
+http-header-max-length
+  Manually set the maximum size of received HTTP header being processed by Zope.
+  The request is discarded and considered as a DoS attack if the header size exceeds
+  this limit. Default: 8192. Used for ZServer only, not WSGI.
+
+  Example::
+
+    http-header-max-length = 16384
+
+
+The generated control script
+============================
+
+Windows
+-------
+
+On the windows platform the ``bin/instance`` script as described below will not be generated, because it uses a Unix specific implementation.
+
+To run Plone start it with::
+
+  .\bin\runwsgi.exe -v .\parts\etc\wsgi.ini
+
+Or for development in debug mode use::
+
+  .\bin\runwsgi.exe -v .\parts\etc\wsgi.ini
+
+The documentation for the extended Zope control script below does not apply.
+
+
+The `debug`, `console` and `run` commands
+-----------------------------------------
+
+The extended Zope control script installed by this recipe, usually
+`bin/instance` by convention, offers a `debug` command and another
+`run` command.  The `debug` command starts an interactive Python
+prompt with the Zope application available via the `app` name.
+Similarly, the `run` command accepts a Python script as an argument
+that will be run under the same conditions.
+
+These commands have also been extended to set up a more complete
+environment. Specifically, these commands set up a REQUEST, log in
+the AccessControl.SpecialUsers.system user, and may traverse to an
+object, such as a CMF portal. This environment set up is controlled
+with following options::
+
+    -R/--no-request -- do not set up a REQUEST.
+    -L/--no-login -- do not login the system user.
+    -O/--object-path <path> -- Traverse to <path> from the app
+                               and make available as `obj`.
+
+Note that these options must come before the script name,
+e.g. `bin/instance -RLOPlone/front-page debug`
+
+The `console` command is similar to the fg command, but it does not
+create a subprocess to start up Zope. This is useful for two
+use cases. First, the supervisor program, to supervise long running
+processes like a Zope, require the process not to fork away, so that
+supervisor can control it.
+Second, IDEs like WingIDE and PyCharm support debugging running
+processes from within. For this to work, the process should also
+not fork away.
+
+Developing your own control script commands
+-------------------------------------------
+
+Third-party distributions may add additional commands to the control script by
+installing a 'plone.recipe.zope2instance.ctl' entry point. For example,
+an egg called MyDist could include a module called mymodule with the
+following custom command::
+
+    def foo(self, *args)
+        """Help message here"""
+        print 'foo'
+
+It would then install the foo method as a command for the control script using
+the following entry point configuration in setup.py::
+
+    entry_points="""
+    [plone.recipe.zope2instance.ctl]
+    foo = mymodule:foo
+    """
+
+This would allow invoking the foo method by running `bin/instance foo`
+(assuming the instance control script was installed by a buildout part
+called `instance`.) The entry point is invoked with the following
+parameters:
+
+  self
+    An instance of plone.recipe.zope2instance.ctl.AdjustedZopeCmd.
+  args
+    Any additional arguments that were passed on the command line.
+
+Known issues
+------------
+
+* the ``restart`` command will not function reliably if you run the buildout
+  while the Zope instance is still running. In those cases, always use
+  ``stop`` followed by ``start`` to restart the Zope instance.
+
+Reporting bugs or asking questions
+==================================
+
+Please use the bug tracker in this repository at
+https://github.com/plone/plone.recipe.zope2instance/issues for questions and
+bug reports.
+
+
+Changelog
+=========
+
+.. You should *NOT* be adding new change log entries to this file.
+   You should create a file in the news directory instead.
+   For helpful instructions, please see:
+   https://github.com/plone/plone.releaser/blob/master/ADD-A-NEWS-ITEM.rst
+
+.. towncrier release notes start
+
+6.10.2 (2021-10-07)
+-------------------
+
+Bug fixes:
+
+
+- Fix ``python-dotenv`` dependency for Python 2 compatibility. [dataflake] (#181)
+
+
+6.10.1 (2021-09-01)
+-------------------
+
+Bug fixes:
+
+
+- Fix resource warning in tests.  [icemac] (#176)
+
+
+6.10.0 (2021-05-11)
+-------------------
+
+New features:
+
+
+- Allow to customize the WSGI pipeline [ale-rt, jensens] (#116)
+- Add repoze.profile profiling middleware support [jensens] (#129)
+
+
+Bug fixes:
+
+
+- Enable both weekly and manual builds for GitHub Actions [jugmac00] (#169)
+- Fix unsupported syntax in the requirements files which prevented to evaluate
+  the specified constraints during test runs [jugmac00]. (#171)
+- Applied code style black and isort with Plone/black rules, includes tox/GH-Actions  [jensens] (#175)
+
+
+6.9.0 (2021-03-22)
+------------------
+
+New features:
+
+
+- Make any ctl script python-env aware
+  [sneridagh] (#162)
+- Added support for Python 3.9 and restored support for Python 3.5 (needed for Zope 4)
+  [dataflake] (#164)
+
+
+Bug fixes:
+
+
+- Fixed ``$PYTHONSTARTUP`` file support for the ``debug`` command under Python 3
+  [dataflake] (#167)
+
+
+6.8.3 (2021-02-17)
+------------------
+
+Bug fixes:
+
+
+- Fix windows `wsgi.ini` to have a configurable listen address. 
+  Added missing WSGI config options for windows.
+  [jensens] (#161)
+
+
+6.8.2 (2021-02-16)
+------------------
+
+Bug fixes:
+
+
+- Restored ability to use own explicit version of zodb-temporary-storage.
+  [maurits] (#93)
+
+
+6.8.1 (2020-10-30)
+------------------
+
+Bug fixes:
+
+
+- Properly disable access-log for WSGI.
+  [tschorr] (#159)
+
+
+6.8.0 (2020-09-26)
+------------------
+
+New features:
+
+
+- Added option ``clear-untrusted-proxy-headers``, with default false.
+  See waitress documentation on `clear_untrusted_proxy_headers <https://waitress.readthedocs.io/en/latest/arguments.html?highlight=clear_untrusted_proxy_headers>`_.
+  Fixes a `deprecation warning <https://github.com/plone/plone.recipe.zope2instance/issues/142>`_.
+  [maurits] (#142)
+- Added option ``max-request-body-size``, with default 1073741824.
+  See waitress documentation on `max_request_body_size <https://waitress.readthedocs.io/en/latest/arguments.html?highlight=max_request_body_size>`_.
+  [mpeeters] (#155)
+
+
+Bug fixes:
+
+
+- Add GitHub Actions to project.
+  Run tests there in a matrix against Zope 4 and Zope 5, Windows and Linux, Python 27, 3.6, 3.7 and 3.8.
+  Testing Python 2.7 on Windows is skipped.
+  Refactor tox test setup slightly, do not use tox on GitHub.
+  Split up tests in smaller easier to maintain files.
+  Fix tests to run on Windows without tocuhing the recipe code (the Windows code is not perfect right now, but it test are reflecting current state).
+  This primary includes respecting path-handling (backslash vs slash), conditional instance generation and differences in wsgi configurations.
+  Also resolves "unclosed files" warnings.
+  Reflect Zope 5 and so Plone 6.0 support in trove classifiers.
+  [jensens] (#150)
+
+
+6.7.5 (2020-08-16)
+------------------
+
+Bug fixes:
+
+
+- Generate working ``wsgi.ini`` on windows.
+  Do not generate instance script.
+  Need to use ``.\bin\runwsgi.exe -dv .\parts\etc\wsgi.ini`` on windows to start.
+  [jensens] (#151)
+
+
+6.7.4 (2020-08-14)
+------------------
+
+Bug fixes:
+
+
+- Fix "SyntaxError" on windows: Generate raw strings in order to allow backslashes in log file paths.
+  [jensens] (#145)
+- Fixed an issue that prevented the instance to start
+  when http-address has multiple entries and http-fast-listen is on
+  [ale-rt] (#146)
+- WSGI instances do not fail to start when http-address is equal to a list of ports [ale-rt] (#148)
+
+
+6.7.3 (2020-07-30)
+------------------
+
+Bug fixes:
+
+
+- Set the default for the http-fast-listen to on to match the documentation [ale-rt] (#71)
+
+
+6.7.2 (2020-06-28)
+------------------
+
+Bug fixes:
+
+
+- Fix flake8 and fix inserting ``CHAMELEON_CACHE`` in some cases.  [ale-rt] (#139)
+
+
+6.7.1 (2020-04-21)
+------------------
+
+Bug fixes:
+
+
+- Minor packaging updates. (#1)
+
+
+6.7.0 (2020-03-09)
+------------------
+
+New features:
+
+
+- added relstorage w/ sqlite support
+  [mamico] (#132)
+
+
+6.6.0 (2020-02-18)
+------------------
+
+New features:
+
+
+- Support for Zope options ``webdav-source-port`` and ``enable-ms-public-header``.
+  [dataflake] (#134)
+
+
+6.5.1 (2019-11-25)
+------------------
+
+Bug fixes:
+
+
+- for initialization option, string format works for instance console script not for the others
+  [mamico] (#130)
+
+
+6.5.0 (2019-10-12)
+------------------
+
+New features:
+
+
+- added `wsgi-ini-template` option for specifying a custom template for the generation of the `wsgi.ini` configuration file [ajung] (119-1)
+- advanced WSGI logging configuration options for specifying arbitrary logging handlers for event and access log [ajung] (119-2)
+- added documentation and examples for advanced WSGI logger configuration [ajung] (119-3)
+
+
+Bug fixes:
+
+
+- Add documentation for `threads` option. (#126)
+- Fix documentation for http-address option. (#127)
+
+
+6.4.0 (2019-08-29)
+------------------
+
+New features:
+
+
+- Add Sentry support by adding a new filter to the WSGI pipeline. (#124)
+
+
+Bug fixes:
+
+
+- Fixed a deprecation warning when importing ``makerequest`` from ``Testing.ZopeTestCase.utils``.
+  This also fixes a side effect which can bite you if you rely on the ``ZOPETESTCASE`` environment variable, only being set to ``1`` during test runs. (#122)
+
+
+6.3.0 (2019-07-06)
+------------------
+
+New features:
+
+
+- Enable CHAMELEON_CACHE by default. See https://github.com/plone/Products.CMFPlone/issues/2898
+  [pbauer] (#118)
+
+
+6.2.2 (2019-06-19)
+------------------
+
+Bug fixes:
+
+
+- Fix startup issues by adding support for new Zope configuration keys
+  ``zmi-bookmarkable-urls`` and ``pid-filename`` (#112)
+
+
+6.2.1 (2019-05-10)
+------------------
+
+Bug fixes:
+
+
+- Clarify documentation for the `scripts` option (#29)
+- Fix handling of ZEO client persistent cache and storage settings (#30)
+- Try to look up a suitable log file for the ``logtail`` verb (#85)
+- Fixed invalid import path for DeprecationWarning for ``warnfilter`` (#105)
+- Document where ``restart`` can break in the project README (#107)
+- Prevent constant `waitress.queue` log messages on the console and just send
+  them to the event log. (#110)
+
+
+6.2.0 (2019-05-04)
+------------------
+
+New features:
+
+
+- Add support for the new ``debug-exceptions`` flag in Zope (#100)
+
+
+6.1.5 (2019-04-24)
+------------------
+
+New features:
+
+
+- Add the ability to specify a custom WSGI configuration file (#90)
+
+
+Bug fixes:
+
+
+- Enable socket reuse to prevent startup errors when running in the foreground (#86)
+- Add ability to turn off ``zodb-temporary-storage`` to prevent Zope 4 breakage (#87)
+- Fix WSGI access log formatting configuration (#88)
+- Fix ZServer instance creation with better WSGI flag checking (#95)
+
+
+6.1.4 (2019-03-21)
+------------------
+
+Bug fixes:
+
+
+- Fix zdaemon socket location when it's not passed on the command line (`#79 <https://github.com/plone/plone.recipe.zope2instance/pull/79>`_). [tschorr] (#79)
+- remove unknown key `effective-user` for wsgi configuration (#80)
+  [petschki] (#80)
+- Use built-in function next [erral] (#82)
+
+
+6.1.4 (unreleased)
+------------------
+
+Bug fixes:
+
+- restore http-fast-listen for waitress (`#71 <https://github.com/plone/plone.recipe.zope2instance/issues/71>`_)
+  [tschorr]
+
+
+6.1.3 (2019-03-04)
+------------------
+
+Bug fixes:
+
+
+- Restore log files for waitress. [tschorr] (#76)
+
+
+6.1.2 (2019-03-03)
+------------------
+
+Breaking changes:
+
+
+- Change the default to enable wsgi unless running Python 2 and setting
+  wsgi=off. See https://github.com/plone/Products.CMFPlone/issues/2763 [pbauer]
+  (#73)
+
+
+6.1.1 (2019-02-08)
+------------------
+
+Bug fixes:
+
+- log level for Plone WSGI logger changed to INFO making the logging less
+  verbose [ajung] (#66)
+- Improve debugging of run scripts by providing the source code for the
+  debugger. [icemac] (#68)
+- Use correct debug switch for WSGI. (`Products.CMFPlone #2719
+  <https://github.com/plone/Products.CMFPlone/issues/2719>`_) Display warnings
+  in debug mode with WSGI (override with PYTHONWARNINGS). (`Products.CMFPlone
+  #2724 <https://github.com/plone/Products.CMFPlone/issues/2724>`_) [tschorr]
+  (#69)
+- Fix Flake8 issues in the code. [icemac] (#72)
+
+
+6.1.0 (2018-12-28)
+------------------
+
+New features:
+
+- Add new option 'threads' used to specify the number of workers for both
+  waitress + ZServer, and a deprecation warning for 'zserver-threads'.
+  [tschorr]
+
+- Add support for Python 3.7 while dropping official support for Python 3.5.
+  (`#60 <https://github.com/plone/plone.recipe.zope2instance/issues/60>`_)
+
+Bug fixes:
+
+- Make comments in zcml values work, even if not starting at the beginning of the line;
+  before, we had a confusing error message. Fixes #46
+  [tobiasherp]
+
+- Fixed serving Plone with WSGI when ZServer is also installed on Python 2.
+  [davisagli]
+
+- Remove `path` option from zope.conf generated when using WSGI as it is no longer understood.
+  [icemac]
+
+- Remove `deprecation-warnings` option from zope.conf generated
+  when using WSGI as it is no longer understood.
+  [davisagli]
+
+
+6.0.0 (2018-11-08)
+------------------
+
+Breaking changes:
+
+- For WSGI-based instances, generate a zdaemon-based instance script
+  that works similarly to ZServer-based instances, instead of a
+  script that only handles running the WSGI server.
+  [davisagli]
+
+
+5.0.1 (2018-11-04)
+------------------
+
+Bug fixes:
+
+- Super user password created on Python 3 can now be read by Zope.
+- Fix WSGI initialization
+  [tschorr]
+- Move Recipe from __init__.py to a new module to get rid of the dependency on
+  zc.recipe.egg in control scripts
+  [tschorr]
+- Make use of changes to Zope WSGI logging
+  (`#280 <https://github.com/zopefoundation/Zope/pull/280>`_,
+  `#276 <https://github.com/zopefoundation/Zope/pull/276>`_),
+  use Zope2 WSGI startup code.
+  [tschorr]
+- Fix the tests on Python 3 when running via tox or TravisCI.
+  [icemac]
+
+
+5.0.0 (2018-01-27)
+------------------
+
+Breaking changes:
+
+- Require at least ZODB 5 and Zope 4.0b1.
+
+- Drop support for Plone 4.3, 5.0, and 5.1.
+
+New features:
+
+- Add wsgi support
+  [tschorr]
+
+- Add support for Python 3.5 and 3.6.
+
+Bug fixes:
+
+- Python 3 compatibility with sixer
+  [ale-rt]
+
+- Fix import. zopectl moved to ZServer
+  [pbauer]
+
+
+4.3 (2017-06-28)
+----------------
+
+New features:
+
+- Added ``storage-wrapper`` option to wrap storage configuration.
+  [davisagli]
+
+
+4.2.22 (2016-10-05)
+-------------------
+
+Bug fixes:
+
+- Add coding headers on python files.
+  [gforcada]
+
+4.2.21 (2016-05-26)
+-------------------
+
+Fixes:
+
+- Fix #23: "TypeError: <lambda>() takes no arguments (1 given)" on ./bin/instance start
+  [jensens]
+
+
+4.2.20 (2016-03-29)
+-------------------
+
+Fixes:
+
+- Revert changes made on previous release.
+  The way zopectl and this recipe handle commands
+  is totally different.
+  [gforcada]
+
+
+4.2.19 (2016-02-15)
+-------------------
+
+New:
+
+- Handle commands registered for zopectl as well.
+  Up to now they were handled but not displayed at all
+  (i.e. in help and descriptions).
+  https://github.com/plone/plone.recipe.zope2instance/issues/18
+  [gforcada]
+
+
+4.2.18 (2015-07-27)
+-------------------
+
+- Allow to disable logs.  Set ``z2-log`` to the value ``disable`` to
+  disable the Z2 access log.  Set ``event-log`` to the value
+  ``disable`` to disable the event log.
+  [frapell]
+
+
+4.2.17 (2015-04-29)
+-------------------
+
+- Added `zope-conf-imports` option to easily import ZConfig components
+  within zope.conf using %import syntax.
+  [avoinea]
+
+
+4.2.16 (2014-11-01)
+-------------------
+
+- If ''demo-file-storage' is set, but 'demo-storage' is off, do not
+  raise an exception
+  [frapell]
+
+- Add documentation for console command, for supervisor and IDE
+  debugging
+  [do3cc]
+
+
+4.2.15 (2014-09-07)
+-------------------
+
+- Always wrap contents of zcml-additional with a <configure /> node.
+  This makes it possible to use += assignments with zcml-additional.
+  [lgraf]
+- Add support for multiple zeo servers
+  [ivant]
+
+
+4.2.14 (2014-03-02)
+-------------------
+
+- Link to zope.conf is now relativitize if option relative-paths is true.
+  [bsuttor]
+- Added ability to set ``initialization`` to configure Python
+  code to run on instance start up.
+  [davidjb]
+- added support for http-header-max-length
+  [alecghica]
+
+
+4.2.13 (2013-07-28)
+-------------------
+
+- adding support for zopectl umask
+  [hman]
+
+
+4.2.12 (2013-06-04)
+-------------------
+
+- be able to set zeo client as read only from buildout configuration
+  [vangheem]
+
+
+4.2.11 (2013-05-23)
+-------------------
+
+- When creating the blobstorage dir, make it only readable for the
+  current user, otherwise you get a ZODB warning on startup.  This
+  uses code from the ZODB, which does the same when Zope starts up and
+  the blobstorage directory does not exist yet.
+  [maurits]
+
+- Fixed check for empty custom_access_event_log and custom_event_log.
+  [alecghica]
+
+
+4.2.10 (2013-03-05)
+-------------------
+
+- Recipe would fail if eggs are stored in readonly cache. Don't copy
+  permissions from the egg.
+  [garbas]
+
+
+4.2.9 (2013-02-10)
+------------------
+
+- Add trove classifiers to note Python version compatibility.
+  [hannosch]
+
+
+4.2.8 (2013-01-17)
+------------------
+
+- Pass python flags to Zope interpreter as well. This prevents the debug
+  command from exiting directly.
+  [wichert]
+
+
+4.2.7 (2013-01-13)
+------------------
+
+- Load PYTHONSTARTUP if defined when running the debug command.
+  [mj]
+
+
+4.2.6 (2012-12-09)
+------------------
+
+- Use interpreter script instead of setting PYTHONPATH.  Fixes Windows
+  "the environment variable is longer than 32767 bytes" error.
+  [rossp]
+
+- Make the zope.conf http-server optional by setting http-address to
+  an empty string.  Useful for configurations used under an external
+  server such as a WSGI deployment.
+  [rossp]
+
+4.2.5 (2012-09-20)
+------------------
+
+- Added event and access log rotation capability.
+  [sureshvv]
+
+4.2.4 (2012-08-29)
+------------------
+
+- Expose 'drop-cache-rather-verify' ZEO client option which indicates that
+  the cache should be dropped rather than verified when the verification
+  optimization is not available (e.g. when the ZEO server restarted).
+  [runyaga]
+
+- Strip all empty lines out of zeo.conf to provide more compact view.
+  [runyaga]
+
+4.2.3 (2012-08-04)
+------------------
+
+- Fix zcml load order of the optional locales directory. Translation overrides
+  need to be loaded first.
+  [sunew]
+
+4.2.2 (2012-07-02)
+------------------
+
+- Changed client connection cache defaults. We specify a cache size of 30000
+  instead of 10000.
+  [hvelarde]
+
+- Add new `locales` option for specifying a locales directory with
+  extra or different translations.
+  [maurits]
+
+4.2.1 (2012-04-15)
+------------------
+
+- Add control script `debug` and `run` support to set up a REQUEST,
+  log in the AccessControl.SpecialUsers.system user, and traverse to
+  an object, such as a CMF portal.
+  [rpatterson]
+
+4.2 (2011-11-24)
+----------------
+
+- Add support for a changes storage for demo storage (in addition to
+  the base storage). Local file and blob storage is supported.
+  [malthe]
+
+- Add support for before storage (via the ``zc.beforestorage`` package).
+  [malthe]
+
+- Make script suppression optional (via empty `scripts` parameter). Otherwise,
+  scripts for packages listed in `eggs` parameter will be generated.
+  [aclark]
+
+- Support all RelStorage options, even future options. Used a simple pattern
+  to recognize where options should be placed: any option name containing a
+  dash is a generic option; the rest (except "name") are database-specific.
+  [hathawsh]
+
+4.1.9 - 2011-08-11
+------------------
+
+- No longer rely on `softwarehome` in startup script.
+  [hannosch]
+
+4.1.8 - 2011-07-17
+------------------
+
+- Add preliminary support for Zope 4.0, by re-using the skeleton for 2.13.
+  [hannosch]
+
+- Added `zeo-client-blob-cache-size` and `zeo-client-blob-cache-size-check`
+  options to control maximum size of blob cache, and when to check the size,
+  when using ClientStorage without shared blobs.
+  [davidjb]
+
+- If a resource directory is specified using `resources`, create it if it does
+  not yet exist.
+  [davisagli]
+
+- Support the new create-schema option introduced in RelStorage 1.5.0b2.
+  [mj]
+
+4.1.7 - 2011-06-07
+------------------
+
+- Renamed the optional ``998-resources.zcml`` (introduced in 4.1.6) to
+  ``998-resources-configure.zcml``, otherwise it does not get loaded
+  in the standard ``site.zcml``.
+  [maurits]
+
+
+4.1.6 - 2011-06-01
+------------------
+
+- Add new `resources` option for specifying a plone.resource central resource
+  directory.
+  [elro]
+
+4.1.5 - 2011-02-17
+------------------
+
+- Respect new `include-site-packages` buildout option introduced in buildout
+  1.5. Closes https://bugs.launchpad.net/bugs/716360.
+  [yuppie, hannosch]
+
+- Added option `import-directory` to point to custom import folder.
+  [garbas]
+
+4.1.4 - 2011-01-01
+------------------
+
+- Removed `zeo-client-name` option. The option had no effect since ZODB 3.2
+  and was removed in Zope 2.13. This closes
+  https://bugs.launchpad.net/bugs/694920.
+  [hannosch]
+
+4.1.3 - 2010-12-20
+------------------
+
+- Added option http-force-connection-close which was only present in comment.
+  [tesdal]
+
+4.1.2 - 2010-12-05
+------------------
+
+- Fixed error introduced in 4.1.1.
+  [hannosch]
+
+4.1.1 - 2010-12-05
+------------------
+
+- Disambiguate the `blob-storage` option if `shared-blob` isn't used. In this
+  case we use `var/blobcache` as a default location, so we don't accidentally
+  overwrite the real blob data with a blob zeocache. Refs
+  https://bugs.launchpad.net/bugs/645904.
+  [hannosch]
+
+4.1 - 2010-12-04
+----------------
+
+- Give the `readme` an overhaul, group options into sections and mention the
+  most commonly used ones at the top.
+  [hannosch]
+
+- Add some flexibility to `site.zcml` creation. Thanks to Wolfgang Schnerring
+  for the patch. This closes
+  https://bugs.launchpad.net/collective.buildout/+bug/335311.
+  [hannosch]
+
+- Raise an exception if both ZEO and RelStorage are configured at the same
+  time. This closes https://bugs.launchpad.net/collective.buildout/+bug/645100.
+  [hannosch]
+
+- Added support for zc.buildout 1.5, while retaining support for 1.4. Thanks
+  to Jeff Rush for the patch. This closes
+  https://bugs.launchpad.net/collective.buildout/+bug/683584.
+  [hannosch]
+
+4.0.5 - 2010-10-22
+------------------
+
+- Added support for specifying the new RelStorage options shared-blob-dir,
+  blob-cache-size, blob-cache-size-check, and blob-chunk-size.
+  [hathawsh]
+
+4.0.4 - 2010-09-09
+------------------
+
+- Add friendly error message if non-admin tries
+  "instance install|start|restart|stop|remove".
+  [kleist]
+
+- Exit with the return code of the executed do_* method. This closes #10906
+  (clicking "Restart" in ZMI control panel caused shutdown).
+  [kleist]
+
+- Implemented the "restart" command for "bin/instance.exe".
+  [kleist]
+
+4.0.3 - 2010-08-20
+------------------
+
+- Setuptools / Subversion ignores empty directories and doesn't include them
+  into the source distribution. Added readme files to the `bin` and `var`
+  directories inside the skeleton. This lets persistent ZEO caches work again,
+  which want to put their files into the `var` directory.
+  [hannosch]
+
+4.0.2 - 2010-08-04
+------------------
+
+- Rewritten major parts of commands specific for the Windows Service, inspired
+  by "collective.buildout.cluster.base.ClusterBase" as used by the Windows
+  installer. Closes http://dev.plone.org/plone/ticket/10860.
+  [kleist]
+
+4.0.1 - 2010-07-30
+------------------
+
+- Use pid file to check for running application, instead of service status.
+  [sidnei]
+
+4.0.0 - 2010-07-21
+------------------
+
+- "console" mode on Windows no longer returns immediately, thus makes it
+  usable by the Windows Service.
+  [kleist]
+
+- Made tests compatible with Windows.
+  [hannosch]
+
+- Added support for specifying new RelStorage options cache-local-mb,
+  cache-delta-size-limit, commit-lock-timeout and commit-lock-id.
+  [hannosch]
+
+4.0b2 - 2010-06-23
+------------------
+
+- Added a new dependency on ``mailinglogger`` and expose it as a convenient
+  new option.
+  [hannosch]
+
+- Removed testing dependency on ``zope.testing`` and refactored test setup.
+  [hannosch]
+
+4.0b1 - 2010-04-04
+------------------
+
+- The recipe could sometimes fail to build twice if no zcml option was given.
+  This closes http://dev.plone.org/plone/ticket/10296.
+  [hannosch]
+
+4.0a4 - 2010-02-04
+------------------
+
+- Removed commented out options from the http-server section.
+  [hannosch]
+
+- Added new ``enable-product-installation`` option and let it default to off.
+  [hannosch]
+
+4.0a3 - 2010-01-24
+------------------
+
+- Tried to restore the Windows service functionality, getting closer but not
+  there yet all the way.
+  [hannosch]
+
+- Use the same quoting approach for the console as for fg command on Windows.
+  [hannosch]
+
+- Don't call zopectl.quote_command(), since the added outer double quotes caused
+  subprocess.call() to fail with "WindowsError: [Error 87] The parameter is
+  incorrect". Instead, hand roll the quoting (save outer quotes).
+  [kleist]
+
+- Un-hardcoded ':' as path separator, caused "ImportError: No module named
+  Zope2.Startup" on Windows. See http://dev.plone.org/plone/ticket/9991.
+  [kleist]
+
+- Removed the import directory from the skeleton. You can place import files
+  into the import directory in the client home in new Zope 2 versions.
+  [hannosch, davisagli]
+
+- Make it possible to omit the user option, in which case buildout will ask
+  for a user and password, when a new instance is created.
+  [hannosch]
+
+- Use our own make instance script and skeletons, only providing what we
+  really need anymore.
+  [hannosch]
+
+- Merge the two ZopeCmd classes into one. We don't rely or generate the runzope
+  script or anything inside parts/instance/bin anymore.
+  [hannosch]
+
+- By default create a blob-storage in ``var/blobstorage``.
+  [hannosch]
+
+- Removed the ``no-shell`` option and made it the default for running the
+  process. This also removes the need for the ``runzope`` script.
+  [hannosch]
+
+- This version can no longer be used to install a non-eggified Zope2. The
+  ``zope2-location`` option was removed.
+  [hannosch]
+
+4.0a2 - 2009-12-02
+------------------
+
+- Make it possible for third-party packages to add additional commands to the
+  control script by supplying a 'plone.recipe.zope2instance.ctl' entry point.
+  [davisagli]
+
+4.0a1 - 2009-11-14
+------------------
+
+- Removed the test command support from the control script which lets us
+  remove quite a bit of hackery. Added a note about using ``bin/test`` instead.
+  [hannosch]
+
+- Added an explicit `python-check-interval` option and change its default to
+  `1000` instead of Python's own default of `100`.
+  [hannosch]
+
+- Changed default `zserver-threads` to two instead of four.
+  [hannosch]
+
+- Changed client connection cache defaults. We specify a cache size of 10000
+  instead of 5000. Also changed ZEO client cache to 128MB instead of 30MB.
+  [hannosch]
+
+- If we are used in an environment with Zope2 as an egg, we make sure to
+  install the mkzopeinstance and runzope scripts we depend on ourselves.
+  This is done even if they already exist, since the eggs may have changed.
+  [hannosch, davisagli]
+
+- Added Zope2 egg to the list of dependencies of this recipe. This can cause
+  trouble for Zope versions before Zope 2.12 or Plone before 4.0.
+  [hannosch]
+
+- Added the cache-prefix option for RelStorage.
+
+3.6 (2009-10-11)
+----------------
+
+- Expanded the RelStorage options, including keep-history and replica-conf.
+  [hathawsh]
+
+3.5 (2009-09-05)
+----------------
+
+- Added support for relative-paths in the script generation.
+  [jvloothuis]
+
+- When `zope-conf` is set the config file will be directly loaded from that
+  location (it previously created a stub zope.conf which included it).
+  [jvloothuis]
+
+- Added an option to avoid using the normal shell scripts for starting Zope.
+  This makes it possible to avoid the hard-coded paths in these scripts.
+  [jvloothuis]
+
+- Allow the blob-dir parameter in RelStorage configurations.
+  [hathawsh]
+
+3.4 (2009-08-12)
+----------------
+
+- Support in line with fix for LP#407916.
+  [gotcha]
+
+- Changed the 'mkzopeinstance' call respect the 'bin-directory' option.
+  [esteele]
+
+- Removed the `zope2-egg` option and the simple startup script from the recipe.
+  We assume that we have an egg distribution if `zope2-location` is not set.
+  [hannosch]
+
+- Merged the `davisagli-eggified-zope` branch into the trunk.
+  [hannosch]
+
+- Add a new icp-address option. This is useful for environments where
+  e.g. squid is used to front a Zope/ZEO cluster. See
+  http://www.zope.org/Members/htrd/icp/intro
+  [neaj]
+
+3.3 - 2009-07-07
+----------------
+
+- Add handling for RelStorage options.
+  [elro]
+
+- Reinstall scripts on update which appears to be good recipe practice.
+  [stefan]
+
+3.2 - 2009-04-02
+----------------
+
+- Add a new zcml-additional option. This is useful for environments where
+  non-code configuration (such as database connection details for
+  ore.contentmirror) are managed through zcml.
+  [wichert]
+
+3.1 (2009-03-15)
+----------------
+
+- The 2.9 fix for spaces caused a problem using debug (bug 337740)
+  due to the way do_debug passed the "-i" command line argument
+  to get_startup_cmd.
+  [smcmahon]
+
+3.0 (2009-02-27)
+----------------
+
+- The 2.9 fix for the instance run command was itself broken and
+  would fail on anything except Windows.
+  [smcmahon]
+
+- Changed the `zope2-egg` option to omit any kind of instance creation for
+  now. The mkzopeinstance script relies on being able to import Zope2, which
+  is not available when buildout runs.
+  [hannosch]
+
+2.9 (2009-02-26)
+----------------
+
+- The instance run command was vulnerable to spaces in pathnames, and
+  needed some extra quoting for win32.
+  [smcmahon]
+
+- Check for existence of windows scripts before patching them. Some
+  Linux distributions of Zope2 don't have these files.
+  [smcmahon]
+
+- Delegate commands to ``win32serviceutil.HandleCommand()`` on win32,
+  instead of starting the interpreter through ``os.system()``. Should
+  shave off a couple seconds from overall time taken to process those
+  commands.
+  [sidnei]
+
+- Compute ``serviceClassString`` ourselves, since we are calling this
+  as a module and not directly as ``__main__``, otherwise the service
+  won't be installed correctly.
+  [sidnei]
+
+2.8 (2008-12-05)
+----------------
+
+- Add more tests for ZEO client with blob and demo storages.
+  Still no test on 'shared-blob-dir' option.
+  [encolpe]
+
+- Always use 'r'-style strings for passing script and configuration
+  filenames (eg: on 'instance run <script>').
+  [sidnei]
+
+- Add a demo-storage option and tests.
+  [encolpe]
+
+- Add a first test for blob-storage.
+  [encolpe]
+
+2.7 (2008-11-18)
+----------------
+
+- Added a `zope2-egg` option and an accompanying simple startup script for
+  use with an eggified Zope2.
+  [hannosch]
+
+- Do not fail with a Zope2 egg checkout.
+  [hannosch]
+
+- Normalize first argument to os.spawnl. It can get really upset
+  otherwise (dll import failure on a relocatable python install).
+  [sidnei]
+
+- Use same quoting as on 'do_foreground' for servicescript
+  usage. Fixes problems with installing the buildout-based Plone
+  installer for Windows on a path with spaces.
+  [sidnei]
+
+- Ensure that do_foreground leaves self.options.program arguments as it
+  found them.  This makes it possible to use 'fg' and 'debug' more than
+  once within the same control session.
+  [klm]
+
+2.6 (2008-10-22)
+----------------
+
+- Normalize, absolutize and lowercase-ize (is that a word?) paths
+  before comparing, to avoid problems with relative filenames and
+  different drive letter case on Windows.
+  [sidnei]
+
+2.5 (2008-09-22)
+----------------
+
+- Add support for zodb-cache-size-bytes from ZODB 3.9 and later.
+  [wichert]
+
+
+2.4 (2008-07-15)
+----------------
+
+- Introduced zope.conf variables "INSTANCEHOME" and "CLIENTHOME".
+  Its very very helpful in cluster setups with zope-conf-additional
+  sections (buildout lacks to reference the current section).
+  [jensens]
+
+- Made test command compatible with zope.testing 3.6.
+  [hannosch]
+
+2.3.1 (2008-06-10)
+------------------
+
+- No code changes. Released to fix the 2.3 release which put .egg files in
+  the wild.
+  [hannosch]
+
+2.3 (2008-06-06)
+----------------
+
+- Need to actually pass in deprecation-warnings, otherwise we get a
+  KeyError.
+  [sidnei]
+
+- Fix another place where the directory name needed to be escaped to
+  avoid problems with spaces.
+  [sidnei]
+
+- Don't try to delete location if it does not exist.
+  [sidnei]
+
+2.2 (2008-06-06)
+----------------
+
+- Added `deprecation-warnings` option that allows turning the option
+  to disable deprecation warnings on or off. You can provide the value
+  `error` to it, and every deprecation warning will be turned into an
+  exception.
+  [sidnei]
+
+- Fix copy and paste error that caused a failure on changing
+  runzope.bat to call servicewrapper.py.
+  [sidnei]
+
+- Escape 'executable' argument before passing it to os.spawnl, in
+  order to make it work on Windows when the executable name has spaces
+  on it.
+  [sidnei]
+
+- Added `http-fast-listen` option. Use of this option requires Zope >= 2.11.
+  [stefan]
+
+2.1 (2008-06-05)
+----------------
+
+- Fixed a test problem on Windows, where explicit closing of files is required.
+  [hannosch]
+
+- Call `servicewrapper.py` from `runzope.bat` instead of setting
+  `PYTHONPATH` and calling `Zope2/Startup/run.py`. That way we set
+  sys.path from inside Python code and avoid exceeding the maximum
+  environment variable limit.
+  [sidnei]
+
+- Allow to use an alternative temporary storage, by specifying the new
+  `zodb-temporary-storage` option.
+  [jensens]
+
+- Added `environment-vars` option to set environment variables. Changed
+  the zope-conf-additional example code to something that isn't covered by
+  the recipe.
+  [claytron]
+
+2.0 (2008-05-29)
+----------------
+
+- Do not use system but exec when starting Zope. This makes it possible for
+  process management tools to properly manage Zope processes.
+  [wichert]
+
+- Added `site-zcml` option
+  Added tests
+  [mustapha]
+
+- Add support for ZEO authentication. Note that this does not work with any
+  released Zope or ZODB version at this moment. See
+  http://mail.zope.org/pipermail/zope/2005-October/161951.html for required
+  patches.
+  [wichert]
+
+- Added FTP and WebDAV options
+  [claytron]
+
+- Allow rel-storage to be an empty string, meaning 'do not use relstorage'.
+  This allows an extending buildout configuration to disable relstorage again.
+  [mj]
+
+1.9 (2008-04-15)
+----------------
+
+- Fix rel-storage parsing for options with spaces. Note that split() or
+  split(None) already strips the string.
+  [mj]
+
+1.8 (2008-04-05)
+----------------
+
+- Fixed a Win32 problem in which the presence of Python string escapes in the
+  path to zope.conf (e.g., d:\botest\parts\instance\etc\zope.conf would escape
+  the \b). This showed up when using the 'run', 'debug' or 'adduser' commands.
+  This fixes #211416.
+  [smcmahon]
+
+- Added `console` command to the instance script, which is equivalent to fg but
+  does not implicitly turn on debug mode but respects the zope.conf setting.
+  [hannosch]
+
+1.7 (2008-03-31)
+----------------
+
+- Added new client-home option and let it default to a subfolder of the
+  buildout-wide var folder with a subfolder of the name of the section.
+  [hannosch]
+
+- Added limited support for running tests under Zope <= 2.8.
+  [hannosch]
+
+1.6 (2008-03-27)
+----------------
+
+- Fixed runzope script generation for Zope 2.8.
+  [hannosch]
+
+- Cleaned up "./bin/instance test" option handling.
+  [stefan]
+
+- Removed generator expressions as these aren't supported in < py2.4, which is
+  used by zope 2.7/8.
+  [duffyd]
+
+1.5 (2008-02-29)
+----------------
+
+- Added `access-log-custom` option to be able to use another event logger
+  than the file one for the access logger.
+  [tarek]
+
+- Fix instance generation to work on Windows with blanks in the path name.
+  This closes #188023.
+  [hannosch, gotti]
+
+- Added 'zeo-client-client' option which results in 'client <value>' inside
+  <zeoclient>.
+  [timte, hannosch]
+
+- Made relstorage handling more generic, so it now supports any RelStorage
+  adapter, including Oracle (which was broken).
+  [mj]
+
+1.4 (2008-02-23)
+----------------
+
+- Fix typo in event log parameter name (from "z-log" to "z2-log"), to comply
+  with the documentation. This closes #190943.
+  [kdeldycke]
+
+- Create pid and lock file folders if they don't exist.
+  [kdeldycke]
+
+- Remove hard-coded log level and use the event_log_level parameter to set it
+  dynamically. This closes #190994.
+  [kdeldycke]
+
+- Added a test environment, using zc.buildout.testing, and a doctest that
+  tries the recipe.
+  [tarek]
+
+- Added an `event-log-custom` option
+  [tarek]
+
+- Added example for the zope-conf-additional option. This closes #185539.
+  [klm, hannosch]
+
+- Added `rel-storage` option to be able to wire Zope to RelStorage
+  (postgresql/oracle) instead of a FileStorage database.
+  [tarek]
+
+1.3
+---
+
+- For each entry in recipe-specified 'extra-paths' line, add a 'path' line
+  to the instance and Zope client zope.conf files.
+  [klm]
+
+1.2
+---
+
+- Added the boolean `shared-blob` option, defaulting to `no`. If all of
+  `zeo-client`, `blob-storage` and `shared-blob` options are set,
+  the instance will assume the blob directory set by `blob-storage` is shared
+  with the server instead of streaming 'blob' files through the ZEO connection.
+  [rochael]
+
+- Changed `ctl.do_foreground()` (which is invoked by the `fg` command
+  line argument) start Zope in debug mode to emulate the behavior of
+  `zopectl fg`. This required a little special WIN32 code to make
+  sure it would work in both `*nix` and Windows.
+  [smcmahon]
+
+- Added `var` option, which is used to configure the base directory for all
+  the things going into var.
+  [hannosch]
+
+- Added `zeo-var` option, which is used in the zeo storage snippets to
+  configure the zeo var folder.
+  [hannosch]
+
+- Merged rochael-blobsupport branch. Added support for ZODB 3.8 blob storage
+  configuration for ZEO clients. This references
+  https://bugs.launchpad.net/collective.buildout/+bug/179113.
+  [rochael, hannosch]
+
+- Added `zeo-client-name` option. Defaults to the name of the ZEO client.
+  [hannosch]
+
+1.1
+---
+
+- Small documentation update. Added link to the bugtracker.
+  [hannosch]
+
+- Changed default of zope.conf option 'default-zpublisher-encoding' to 'utf-8'
+  instead of Zope's default value of 'iso-8859-15'.
+
+- Have PID file's location default to '${buildout:directory}/var/${name}.pid'.
+  Keeping the PID file in $INSTANCE_HOME gives trouble when buildout rebuilds
+  the part.
+  [nouri, mustapha]
+
+1.0
+---
+
+- Increased 'zodb_cache_size' default value to 5000, which is more likely a
+  better default these days.
+  [hannosch]
+
+- Added support for 'extra-paths' as in 'zc.recipe.egg'; this is useful when
+  using regular python packages for which no eggs are available (yet), i.e.
+  with 'plone.recipe.distros'.
+  [witsch]
+
+- Added zeo-storage option (merge branch ree-add-zeo-storage-option).
+  [ree]
+
+- Avoid doubled entries to eggs specified in the buildout in 'sys.path':
+  the working set ('ws') gets passed again when installing the script
+  ('bin/instance'), but it is not also added to 'extra_paths'.
+  [witsch]
+
+- Patching 'PYTHONPATH' in the Zope startup skripts should insert all
+  additional paths (to eggs) __before__ 'SOFTWARE_HOME', because otherwise
+  (newer) egg versions of components from the standard Zope distribution
+  (i.e. stuff that lives in 'lib/python') cannot be used.
+  [witsch]
+
+- Changed the option to suppress deprecation warnings to "--nowarn" or
+  '--nowarning" to be consistent with "zopectl test".
+  [witsch]
+
+- Added option "-w" to allow the test runner to suppress deprecation warnings,
+  so it's easier to spot failing tests...
+  [witsch]
+
+- Updated import for Zope 2.7 (and below) compatibility.
+  [duffyd]
+
+- Merging -r51966:52659 claytron-zopeconfoptions branch to trunk.
+  [claytron]
+
+- Made the config snippet prettier while still getting the resulting
+  indentation right.
+  [witsch]
+
+0.9
+---
+
+- Added support for zodb 3.8's "<blobstorage>" directive.
+  [witsch]
+
+- Added a script name arg before callint zope.testing.testrunner.run.
+  zope.testing.testrunner:1772, get_options removes the first arg from
+  the list of arguments expecting a script name there. Was causing
+  "bin/instance test" to behave improperly.
+  [rossp]
+
+0.8
+---
+
+- Use bin if present falling back to utilities. This makes it possible to use
+  a Zope version installed from a tarball and not compiled inplace.
+  [rossp]
+
+0.7
+---
+
+- Found the problem with strange environment variables.
+  [hannosch]
+
+- Fixed documentation bug, the cache size is respected by non-zeo instance as
+  well.
+  [hannosch]
+
+0.6
+---
+
+- J1m actually read the docs ;)
+  [hannosch]
+
+- Attempt to fix the sometimes insane number of tests which are found by the
+  test runner.
+  [hannosch]
+
+0.5
+---
+
+- Added an option to set the effective-user.
+  [optilude]
+
+0.4
+---
+
+- Generate a bin/repozo script to perform backups using repozo.py (and
+  set up the appropriate pythonpath for this to work).
+  [optilude]
+
+- Document options properly, and add the ability to specify a zope.conf
+  file explicitly rather than having one generated from a template.
+  [optilude]
+
+0.3
+---
+
+- Finally found a way to provide the Zope Windows service with the right
+  environment. We need a new wrapper script, which sets up the PYTHONPATH.
+  [hannosch]
+
+- Make it possible to configure the name of the zopectl script using the
+  control-script option in the [instance] section.
+  [wichert]
+
+0.2
+---
+
+- Extend support for zcml slugs to include Zope 2.9.
+  [dunny]
+
+- Added support for making a ZEO-client.
+  [regebro]
+
+0.1
+---
+
+- Initial implementation.
+  [hannosch]
+
+

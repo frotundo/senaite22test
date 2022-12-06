@@ -1,0 +1,679 @@
+Metadata-Version: 2.1
+Name: Plone
+Version: 5.2.7
+Summary: The Plone Content Management System
+Home-page: http://plone.org/
+Author: Plone Foundation
+Author-email: plone-developers@lists.sourceforge.net
+License: GPL version 2
+Keywords: Plone CMF Python Zope CMS
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Plone
+Classifier: Framework :: Plone :: 5.2
+Classifier: Framework :: Zope
+Classifier: Framework :: Zope :: 4
+Classifier: License :: OSI Approved :: GNU General Public License v2 (GPLv2)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Requires-Dist: plone.restapi
+Requires-Dist: plone.app.caching
+Requires-Dist: plone.app.iterate
+Requires-Dist: plone.app.upgrade
+Requires-Dist: Products.CMFPlacefulWorkflow
+Requires-Dist: Products.CMFPlone
+Requires-Dist: setuptools (>=36.2)
+Provides-Extra: archetypes
+Requires-Dist: Products.ATContentTypes ; (python_version < "3") and extra == 'archetypes'
+Requires-Dist: archetypes.multilingual ; (python_version < "3") and extra == 'archetypes'
+Requires-Dist: plone.app.contenttypes[archetypes,atrefs] ; (python_version < "3") and extra == 'archetypes'
+
+About Plone
+===========
+
+Plone is a mature, secure and user-friendly Content Management System (CMS).
+
+Plone - and the Open Source community behind it - aggregates more than 15 years experience in content management.
+It offers all major features expected by a modern CMS out-of-the-box.
+
+Lots of customizations can be made trough-the-web, such as creating content types, themes, workflows and much more.
+Pushed one step further Plone can be used as a framework on which to build custom CMS-like solutions.
+
+Plone works as a
+
+- full-featured classical server-side rendered CMS,
+- headless CMS offering all features as a REST API.
+
+
+Installing Plone
+-----------------
+
+Plone is available on Microsoft Windows, Linux, OSX and BSD platforms.
+
+Plone runs as container in the cloud with Docker.
+
+`Install Plone by choosing an option from plone.org <https://plone.org/download>`_
+
+
+Documentation
+-------------
+
+Consult `the official Plone documentation <https://docs.plone.org>`_ with information for different audiences.
+
+For trainings `comprehensive Plone training material <https://training.plone.org>`_ is available.
+
+
+What is Plone?
+--------------
+
+Plone is a ready-to-run content management system, offering a complete set of features needed by a wide variety of organizations.
+
+Security is built into Plone's architecture from the ground up.
+Plone offers fine grained permission control over content and actions.
+
+Plone is easy to set up, extremely flexible,
+and provides you with a system for managing web content that is ideal for project groups, communities, web sites, extranets and intranets.
+
+- *Plone is easy to install.*
+  Several installation options are available for either your local machine or on servers in the cloud.
+
+- *Plone is easy to use.*
+  The Plone Team includes usability experts who have made Plone easy and attractive for content managers to add, update, and maintain content.
+
+- *Plone is international.*
+  The Plone interface has more than 35 translations, and tools exist for managing multilingual content.
+
+- *Plone is standard.*
+  Plone carefully follows standards for usability and accessibility.
+  Plone pages are compliant with US Section 508, and the W3C's AAA rating for accessibility.
+
+- *Plone is Open Source.*
+  Plone is licensed under the GNU General Public License, the same license used by Linux.
+  This gives you the right to use Plone without a license fee, and to improve upon the product.
+
+- *Plone is supported.*
+  There are over three hundred developers in the Plone Development Team around the world, and a multitude of companies that specialize in Plone development and support.
+
+- *Plone is extensible.*
+  There is a multitude of add-on products for Plone to add new features and content types.
+  In addition, Plone can be scripted using web standard solutions and Open Source languages.
+
+- *Plone is technology neutral.*
+  Plone can interoperate with most relational database systems, open source and commercial, and runs on a vast array of
+  platforms, including Linux, Windows, Mac OS X, Solaris and BSD.
+
+
+Technical overview
+------------------
+
+Plone is a content management platform written in Python.
+It builds upon Zope, an Open Source web application server and development system and thus on the pluggable Zope Component Architecture (ZCA).
+
+Python is the easy-to-learn, widely-used and supported Open Source programming language.
+Python can be used to add new features to Plone, and used to understand or make changes to the way that Plone works.
+
+Plone stores its contents in Zope's built-in transactional hierachical object database, the ZODB.
+The ZODB can be connected to simple file-storages, scalable ZEO-Servers or Postgres, MySQL and Oracle.
+There are addon and techniques, however, to share information with other sources, such as relational databases, LDAP, filesystem
+files, etc.
+
+
+Official Resources
+------------------
+* `plone.com <https://plone.com/>`_ - Official website for decision makers and evaluators.
+* `plone.org <https://plone.org/>`_ - Official website for developers and community.
+* `Plone support <https://plone.org/support>`_ - Where to find help.
+* `community.plone.org <https://community.plone.org/>`_ - Official community forum, the best place to get help.
+* `docs.plone.org <https://docs.plone.org/>`_ - Official documentation for developers/integrators.
+* `training.plone.org <https://training.plone.org/>`_ - Training classes for developers/integrators/users/designers.
+* `plone.api <https://docs.plone.org/develop/plone.api/docs/index.html>`_ - Documentation for plone.api.
+* `plone.restapi <https://plonerestapi.readthedocs.io/en/latest/>`_ - Documentation for plone.restapi.
+* `official Gitter chat <https://gitter.im/plone/public>`_ - monitored.
+
+
+Changelog
+=========
+
+5.2.7 (2022-01-25)
+------------------
+
+Bug fixes:
+
+- Release Plone 5.2.7 final.
+  [maurits]
+
+
+5.2.6 (2021-10-22)
+------------------
+
+Bug fixes:
+
+- Release Plone 5.2.6 final
+  [maurits]
+
+
+5.2.5 (2021-07-31)
+------------------
+
+Bug fixes:
+
+- Release Plone 5.2.5 final
+  [maurits]
+
+
+5.2.4 (2021-02-19)
+------------------
+
+Bug fixes:
+
+- Release Plone 5.2.4 final
+  [maurits]
+
+- Removed ``plone.app.dexterity`` from dependencies.
+  It is already required by ``Products.CMFPlone``.
+  [maurits]
+
+
+5.2.3 (2020-10-30)
+------------------
+
+Bug fixes:
+
+- Release Plone 5.2.3 final
+  [maurits]
+
+
+5.2.2 (2020-06-28)
+------------------
+
+New features:
+
+- Release Plone 5.2.2 final
+  [maurits]
+
+
+5.2.1 (2019-12-02)
+------------------
+
+New features:
+
+- Release Plone 5.2.1 final
+  [esteele]
+
+
+5.2.0 (2019-07-10)
+------------------
+
+New features:
+
+- Release Plone 5.2 final
+  [esteele]
+
+
+5.2rc5 (2019-06-27)
+-------------------
+
+New features:
+
+- Release Plone 5.2rc5
+  [esteele]
+
+
+5.2rc4 (2019-06-19)
+-------------------
+
+New features:
+
+- Release Plone 5.2rc4
+  [esteele]
+
+
+5.2rc3 (2019-05-04)
+-------------------
+
+New features:
+
+- Release Plone 5.2rc3
+  [esteele]
+
+
+5.2rc2 (2019-03-21)
+-------------------
+
+Bug fixes:
+
+- Release Plone 5.2rc2
+  [esteele]
+
+5.2rc1 (2019-03-04)
+-------------------
+
+New features:
+
+- Release Plone 5.2rc1
+  [esteele]
+
+
+5.2b1 (2019-02-13)
+------------------
+
+New features:
+
+- Add plone.restapi as a dependency.
+  [timo]
+
+
+5.2a2 (2018-12-28)
+------------------
+
+New features:
+
+- Release Plone 5.2a2
+  [esteele]
+
+
+5.2a1 (2018-11-08)
+------------------
+
+New features:
+
+- Release Plone 5.2a1
+  [esteele]
+
+
+5.1.4 (2018-10-01)
+------------------
+
+New features:
+
+- Release Plone 5.1.4
+  [esteele]
+
+
+5.1.3 (2018-06-21)
+------------------
+
+New features:
+
+- Release Plone 5.1.3
+  [esteele]
+
+
+5.1.2 (2018-04-08)
+------------------
+
+New features:
+
+- Release Plone 5.1.2
+  [esteele]
+
+
+5.1.1 (2018-03-10)
+------------------
+
+New features:
+
+- Release Plone 5.1.1
+  [esteele]
+
+
+5.1.0 (2018-02-05)
+------------------
+
+New features:
+
+- Release Plone 5.1
+  [esteele]
+
+
+5.1rc2 (2017-11-26)
+-------------------
+
+New features:
+
+- Release Plone 5.1rc2
+  [esteele]
+
+5.1rc1 (2017-09-10)
+-------------------
+
+New features:
+
+- Release Plone 5.1rc1
+
+
+
+5.1b4 (2017-07-03)
+------------------
+
+New features:
+
+- Release Plone 5.1b4
+  [esteele]
+
+Bug fixes:
+
+- Add link to Plone.com and tweak intro
+  [tkimnguyen]
+
+5.1b3 (2017-04-02)
+------------------
+
+New features:
+
+- Release Plone 5.1b3
+  [esteele]
+
+
+5.1b2 (2017-02-20)
+------------------
+
+New features:
+
+- Release Plone 5.1b2
+  [esteele]
+
+
+5.1b1 (2017-02-20)
+------------------
+
+Breaking changes:
+
+- Remove plone.app.openid from core, still available as addon package.
+  [jensens]
+
+New features:
+
+- Release Plone 5.1b1
+  [esteele]
+
+Bug fixes:
+
+- Be sure to require archetypes.multilingual
+  even if it's not required as a dependency of plone.app.multilingual.
+  [davisagli]
+
+
+5.1a2 (2016-08-19)
+------------------
+
+New:
+
+- Release Plone 5.1a2
+  [esteele]
+
+
+5.1a1 (2016-03-31)
+------------------
+
+New:
+
+- Release Plone 5.1a1
+  [esteele]
+
+5.0.2 (2016-01-08)
+------------------
+
+New:
+
+- Release Plone 5.0.2
+  [esteele]
+
+
+5.0.1 (2015-12-17)
+------------------
+
+- Release Plone 5.0.1
+  [esteele]
+
+
+5.0 (2015-09-27)
+----------------
+
+- Release Plone 5.0
+  [esteele]
+
+
+5.0rc3 (2015-09-21)
+-------------------
+
+- Release Plone 5.0rc3
+  [esteele]
+
+
+5.0rc2 (2015-09-11)
+-------------------
+
+- Release Plone 5.0rc2
+  [esteele]
+
+
+5.0rc1 (2015-09-08)
+-------------------
+
+- Release Plone 5.0rc1
+  [esteele]
+
+
+5.0b4 (2015-08-23)
+------------------
+
+- Release Plone 5.0b4
+  [esteele]
+
+
+5.0b3 (2015-07-20)
+------------------
+
+- Release Plone 5.0b3
+  [esteele]
+
+5.0b2 (2015-05-27)
+------------------
+
+- Release Plone 5.0b2
+  [esteele]
+
+
+5.0b1 (2015-03-26)
+------------------
+
+- Release Plone 5.0b1
+  [esteele]
+
+
+5.0a3 (2014-11-01)
+------------------
+
+- Release Plone 5.0a3
+  [esteele]
+
+
+5.0a2 (2014-04-20)
+------------------
+
+- Move plone.app.theming dependency into Products.CMFPlone.
+  [esteele]
+
+
+4.3.4 (2014-10-22)
+------------------
+  - Release Plone 4.3.4 [esteele]
+
+
+4.3.3 (2014-02-19)
+------------------
+
+  - Release Plone 4.3.3 [esteele]
+
+4.3.2 (2013-08-14)
+------------------
+
+  - Release Plone 4.3.2 [esteele]
+
+
+4.3.1 (2013-05-30)
+------------------
+
+- Release Plone 4.3.1
+  [esteele]
+
+
+4.3 (2013-04-06)
+----------------
+
+- Release Plone 4.3
+  [esteele]
+
+
+4.3b2 (2013-01-17)
+------------------
+
+- Release Plone 4.3b2
+  [esteele]
+
+
+4.3b1 (2013-01-01)
+------------------
+
+- Release Plone 4.3b1
+  [esteele]
+
+
+4.3a2 (2012-10-18)
+------------------
+
+- Release Plone 4.3a2
+  [esteele]
+
+
+4.3a1 (2012-08-31)
+------------------
+
+- Release Plone 4.3a1
+  [esteele]
+
+
+4.2.1 (2012-08-11)
+------------------
+
+- Release Plone 4.2.1
+  [esteele]
+
+
+4.2 (2012-06-29)
+----------------
+
+- Release Plone 4.2
+  [esteele]
+
+
+4.2rc2 (2012-05-31)
+-------------------
+
+- Release Plone 4.2rc2
+  [esteele]
+
+- Add explicit dependencies on some `zope.app` libraries, to ensure they
+  stay included during the 4.2 series.
+  [hannosch]
+
+
+
+4.2rc1 (2012-05-07)
+-------------------
+
+- Release Plone 4.2rc1
+  [esteele]
+
+
+4.2b2 (2012-02-09)
+------------------
+
+- Release Plone 4.2b2
+  [esteele]
+
+
+4.2b1 (2011-12-05)
+------------------
+
+- Release Plone 4.2b1
+  [esteele]
+
+4.2a2 - 2011-08-25
+------------------
+
+- Release Plone 4.2a2
+  [esteele]
+
+4.2a1 - 2011-08-08
+------------------
+
+- Release Plone 4.2a1
+  [esteele]
+
+4.1 - 2011-07-12
+----------------
+
+- Release Plone 4.1 final
+  [esteele]
+
+4.1rc3 - 2011-06-02
+-------------------
+
+- Release Plone 4.1rc3
+  [esteele]
+
+4.1rc2 - 2011-05-21
+-------------------
+
+- Release Plone 4.1rc2
+  [esteele]
+
+
+4.1rc1 - 2011-05-20
+-------------------
+
+- Release Plone 4.1rc1
+  [esteele]
+
+4.1b2 - 2011-04-06
+------------------
+
+- Release Plone 4.1b2
+  [esteele]
+
+- Depend on wicked now that Products.CMFPlone doesn't.
+  [davisagli]
+
+4.1b1 - 2011-03-04
+------------------
+
+- Release Plone 4.1b1
+  [esteele]
+
+4.1a3 - 2011-02-14
+------------------
+
+- Release Plone 4.1a3
+  [esteele]
+
+4.1a2 - 2011-02-10
+------------------
+
+- Include plone.app.caching as an optional, shipped add-on.
+  [esteele]
+
+4.1a1 - 2011-01-18
+------------------
+
+- Separate `Products.CMFPlone` from the `Plone` egg.
+  [elro]
+
+

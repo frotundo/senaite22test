@@ -1,0 +1,16 @@
+collective.monkeypatcher-1.2.1-py2.7-nspkg.pth,sha256=i6xUrA2XwWgxJ31EmKS8F0wCvv6o3Db_2POBVx1bZDM,559
+collective/monkeypatcher/__init__.py,sha256=5TTTyR6wxXxsHtXhL0D8s8ht3nIKbq3GUcknOkjr29k,55
+collective/monkeypatcher/configure.zcml,sha256=DMO6-1k3JDDrkkkI0IVUbZwb3G_Zp-gDsIMUu9yFWWk,147
+collective/monkeypatcher/interfaces.py,sha256=ViLV66nGHSzuzrfcwRiQm_UdJBne-kFlHJ-lMNLK_SY,610
+collective/monkeypatcher/meta.py,sha256=xl6c_siBiUJxbjptWCOcyCIm1CdwmYFoCMwIfy47cKc,7643
+collective/monkeypatcher/meta.zcml,sha256=lhsK7wRCkxJ9ba3lMsnpdXFC9tKwWTsClJfoNQrifJM,406
+collective/monkeypatcher/tests/__init__.py,sha256=7KtngIgtUEEW9UEj9uvFIVgdX-NW5tXbCl7jBZmrnaY,63
+collective/monkeypatcher/tests/common.py,sha256=vQ4fgdUiaC3CdcWCRoZ7K-xqxvFgll8WxmiHRSyjG-Q,610
+collective/monkeypatcher/tests/dummypatch.py,sha256=dxb8XBDtcun1rrwKgQ_3TWq46kkhbdk_K4Ul2U_PIjE,907
+collective/monkeypatcher/tests/dummypatch.zcml,sha256=RHsgyIxGZPYQb9dirQkNQJlHJYgiFFbdwT1RJm6XzOE,966
+collective/monkeypatcher/tests/test_monkeypatcher.py,sha256=2734h_XvJdd-ZmmkiyPD3sGQpubgzMqAmxLxSgSGero,2218
+collective.monkeypatcher-1.2.1.dist-info/METADATA,sha256=ylhAYBwAcGbZLfzd8IUyPInlqSOBy2_dCy8nhSPIVHA,9665
+collective.monkeypatcher-1.2.1.dist-info/WHEEL,sha256=8zNYZbwQSXoB9IfXOjPfeNwvAsALAjffgk27FqvCWbo,110
+collective.monkeypatcher-1.2.1.dist-info/namespace_packages.txt,sha256=FyC0xnd95fkjCaKazR3nfIgNqhWMpB0mYBlzALyXKTg,11
+collective.monkeypatcher-1.2.1.dist-info/top_level.txt,sha256=FyC0xnd95fkjCaKazR3nfIgNqhWMpB0mYBlzALyXKTg,11
+collective.monkeypatcher-1.2.1.dist-info/RECORD,,

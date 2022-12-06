@@ -1,0 +1,12 @@
+Products.CMFPlacefulWorkflow
+Products.CMFPlone
+plone.app.caching
+plone.app.iterate
+plone.app.upgrade
+plone.restapi
+setuptools>=36.2
+
+[archetypes]
+Products.ATContentTypes
+archetypes.multilingual
+plone.app.contenttypes[archetypes,atrefs]

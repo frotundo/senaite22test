@@ -1,0 +1,169 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone">
+
+  <!-- Dexterity -->
+
+  <plone:service
+    method="GET"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    factory=".demo.Get"
+    permission="zope2.View"
+    />
+
+  <plone:service
+    method="POST"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    factory=".demo.Post"
+    permission="cmf.AddPortalContent"
+    />
+
+  <plone:service
+    method="PUT"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    factory=".demo.Put"
+    permission="cmf.ModifyPortalContent"
+    />
+
+  <plone:service
+    method="DELETE"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    factory=".demo.Delete"
+    permission="zope2.DeleteObjects"
+    />
+
+  <plone:service
+    method="PATCH"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    factory=".demo.Patch"
+    permission="cmf.ModifyPortalContent"
+    />
+
+  <plone:service
+    method="OPTIONS"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    factory=".demo.Options"
+    permission="zope2.View"
+    />
+
+  <!-- Plone Site Root -->
+
+  <plone:service
+    method="GET"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    factory=".demo.Get"
+    permission="zope2.View"
+    />
+
+  <plone:service
+    method="POST"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    factory=".demo.Post"
+    permission="cmf.AddPortalContent"
+    />
+
+  <plone:service
+    method="PUT"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    factory=".demo.Put"
+    permission="cmf.ModifyPortalContent"
+    />
+
+  <plone:service
+    method="DELETE"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    factory=".demo.Delete"
+    permission="zope2.DeleteObjects"
+    />
+
+  <plone:service
+    method="PATCH"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    factory=".demo.Patch"
+    permission="cmf.ModifyPortalContent"
+    />
+
+  <plone:service
+    method="OPTIONS"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    factory=".demo.Options"
+    permission="zope2.View"
+    />
+
+  <!-- Dexterity named services -->
+
+  <plone:service
+    method="GET"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    factory=".demo.NamedGet"
+    permission="zope2.View"
+    name="namedservice"
+    />
+
+  <plone:service
+    method="POST"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    factory=".demo.NamedPost"
+    name="namedservice"
+    permission="cmf.AddPortalContent"
+    />
+
+  <plone:service
+    method="PUT"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    factory=".demo.NamedPut"
+    name="namedservice"
+    permission="cmf.ModifyPortalContent"
+    />
+
+  <plone:service
+    method="DELETE"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    factory=".demo.NamedDelete"
+    name="namedservice"
+    permission="zope2.DeleteObjects"
+    />
+
+  <plone:service
+    method="PATCH"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    factory=".demo.NamedPatch"
+    name="namedservice"
+    permission="cmf.ModifyPortalContent"
+    />
+
+  <plone:service
+    method="OPTIONS"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    factory=".demo.NamedOptions"
+    name="namedservice"
+    permission="zope2.View"
+    />
+
+  <plone:service
+    method="GET"
+    for="*"
+    factory=".demo.NamedGet"
+    name="search"
+    permission="zope2.View"
+    />
+
+  <!-- Error Page -->
+
+  <plone:service
+    method="GET"
+    for="*"
+    name="500-internal-server-error"
+    factory=".testing.InternalServerErrorService"
+    permission="zope2.View"
+    />
+
+  <plone:CORSPolicy
+    allow_methods="GET"
+    allow_origin="*"
+    expose_headers="X-My-Header"
+    />
+
+</configure>

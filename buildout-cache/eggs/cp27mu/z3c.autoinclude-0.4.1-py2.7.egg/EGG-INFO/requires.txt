@@ -1,0 +1,9 @@
+setuptools
+zope.dottedname
+zope.interface
+zope.configuration
+zope.schema>=4.2.0
+
+[test]
+zc.buildout
+zope.testing

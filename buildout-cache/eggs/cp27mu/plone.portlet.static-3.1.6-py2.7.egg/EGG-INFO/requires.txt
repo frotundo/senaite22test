@@ -1,0 +1,14 @@
+Zope2
+plone.app.portlets
+plone.app.textfield
+plone.i18n
+plone.portlets
+setuptools
+six
+zope.component
+zope.i18nmessageid
+zope.interface
+zope.schema
+
+[test]
+plone.app.testing

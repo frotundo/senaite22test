@@ -1,0 +1,11 @@
+BTrees
+Products.ZCatalog
+ZODB
+plone.event
+setuptools
+zope.interface
+zope.schema
+
+[test]
+plone.testing
+pytz

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<registry>
+  <records interface="Products.CMFPlone.interfaces.controlpanel.IFilterSchema" prefix="plone">
+    <value key="valid_tags" purge="false">
+      <element>hr</element>
+    </value>
+    <value key="custom_attributes" purge="false">
+      <element>style</element>
+    </value>
+  </records>
+</registry>

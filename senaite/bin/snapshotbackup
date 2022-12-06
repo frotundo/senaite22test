@@ -1,0 +1,67 @@
+#!/home/senaite/senaite/senaite/bin/python2.7
+
+import sys
+sys.path[0:0] = [
+  '/home/senaite/senaite/buildout-cache/eggs/cp27mu/collective.recipe.backup-4.1.0-py2.7.egg',
+  '/home/senaite/senaite/buildout-cache/eggs/cp27mu/zc.recipe.egg-2.0.7-py2.7.egg',
+  '/home/senaite/senaite/senaite/lib/python2.7/site-packages',
+  ]
+
+
+import logging
+loglevel = logging.INFO
+from optparse import OptionParser
+parser = OptionParser()
+# parser.add_option('-S', '--storage', dest='storage',
+#                  action='store', type='string',
+#                  help='storage name')
+parser.add_option('-q', '--quiet',
+                  action='store_false', dest='verbose', default=True,
+                  help='do not print status messages to stdout')
+parser.add_option('-n', '--no-prompt',
+                  action='store_true', dest='no_prompt', default=False,
+                  help='do not ask for any user confirmation')
+(options, args) = parser.parse_args()
+# storage = options.storage
+# Allow the user to make the script more quiet (say in a cronjob):
+if not options.verbose:
+    loglevel = logging.WARN
+log_format = '%(levelname)s: %(message)s'
+if loglevel < logging.INFO:
+    log_format = '%(asctime)s ' + log_format
+logging.basicConfig(level=loglevel,
+    format=log_format)
+
+
+import collective.recipe.backup.main
+
+if __name__ == '__main__':
+    sys.exit(collective.recipe.backup.main.snapshot_main(
+        bin_dir='/home/senaite/senaite/senaite/bin',
+        storages=[{'backup_location': '/home/senaite/senaite/senaite/var/backups',
+  'blob_backup_location': '/home/senaite/senaite/senaite/var/blobstoragebackups',
+  'blob_snapshot_location': '/home/senaite/senaite/senaite/var/blobstoragesnapshots',
+  'blob_zip_location': '/home/senaite/senaite/senaite/var/blobstoragezips',
+  'blobdir': '/home/senaite/senaite/senaite/var/blobstorage',
+  'datafs': '/home/senaite/senaite/senaite/var/filestorage/Data.fs',
+  'snapshot_location': '/home/senaite/senaite/senaite/var/snapshotbackups',
+  'storage': '1',
+  'zip_location': '/home/senaite/senaite/senaite/var/zipbackups'}],
+        keep=2,
+        keep_blob_days=14,
+        full=False,
+        verbose=False,
+        gzip=True,
+        quick=True,
+        only_blobs=False,
+        backup_blobs=True,
+        use_rsync=True,
+        rsync_options='',
+        archive_blob=False,
+        compress_blob=False,
+        pre_command='',
+        post_command='',
+        no_prompt=options.no_prompt,
+        blob_timestamps=False,
+        incremental_blobs=False,
+        ))

@@ -1,0 +1,9 @@
+AccessControl
+Acquisition
+Zope>=4.0b9.dev0
+setuptools
+transaction
+zExceptions
+zope.component
+zope.event
+zope.interface

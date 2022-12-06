@@ -1,0 +1,13 @@
+setuptools
+z3c.objpath
+zc.relation>=1.0
+zope.intid
+
+[test]
+zope.container
+zope.copypastemove
+zope.site
+
+[xml]
+lxml
+z3c.schema2xml>=1.0

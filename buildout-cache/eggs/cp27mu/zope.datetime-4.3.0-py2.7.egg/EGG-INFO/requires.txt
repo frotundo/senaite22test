@@ -1,0 +1,9 @@
+setuptools
+six
+
+[docs]
+Sphinx
+sphinx-rtd-theme
+
+[test]
+zope.testrunner

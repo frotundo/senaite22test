@@ -1,0 +1,8 @@
+Acquisition
+DateTime
+Zope2
+setuptools
+six
+zope.i18n
+zope.i18nmessageid
+zope.interface

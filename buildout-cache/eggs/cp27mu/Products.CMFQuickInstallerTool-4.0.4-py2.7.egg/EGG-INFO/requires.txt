@@ -1,0 +1,17 @@
+Acquisition
+DateTime
+Products.CMFCore
+Products.ExternalMethod
+Products.GenericSetup>=1.8.1
+Zope2
+setuptools
+six
+zope.annotation
+zope.component
+zope.i18nmessageid
+zope.interface
+
+[test]
+plone.app.testing
+plone.protect>=2.0.2
+zope.testing

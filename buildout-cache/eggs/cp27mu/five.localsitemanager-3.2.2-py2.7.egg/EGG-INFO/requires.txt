@@ -1,0 +1,12 @@
+Acquisition
+Zope>=4.0b1
+persistent
+setuptools
+six
+zope.component
+zope.event
+zope.interface>=3.8
+zope.lifecycleevent
+zope.location
+zope.site
+zope.testing

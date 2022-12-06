@@ -1,0 +1,217 @@
+<dtml-var manage_page_header>
+
+<dtml-with "_(management_view='Test')">
+  <dtml-var manage_tabs>
+</dtml-with>
+
+<main class="container-fluid">
+
+  <dtml-let num_rows="REQUEST.get('num_rows') or 20">
+
+    <h2 class="zmi-form-title">Test query &dtml-title_or_id;</h2>
+
+    <dtml-if connectionIsValid>
+      <form action="manage_testForm" method="get">
+
+        <dtml-let args="argument_list">
+
+          <dtml-if args>
+            <p class="form-help">
+              Enter the query parameters. You can modify the data type if
+              needed. <em>tokens</em> will convert space-separated input to a
+              list of values.
+            </p>
+            <dtml-in args mapping>
+              <div class="form-group row">
+                <label for="&dtml-name;"
+                       class="form-label col-sm-3 col-md-2">&dtml-name;</label>
+
+                <dtml-let typ="type or REQUEST.get('%s_type' % name, 'string')">
+                  <div class="col-sm-3 col-md-2">
+                    <select name="&dtml-name;_type">
+                      <option <dtml-if "typ == 'float'">selected</dtml-if>>
+                        float
+                      </option>
+                      <option <dtml-if "typ == 'int'">selected</dtml-if>>
+                        int
+                      </option>
+                      <option <dtml-if "typ == 'string'">selected</dtml-if>>
+                        string
+                      </option>
+                      <option <dtml-if "typ == 'tokens'">selected</dtml-if>>
+                        tokens
+                      </option>
+                    </select>
+                  </div>
+                </dtml-let>
+
+                <div class="col-sm-7 col-md-7">
+                  <input type="text" class="form-control" size="40"
+                         name="&dtml-name;"
+                         id="&dtml-name;"
+                         value="<dtml-var "REQUEST.get(name, default)">"/>
+                </div>
+              </div>
+            </dtml-in>
+          <dtml-else>
+            <p class="form-help">This query requires no input.</p>
+          </dtml-if>
+
+        </dtml-let>
+
+        <div class="form-group row">
+          <label for="num_rows"
+                 class="form-label col-sm-3 col-md-2">Rows per page</label>
+          <div class="col-sm-9 col-md-10">
+            <select name="num_rows">
+              <dtml-in "[10, 20, 50, 100, 500, 1000]">
+                <option <dtml-if "_.int(num_rows)==_['sequence-item']">selected</dtml-if>>
+                  <dtml-var sequence-item>
+                </option>
+              </dtml-in>
+            </select>
+          </div>
+        </div>
+
+        <div class="zmi-controls">
+          <input class="btn btn-primary" type="submit" name="QUERY_SUBMIT"
+                 value="Submit Query" />
+        </div>
+
+      </form>
+
+      <dtml-if QUERY_SUBMIT>
+        <hr/>
+
+        <h2 class="zmi-form-title">Rendered SQL query template</h2>
+
+        <dtml-try>
+          <p class="form-help">
+            This code represents the rendered ZSQL template only.
+            The final query sent to the database may contain additional
+            elements inserted automatically, such as a <em>LIMIT</em> clause.
+          </p>
+          <textarea id="content" data-contenttype="sql"
+                    class="form-control zmi-code col-sm-12"
+                    name="template:text" wrap="off"
+                    rows="20"><dtml-var "this().manage_zmi_test(REQUEST, src__=1)"></textarea>
+
+          <br clear="all"/><hr/>
+
+          <dtml-try>
+
+            <dtml-let res="this().manage_zmi_test(REQUEST)"
+                      res_size="_.len(res)">
+
+              <h2 class="zmi-form-title">
+                &dtml-res_size; results matched this query
+              </h2>
+              <dtml-if "max_rows_ and res_size >= max_rows_">
+                <div class="alert alert-warning mt-4">
+                  The query returned the maximum number of rows configured for
+                  this ZSQL method, there may be more matches.
+                </div>
+              </dtml-if>
+
+              <dtml-in "res" size=num_rows start=query_start orphan=3>
+                <dtml-if sequence-start>
+                  <dtml-if previous-sequence-size>
+                    <a href="&dtml-URL;&dtml-sequence-query;query_start=&dtml-previous-sequence-start-number;">
+                    &lt;&lt; Previous <dtml-var previous-sequence-size> results
+                    </a>
+                    <dtml-if next-sequence-size>&nbsp;|&nbsp;</dtml-if>
+                  </dtml-if previous-sequence-size>
+                  <dtml-if next-sequence-size>
+                    <a href="&dtml-URL;&dtml-sequence-query;query_start=&dtml-next-sequence-start-number;">
+                    Next <dtml-var next-sequence-size> results &gt;&gt;
+                    </a>
+                  </dtml-if next-sequence-size>
+
+                  <table border="1">
+                    <tr>
+                      <dtml-in "res.names()">
+                        <th>&dtml-sequence-item;</th>
+                      </dtml-in>
+                    </tr>
+                </dtml-if sequence-start>
+
+                <tr>
+                  <dtml-let rec=sequence-item>
+                    <dtml-in "res.names()">
+                      <td><dtml-var "getattr(rec, _['sequence-item'])"></td>
+                    </dtml-in>
+                  </dtml-let>
+                </tr>
+
+                <dtml-if sequence-end>
+                  </table>
+
+                  <dtml-if previous-sequence-size>
+                    <a href="&dtml-URL;&dtml-sequence-query;query_start=&dtml-previous-sequence-start-number;">
+                    &lt;&lt; Previous <dtml-var previous-sequence-size> results
+                    </a>
+                    <dtml-if next-sequence-size>&nbsp;|&nbsp;</dtml-if>
+                  </dtml-if previous-sequence-size>
+                  <dtml-if next-sequence-size>
+                     <a href="&dtml-URL;&dtml-sequence-query;query_start=&dtml-next-sequence-start-number;">
+                     Next <dtml-var next-sequence-size> results &gt;&gt;
+                     </a>
+                  </dtml-if next-sequence-size>
+                </dtml-if sequence-end>
+
+              </dtml-in>
+            </dtml-let>
+
+          <dtml-except>
+
+            <h2 class="zmi-form-title">Query results</h2>
+            
+            <p class="form-help">The query failed with an error.</p>
+            <p class="form-help">
+              <ul>
+                <li><strong>Error type:</strong>
+                    <dtml-var error_type html_quote></li>
+                <li>
+                  <strong>Message:</strong><br/>
+                  <pre><dtml-var "format_exception(error_value)"></pre>
+                </li>
+              </ul>
+            </p>
+          </dtml-try>
+
+          <script>
+            $(function() {
+              editor.setOptions({
+                  'readOnly': true,
+              });
+            });
+          </script>
+
+        <dtml-except>
+          <p class="form-help">The query template does not render.</p>
+          <p class="form-help">
+            <ul>
+              <li><strong>Error type:</strong>
+                  <dtml-var error_type html_quote></li>
+              <li>
+                <strong>Message:</strong><br/>
+                <pre><dtml-var error_value></pre>
+              </li>
+          </pre>
+            </ul>
+          </p>
+        </dtml-try>
+
+      </dtml-if>
+    <dtml-else>
+      <p class="form-help">
+        To run the query, please select a valid database connector on the
+        <a href="&dtml-absolute_url;/manage_main">Edit tab</a> first.
+      </p>
+    </dtml-if>
+
+  </dtml-let>
+
+</main>
+
+<dtml-var manage_page_footer>

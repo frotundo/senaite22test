@@ -1,0 +1,11 @@
+Acquisition>=4.0.1
+Zope2>=2.13
+five.localsitemanager
+setuptools
+zope.component
+zope.event
+zope.interface
+zope.intid
+zope.keyreference
+zope.lifecycleevent
+zope.location

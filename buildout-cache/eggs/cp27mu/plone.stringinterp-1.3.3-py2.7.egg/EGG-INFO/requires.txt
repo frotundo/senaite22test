@@ -1,0 +1,9 @@
+Products.CMFCore
+plone.memoize
+setuptools
+zope.i18n
+
+[test]
+plone.app.contenttypes
+plone.app.testing
+plone.testing

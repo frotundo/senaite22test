@@ -1,0 +1,134 @@
+Metadata-Version: 2.1
+Name: Products.TemporaryFolder
+Version: 5.3
+Summary: Zope temporary folder support.
+Home-page: https://github.com/zopefoundation/Products.TemporaryFolder
+Author: Zope Foundation and Contributors
+Author-email: zope-dev@zope.org
+License: ZPL 2.1
+Project-URL: Issue Tracker, https://github.com/zopefoundation/Products.TemporaryFolder/issues
+Project-URL: Sources, https://github.com/zopefoundation/Products.TemporaryFolder
+Keywords: Zope ZODB mount temporary storage folder
+Platform: UNKNOWN
+Classifier: Development Status :: 6 - Mature
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Zope :: 4
+Classifier: License :: OSI Approved :: Zope Public License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Requires-Python: >=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*
+Requires-Dist: setuptools
+Requires-Dist: AccessControl
+Requires-Dist: Acquisition
+Requires-Dist: six
+Requires-Dist: tempstorage
+Requires-Dist: ZODB
+Requires-Dist: Zope (>=4.0b5)
+Provides-Extra: test
+Requires-Dist: Products.Sessions (>=4.1) ; extra == 'test'
+
+.. image:: https://travis-ci.org/zopefoundation/Products.TemporaryFolder.svg?branch=master
+   :target: https://travis-ci.org/zopefoundation/Products.TemporaryFolder
+
+.. image:: https://coveralls.io/repos/github/zopefoundation/Products.TemporaryFolder/badge.svg?branch=master
+   :target: https://coveralls.io/github/zopefoundation/Products.TemporaryFolder?branch=master
+
+.. image:: https://img.shields.io/pypi/v/Products.TemporaryFolder.svg
+   :target: https://pypi.org/project/Products.TemporaryFolder/
+   :alt: Current version on PyPI
+
+.. image:: https://img.shields.io/pypi/pyversions/Products.TemporaryFolder.svg
+   :target: https://pypi.org/project/Products.TemporaryFolder/
+   :alt: Supported Python versions
+
+Overview
+========
+
+Zope temporary storage / folder support.
+
+This package contains ``Products.TemporaryFolder`` and
+``Products.ZODBMountPoint``.
+
+Please note
+-----------
+Don't forget to add or uncomment the temporary storage database definition
+in your Zope configuration so a temporary folder can get created::
+
+  <zodb_db temporary>
+      <temporarystorage>
+        name Temporary database (for sessions)
+      </temporarystorage>
+      mount-point /temp_folder
+      container-class Products.TemporaryFolder.TemporaryContainer
+  </zodb_db>
+
+Changelog
+=========
+
+5.3 (2019-04-15)
+----------------
+
+- improve the README
+
+- Specify supported Python versions using ``python_requires`` in setup.py
+  (`Zope#481 <https://github.com/zopefoundation/Zope/issues/481>`_)
+
+- Added support for Python 3.8
+
+
+5.2 (2018-11-06)
+----------------
+
+- Add support for Python 3.7.
+
+- Update forms to Bootstrap ZMI.
+  (`#6 <https://github.com/zopefoundation/Products.TemporaryFolder/pull/6>`_)
+
+- Fix logging traceback in Python 2.
+  [pbauer]
+
+- Fix creating a temp_folder in Python 2.
+  (`#7 <https://github.com/zopefoundation/Products.TemporaryFolder/pull/7>`_)
+
+
+5.1 (2018-06-06)
+----------------
+
+- Bring back Application initialization (creation of BrowserIdManager and
+  SessionDataManager in the ZODB on first startup).
+  This release requires Zope >= 4.0b5.
+
+- Drop support for Python 3.4.
+
+
+5.0 (2018-04-13)
+----------------
+
+- Remove dysfunctional LowConflictConnection.
+
+- Add support for Python 3.4, 3.5 and 3.6.
+
+4.0 (2016-08-02)
+----------------
+
+- Add in code of `Products.TemporaryFolder` and `Products.ZODBMountPoint`.
+
+- Require `Zope >= 4`.
+
+3.0 (2016-08-02)
+----------------
+
+- Create a separate distribution called `Products.TemporaryFolder` without
+  any code inside it. This allows projects to depend on this project
+  inside the Zope 2.13 release line.
+
+
+

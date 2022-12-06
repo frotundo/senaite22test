@@ -1,0 +1,4 @@
+Products.ZCatalog
+Zope
+setuptools
+six

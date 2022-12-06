@@ -1,0 +1,10 @@
+Products.CMFCore
+Products.GenericSetup>=1.4
+Zope2
+setuptools
+zope.component
+zope.interface
+zope.traversing>=3.9.0
+
+[test]
+plone.app.testing

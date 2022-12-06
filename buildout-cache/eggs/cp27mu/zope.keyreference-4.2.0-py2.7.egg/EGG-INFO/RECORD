@@ -1,0 +1,14 @@
+zope.keyreference-4.2.0-py3.7-nspkg.pth,sha256=SWEVH-jEWsKYrL0qoC6GBJaStx_iKxGoAY9PQycFVC4,529
+zope/keyreference/__init__.py,sha256=Bakfp4iX4TvdzB2NBA_PqhjzdGPuX2lnt1EP0TXNs8o,665
+zope/keyreference/configure.zcml,sha256=bWTTTeVikALk0I_btkfekCPEAgQ9Rt86DgcjKNvKjXY,841
+zope/keyreference/interfaces.py,sha256=FZYElcZ3tiwEWqOuE9Oi-wDVLvmWZsJTPFEMcpIghJI,2122
+zope/keyreference/persistent.py,sha256=nflvyyII5EioyQO4zBVSShPstovK19rgtMjEpJQ4-Ig,6207
+zope/keyreference/persistent.txt,sha256=aNHhZ-wL6yttFAS33JvBV9-pdIxpicrcrVXvLqpdoHc,8984
+zope/keyreference/testing.py,sha256=8o-oDEfT4A0lNNUUfiopmSfOHdF2XkwxEeSqQX6BKtU,2312
+zope/keyreference/tests.py,sha256=-AZ4Nm0bi15r9US3fIL0Osh72sSBUQhGNd77KiCUD14,3833
+zope.keyreference-4.2.0.dist-info/LICENSE.txt,sha256=PmcdsR32h1FswdtbPWXkqjg-rKPCDOo_r1Og9zNdCjw,2070
+zope.keyreference-4.2.0.dist-info/METADATA,sha256=N3NxedXqTmB0e15-nUBmYpir_LGwH1R40E6JSy3-gAg,4226
+zope.keyreference-4.2.0.dist-info/WHEEL,sha256=8T8fxefr_r-A79qbOJ9d_AaEgkpCGmEPHc-gpCq5BRg,110
+zope.keyreference-4.2.0.dist-info/namespace_packages.txt,sha256=QpUHvpO4wIuZDeEgKY8qZCtD-tAukB0fn_f6utzlb98,5
+zope.keyreference-4.2.0.dist-info/top_level.txt,sha256=QpUHvpO4wIuZDeEgKY8qZCtD-tAukB0fn_f6utzlb98,5
+zope.keyreference-4.2.0.dist-info/RECORD,,

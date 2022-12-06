@@ -1,0 +1,15 @@
+Products.CMFCore
+Products.GenericSetup
+Products.MimetypesRegistry
+Products.PortalTransforms>=2.0a1
+beautifulsoup4
+lxml
+setuptools
+six
+unidecode
+
+[test]
+plone.app.contenttypes
+plone.app.robotframework
+plone.app.testing
+plone.namedfile

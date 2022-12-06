@@ -1,0 +1,14 @@
+Acquisition
+Products.CMFCore
+Products.GenericSetup>=1.8.3
+Products.PythonScripts>=4.2
+Zope2>=4.0.a2
+setuptools
+transaction
+zope.interface
+zope.structuredtext
+zope.tales
+
+[test]
+plone.app.contenttypes
+plone.app.testing

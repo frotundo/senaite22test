@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="TextIndexNG3">
+
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<body>
+
+<div metal:fill-slot="prefs_configlet_main">
+
+    <span tal:define="dummy python:request.response.setHeader('pragma','no-cache')" />
+
+    <h1 i18n:translate="textindexng_preferences">TextIndexNG Version 3 Preferences</h1>
+
+    <a href=""
+       class="link-parent"
+       tal:attributes="href string: $portal_url/plone_control_panel"
+       i18n:translate="label_up_to_preferences">
+    Up to Plone setup
+    </a>
+
+    <ul tal:define="convertable python: [idx for idx in here.portal_catalog.getIndexObjects() if idx.meta_type in ('ZCTextIndex', 'TextIndex', 'TextIndexNG2')]">
+
+      <li tal:condition="not: convertable">
+        <span i18n:translate="all_indexes_already_converted">All text indexes are converted to TextIndexNG Version 3 instances.</span>
+        <form method="post" tal:attributes="action string:$portal_url/txng_convert_indexes?overwrite:int=1">
+            <input class="context" type="submit"  i18n:attributes="value" value="recreate indexes"/>
+        </form>
+      </li>
+      <li tal:condition="convertable">  
+        <form method="post" tal:attributes="action string:$portal_url/txng_convert_indexes">
+            <input class="context" type="submit"  i18n:attributes="value" value="Convert SearchableText index to TextIndexNG 3 instance"/>
+        </form>
+      </li>
+    </ul>
+</div>
+
+</body>
+</html>
+
+                    

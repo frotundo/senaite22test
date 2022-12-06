@@ -1,0 +1,19 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="plone.app.folder">
+
+    <five:registerPackage package="." initialize=".initialize" />
+    <include package="plone.folder" />
+
+    <configure zcml:condition="installed Products.ATContentTypes">
+
+      <five:deprecatedManageAddDelete
+        class=".folder.ATFolder" />
+
+      <adapter factory=".nextprevious.NextPrevious" />
+
+    </configure>
+
+</configure>

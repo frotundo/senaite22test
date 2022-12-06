@@ -1,0 +1,46 @@
+# -*- coding: utf-8 -*-
+from plone.app.textfield.interfaces import IRichText
+from plone.app.textfield.value import RichTextValue
+from plone.rfc822.defaultfields import BaseFieldMarshaler
+from zope.component import adapter
+from zope.interface import Interface
+
+import six
+
+
+@adapter(Interface, IRichText)
+class RichTextFieldMarshaler(BaseFieldMarshaler):
+    """Field marshaler for plone.app.textfield values.
+    """
+
+    ascii = False
+
+    def encode(self, value, charset="utf-8", primary=False):
+        if value is None:
+            return
+        return value.raw.encode(charset)
+
+    def decode(
+        self, value, message=None, charset="utf-8", contentType=None, primary=False
+    ):
+
+        if isinstance(value, six.binary_type):
+            value = value.decode(charset)
+        return RichTextValue(
+            raw=value,
+            mimeType=contentType or self.field.default_mime_type,
+            outputMimeType=self.field.output_mime_type,
+            encoding=charset,
+        )
+
+    def getContentType(self):
+        value = self._query()
+        if value is None:
+            return None
+        return value.mimeType
+
+    def getCharset(self, default="utf-8"):
+        value = self._query()
+        if value is None:
+            return None
+        return value.encoding

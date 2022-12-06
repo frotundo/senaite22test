@@ -1,0 +1,74 @@
+<span tal:replace="structure context/manage_page_header">PAGE HEADER</span>
+<span tal:replace="structure context/manage_tabs">TABS</span>
+
+<main class="container-fluid">
+
+<h1> Site Configuration Export Steps </h1>
+
+
+<p class="lead">
+Download selected export steps as tarball.
+</p>
+
+<h2>Available Export Steps</h2>
+
+<form action="." method="post" tal:attributes="action context/absolute_url">
+<input type="hidden" name="ids:default:tokens" value="" />
+
+<table class="table table-hover">
+
+ <thead>
+  <tr>
+   <td class="text-center">
+     <button type="button" class="btn" title="toggle selection" onclick="inputs = document.querySelectorAll('.step_checkbox'); for (var index = 0; index &lt; inputs.length; index++) {inputs[index].checked = inputs[index].checked ? false : true}; return false;"><i class="fa fa-exchange-alt"></i></button>
+   </td>
+   <td class="text-right">#</td>
+   <td>Title / Description</td>
+   <td>Handler</td>
+  </tr>
+ </thead>
+
+ <tbody tal:define="step_ids context/listExportSteps;
+                   ">
+  <tal:loop tal:repeat="step_id step_ids">
+  <tr valign="top"
+      tal:define="info python: context.getExportStepMetadata(step_id);"
+      tal:attributes="class python:
+                     repeat[ 'step_id' ].odd and 'row-normal' or 'row-hilite'" >
+   <td class="text-center">
+    <input type="checkbox" name="ids:list" value="STEP_ID"
+           class="step_checkbox"
+           id="STEP_ID"
+           tal:attributes="id python:step_id + '__';
+                           value step_id" />
+   </td>
+   <td class="text-right"
+       tal:content="repeat/step_id/number">1</td>
+   <td>
+    <label tal:attributes="for python:step_id + '__'"
+           tal:content="info/title">STEP TITLE</label><br />
+    <small tal:content="info/description">STEP DESCRIPTION</small>
+   </td>
+   <td>
+       <code tal:content="info/handler">DOTTED.NAME</code>
+   </td>
+  </tr>
+  </tal:loop>
+</tbody>
+</table>
+<div class="form-group zmi-controls">
+    <div class="input-group">
+        <input class="btn btn-primary" type="submit"
+            name="manage_exportSelectedSteps:method"
+            value=" Export selected steps " />
+
+        <input class="btn btn-primary ml-2" type="submit"
+            name="manage_exportAllSteps:method"
+            value=" Export all steps " />
+    </div>
+</div>
+
+
+</form>
+</main>
+<h1 tal:replace="structure context/manage_page_footer">PAGE FOOTER</h1>

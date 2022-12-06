@@ -1,0 +1,194 @@
+ATFile/ATImage Replacement Types
+================================
+
+This test tries to make sure the new, blob-based replacement types for
+`ATFile` and `ATImage` can be properly created and edited.
+
+
+Files
+-----
+
+Let's start with creating a "File" content item:
+
+  >>> from StringIO import StringIO
+  >>> from plone.testing.z2 import Browser
+  >>> browser = Browser(layer['app'])
+  >>> browser.handleErrors = False
+  >>> from plone.app.testing import TEST_USER_NAME, TEST_USER_PASSWORD
+  >>> browser.addHeader('Authorization',
+  ...                   'Basic %s:%s' % (TEST_USER_NAME, TEST_USER_PASSWORD))
+
+  >>> from plone.app.testing import TEST_USER_ID
+  >>> folder = layer['portal'].portal_membership.getHomeFolder(TEST_USER_ID)
+  >>> browser.open(folder.absolute_url())
+
+  >>> browser.getLink(url='createObject?type_name=File').click()
+  >>> browser.url
+  'http://nohost/plone/.../portal_factory/File/file.../edit...'
+  >>> browser.getControl(name='title').value = 'Foo'
+  >>> control = browser.getControl(name='file_file')
+  >>> testfile = StringIO('%PDF-1.4 fake pdf...' + 'foo' * 1000)
+  >>> control.add_file(testfile, None, 'foo.pdf')
+  >>> browser.getControl('Save').click()
+
+  >>> browser.url
+  'http://nohost/plone/.../foo.../view'
+  >>> browser.contents
+  '...Info...Changes saved...
+   ...Foo...foo.pdf...PDF document...'
+
+Now let's make sure we can also edit it:
+
+  >>> browser.getLink('Edit').click()
+  >>> browser.getControl(name='title').value = 'Foobar'
+  >>> browser.getControl('Replace with new file').selected = True
+  >>> control = browser.getControl(name='file_file')
+  >>> testfile = StringIO('%PDF-1.4 fake pdf...' + 'foo' * 1000)
+  >>> control.add_file(testfile, None, 'foobar.pdf')
+  >>> browser.getControl('Save').click()
+
+  >>> browser.url
+  'http://nohost/plone/.../foo.../view'
+  >>> browser.contents
+  '...Info...Changes saved...
+   ...Foobar...foobar.pdf...PDF document...'
+
+It should also be possible to remove the file again.  For this to work the
+field must not be required.  That is not the default in Plone, however, so
+we need to tweak the schema first:
+
+  >>> folder.foo.getPrimaryField().required = False
+
+  >>> browser.getLink('Edit').click()
+  >>> browser.getControl('Delete current').selected = True
+  >>> browser.getControl('Save').click()
+  >>> 'Changes saved' in browser.contents
+  True
+  >>> 'PDF document' in browser.contents
+  False
+
+The file content should now be gone:
+
+  >>> folder.foo.getFile().data
+  ''
+
+
+Images
+------
+
+Next a similar test is conducted for an "Image" content item:
+  >>> import io
+  >>> import os.path
+  >>> from plone.app.blob.tests.utils import getFile
+  >>> browser.open(folder.absolute_url())
+  >>> browser.getLink(url='createObject?type_name=Image').click()
+  >>> browser.url
+  'http://nohost/plone/.../portal_factory/Image/image.../edit...'
+  >>> browser.getControl(name='title').value = 'Bar'
+  >>> control = browser.getControl(name='image_file')
+  >>> control.add_file(getFile('image.png'), None, 'image.png')
+  >>> browser.getControl('Save').click()
+
+  >>> browser.url
+  'http://nohost/plone/.../bar.../view'
+  >>> browser.contents
+  '...Info...Changes saved...
+   ...Bar...
+   ...<img src="http://.../bar.../image_preview"...title="Bar"...
+   ...ull-size... KB...'
+
+Now let's make sure we can also edit it.  First we store the current image,
+however, so we can check it was actually updated:
+
+  >>> browser.open('image_preview')
+  >>> original = browser.contents
+  >>> browser.goBack()
+
+  >>> browser.getLink('Edit').click()
+  >>> browser.getControl(name='title').value = 'Foobar'
+  >>> browser.getControl('Replace with new image').selected = True
+  >>> control = browser.getControl(name='image_file')
+  >>> image_path = os.path.join(os.path.dirname(__file__), 'data/image.jpg')
+  >>> control.add_file(getFile('image.jpg'), None, 'image.jpg')
+  >>> browser.getControl('Save').click()
+
+  >>> browser.url
+  'http://nohost/plone/.../bar.../view'
+  >>> browser.contents
+  '...Info...Changes saved...
+   ...Foobar...
+   ...<img src="http://.../bar/image_preview"...title="Foobar"...
+   ...ull-size...3 KB...'
+
+The actual image should also have been updated, of course:
+
+  >>> browser.open('image_preview')
+  >>> current = browser.contents
+  >>> original == current
+  False
+  >>> browser.goBack()
+
+Viewing an image should also work when browsing its URL directly, i.e.
+without the `/view` action part:
+
+  >>> jpg = getFile('image.jpg').read()
+  >>> url = browser.url.replace('/view', '')
+  >>> browser.open(url)
+  >>> browser.contents == jpg
+  True
+  >>> browser.headers.getheader('status').upper()
+  '200 OK'
+  >>> browser.headers.getheader('content-type')
+  'image/jpeg'
+  >>> browser.headers.getheader('content-disposition')
+  'inline; filename="image.jpg"'
+
+Appending `/index_html` should be the same:
+
+  >>> browser.open(url + '/index_html')
+  >>> browser.contents == jpg
+  True
+  >>> browser.headers.getheader('status').upper()
+  '200 OK'
+  >>> browser.headers.getheader('content-type')
+  'image/jpeg'
+  >>> browser.headers.getheader('content-disposition')
+  'inline; filename="image.jpg"'
+
+Let's also check the scaled versions included the un-scaled variant:
+
+  >>> browser.open(url + '/image_thumb')
+  >>> browser.contents
+  '\xff\xd8\xff\xe0\x00\x10JFIF...'
+  >>> browser.headers.getheader('status').upper()
+  '200 OK'
+  >>> browser.headers.getheader('content-type')
+  'image/jpeg'
+
+  >>> browser.open(url + '/image')
+  >>> browser.contents
+  '\xff\xd8\xff\xe0\x00\x10JFIF...'
+  >>> browser.headers.getheader('status').upper()
+  '200 OK'
+  >>> browser.headers.getheader('content-type')
+  'image/jpeg'
+
+It should also be possible to remove the image. Again, for this to work the
+field must not be required.  That is not the default in Plone, however, so
+we need to tweak the schema first:
+
+  >>> folder.bar.getPrimaryField().required = False
+
+  >>> browser.open(url + '/view')
+  >>> browser.getLink('Edit').click()
+  >>> browser.getControl('Delete current').selected = True
+  >>> browser.getControl('Save').click()
+  >>> 'Changes saved' in browser.contents
+  True
+  >>> 'No image has been uploaded yet' in browser.contents
+  True
+
+The image content should now be gone:
+
+  >>> folder.foo.getImage().data
+  ''

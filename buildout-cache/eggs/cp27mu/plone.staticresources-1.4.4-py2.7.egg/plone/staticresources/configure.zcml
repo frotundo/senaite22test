@@ -1,0 +1,100 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone">
+
+  <include package="plone.resource"/>
+  <include package=".upgrades"/>
+
+  <include file="configure-resources.zcml" />
+
+  <plone:static
+    directory="static"
+    type="plone"
+    name="static"
+    />
+
+  <browser:resource
+    name="plone-base.js"
+    file="static/plone-base.js"
+    />
+
+  <browser:resource
+    name="plone.js"
+    file="static/plone.js"
+    />
+
+  <browser:resource
+    name="plone-moment.js"
+    file="static/plone-moment.js"
+    />
+
+  <browser:resource
+    name="plone-logged-in.js"
+    file="static/plone-logged-in.js"
+    />
+
+  <browser:resource
+    name="plone-editor-tools.js"
+    file="static/plone-editor-tools.js"
+    />
+
+  <browser:resource
+    name="plone-tinymce.js"
+    file="static/plone-tinymce.js"
+    />
+
+  <browser:resource
+    name="plone-datatables.js"
+    file="static/plone-datatables.js"
+    />
+
+  <browser:resource
+    name="plone.less"
+    file="static/plone.less"
+    />
+
+  <browser:resource
+    name="plone-logged-in.less"
+    file="static/plone-logged-in.less"
+    />
+
+
+  <genericsetup:registerProfile
+      name="default"
+      title="plone.staticresources"
+      directory="profiles/default"
+      description="Installs the plone.staticresources for Plone."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="last_compilation"
+      title="plone.staticresources last_compilation"
+      directory="profiles/last_compilation"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="async"
+      title="plone.staticresources EXPERIMENTAL: Async Resource Loading"
+      directory="profiles/async"
+      description="plone.staticresources with asynchronous loading of resources"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="plone.staticresources (uninstall)"
+      directory="profiles/uninstall"
+      description="Uninstalls the plone.staticresources add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="plone.staticresources-hiddenprofiles"
+      />
+
+</configure>

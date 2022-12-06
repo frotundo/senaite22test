@@ -1,0 +1,16 @@
+plone.portlet.static-3.1.6-py2.7-nspkg.pth,sha256=r1m-rTMO7wKwUjoyiU_2tLHz91gBKwcHdWFnGsDc5Bg,1694
+plone/portlet/static/__init__.py,sha256=evv8q-HiHUci1B2lFMjxgYNNd8oSozhZI6MpJu2loAY,284
+plone/portlet/static/configure.zcml,sha256=rKuZkSdVZYcdtxID8wqyyvmrLqs1y_scal3DfDEtDs8,1106
+plone/portlet/static/static.pt,sha256=qv4gSq0_81KXbSSXcp6hqBuCoXvTtb0lGCM_hTUgNIs,1124
+plone/portlet/static/static.py,sha256=yFnOG4VG2Wq4zKgVJk5sAp45hjQ17DTsBVXLj98lwJo,6438
+plone/portlet/static/testing.py,sha256=30-xyXX0F9PhaE_Q7hd3716mFxOhuM4VAjuh34Koh30,791
+plone/portlet/static/profiles/default/metadata.xml,sha256=otYnQ5P1MZ5oNc9k6vSIFiYm2IQ3H5-pv4Y0WxIl6Gk,68
+plone/portlet/static/profiles/default/portlets.xml,sha256=690RLr-EaF15vEXGsfX1zDPPzCimhTLRvqyhhjjIK9k,376
+plone/portlet/static/tests/__init__.py,sha256=iwhKnzeBJLKxpRVjvzwiRE63_zNpIBfaKLITauVph-0,24
+plone/portlet/static/tests/test_portlet_static.py,sha256=heWm1GqvVt0L4ifaaytPzu5yvNA_9oKYtTxaKkslaAg,5780
+plone.portlet.static-3.1.6.dist-info/METADATA,sha256=4rSeVZfNRrLqEbjcJ6JaeZPNzukhYvyxKF2icWohfD8,8261
+plone.portlet.static-3.1.6.dist-info/WHEEL,sha256=kGT74LWyRUZrL4VgLh6_g12IeVl_9u9ZVhadrgXZUEY,110
+plone.portlet.static-3.1.6.dist-info/entry_points.txt,sha256=6WD-GIHhN2Y_T4tg_CjfFcOrwZNi8w3aHWMspVDFtT0,53
+plone.portlet.static-3.1.6.dist-info/namespace_packages.txt,sha256=EkWaD5YnUkFD6PsA2Jfm4YGVygbvoud8ntS7-EfOD2Q,20
+plone.portlet.static-3.1.6.dist-info/top_level.txt,sha256=56bqrkG-vurYD0l15D71FPiDL7L3QqkfRWkYkdyS7WM,6
+plone.portlet.static-3.1.6.dist-info/RECORD,,

@@ -1,0 +1,12 @@
+Zope2>=2.13.23
+setuptools
+six
+zope.component
+zope.interface
+zope.schema
+
+[repoze]
+repoze.zope2
+
+[test]
+plone.testing[zca]

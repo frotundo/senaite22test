@@ -1,0 +1,17 @@
+plone.rfc822-2.0.2-py2.7-nspkg.pth,sha256=A-p3CbMuHePaPWt53bhXUnHzJhSeZf4O2eZeA-vKGms,534
+plone/rfc822/__init__.py,sha256=8f0sA3OwWFxmJvA7gnwXbVAngFQpq8xMfIgvW-N5IOw,524
+plone/rfc822/_utils.py,sha256=irtMyMgVmR8jMqLjLZjwKST2qAkO93xOkmTyWYj_r-c,9806
+plone/rfc822/configure.zcml,sha256=rEKqFzvexwEe-5AI0SyaB94MPpRnEI7rTTcLxjAS5oI,2922
+plone/rfc822/defaultfields.py,sha256=UEbI3PTmnpT4h6YiWKlXj2x9gp82vEYNCDnk4vhACcM,10271
+plone/rfc822/fields.rst,sha256=-DA9Z8BwumiWuC57QaQyVrNsh8J6QomeWtlXisMSLRM,14189
+plone/rfc822/interfaces.py,sha256=07Lb4ZaG7-l580ReeI2tFYJdxjY4K0KHIrFmVbgRJmA,7693
+plone/rfc822/message.rst,sha256=N1sr9csO6vTYgZzwggDnNPDf51dprCl9Um1JRAlg8kc,21382
+plone/rfc822/supermodel.py,sha256=MPxW-auoLN6cRurtiaKRX6dZ7Vwg6hiF7p0wkR2hw9k,1196
+plone/rfc822/supermodel.rst,sha256=lg8H25ulAjh_6z2sfBWdKG78qJpE--loKa6L8dicSW0,2816
+plone/rfc822/tests.py,sha256=zktCFux3UDPsA_dsFUoGZDB5Ho_1_zqE1jtSH9NfnAc,1406
+plone.rfc822-2.0.2.dist-info/METADATA,sha256=SWN2yvNOmFF8zfpKqeS0xLWzY7evvLZ6nEhTgckI98k,32075
+plone.rfc822-2.0.2.dist-info/WHEEL,sha256=kGT74LWyRUZrL4VgLh6_g12IeVl_9u9ZVhadrgXZUEY,110
+plone.rfc822-2.0.2.dist-info/entry_points.txt,sha256=TcUB1mzXiQO4GxpTRZ0EMpOXKMU3u-n_q1WrgVIcs1I,5
+plone.rfc822-2.0.2.dist-info/namespace_packages.txt,sha256=56bqrkG-vurYD0l15D71FPiDL7L3QqkfRWkYkdyS7WM,6
+plone.rfc822-2.0.2.dist-info/top_level.txt,sha256=56bqrkG-vurYD0l15D71FPiDL7L3QqkfRWkYkdyS7WM,6
+plone.rfc822-2.0.2.dist-info/RECORD,,

@@ -1,0 +1,4 @@
+Products.GenericSetup>=2.0b1
+Zope>=4.0b4
+setuptools
+six

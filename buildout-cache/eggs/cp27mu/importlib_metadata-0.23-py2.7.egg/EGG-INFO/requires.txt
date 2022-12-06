@@ -1,0 +1,12 @@
+configparser>=3.5
+contextlib2
+pathlib2
+zipp>=0.5
+
+[docs]
+rst.linker
+sphinx
+
+[testing]
+importlib-resources
+packaging

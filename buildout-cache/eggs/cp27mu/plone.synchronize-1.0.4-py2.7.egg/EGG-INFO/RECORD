@@ -1,0 +1,10 @@
+plone.synchronize-1.0.4-py2.7-nspkg.pth,sha256=A-p3CbMuHePaPWt53bhXUnHzJhSeZf4O2eZeA-vKGms,534
+plone/synchronize/__init__.py,sha256=KBgq0liJoEHaTRaefK2cas77dbO2FMBqDzByOifNSmc,53
+plone/synchronize/decorator.py,sha256=PjQeRmss9AbENZ4QugkrHsYY52K3QpPSvPJ_fuEk95E,420
+plone/synchronize/tests.py,sha256=QoxtcL3hG2Q3VqSUyWoBEvMl_gYcw1OIDJMF2fcH--0,1396
+plone.synchronize-1.0.4.dist-info/METADATA,sha256=b1mduBwFr8k3K9VCd8cGC_6ZUXHVL7dpElH8EyMUUGE,2718
+plone.synchronize-1.0.4.dist-info/WHEEL,sha256=kGT74LWyRUZrL4VgLh6_g12IeVl_9u9ZVhadrgXZUEY,110
+plone.synchronize-1.0.4.dist-info/entry_points.txt,sha256=TcUB1mzXiQO4GxpTRZ0EMpOXKMU3u-n_q1WrgVIcs1I,5
+plone.synchronize-1.0.4.dist-info/namespace_packages.txt,sha256=56bqrkG-vurYD0l15D71FPiDL7L3QqkfRWkYkdyS7WM,6
+plone.synchronize-1.0.4.dist-info/top_level.txt,sha256=56bqrkG-vurYD0l15D71FPiDL7L3QqkfRWkYkdyS7WM,6
+plone.synchronize-1.0.4.dist-info/RECORD,,

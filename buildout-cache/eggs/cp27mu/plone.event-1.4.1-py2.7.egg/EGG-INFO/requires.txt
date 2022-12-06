@@ -1,0 +1,10 @@
+python-dateutil
+pytz
+setuptools
+zope.component
+zope.interface
+
+[test]
+DateTime
+mock
+zope.configuration

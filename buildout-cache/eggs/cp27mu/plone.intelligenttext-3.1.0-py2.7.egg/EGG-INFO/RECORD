@@ -1,0 +1,10 @@
+plone.intelligenttext-3.1.0-py2.7-nspkg.pth,sha256=A-p3CbMuHePaPWt53bhXUnHzJhSeZf4O2eZeA-vKGms,534
+plone/intelligenttext/README.rst,sha256=6T4YfZrKQRh_2SXasLKmsljjuWd88KMsbme9ju1BMqA,13726
+plone/intelligenttext/__init__.py,sha256=iwhKnzeBJLKxpRVjvzwiRE63_zNpIBfaKLITauVph-0,24
+plone/intelligenttext/tests.py,sha256=7c4cTwYvgB3SDSOxQRstIXQwnWf2nL-p5GulAH_Q7x4,442
+plone/intelligenttext/transforms.py,sha256=AfTLsSJtg4mCnSDwNxc5wMsU-IpD6rCUN3nrbWHjdjQ,7249
+plone.intelligenttext-3.1.0.dist-info/METADATA,sha256=K_PUdUXjxUc0HNkhhmQOJwByhUGCMTh2XnMFbj-7_qE,5632
+plone.intelligenttext-3.1.0.dist-info/WHEEL,sha256=kGT74LWyRUZrL4VgLh6_g12IeVl_9u9ZVhadrgXZUEY,110
+plone.intelligenttext-3.1.0.dist-info/namespace_packages.txt,sha256=56bqrkG-vurYD0l15D71FPiDL7L3QqkfRWkYkdyS7WM,6
+plone.intelligenttext-3.1.0.dist-info/top_level.txt,sha256=56bqrkG-vurYD0l15D71FPiDL7L3QqkfRWkYkdyS7WM,6
+plone.intelligenttext-3.1.0.dist-info/RECORD,,
