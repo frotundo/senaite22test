@@ -27,7 +27,8 @@ class AddSamplesViewlet(ViewletBase):
         """Return the default number of Samples to add
         """
         setup = api.get_setup()
-        return setup.getDefaultNumberOfARsToAdd() or 1
+        #return setup.getDefaultNumberOfARsToAdd() or 1
+        return 1
 
     def get_add_url(self):
         """Return the sample add URL
