@@ -1,4 +1,4 @@
-<div class="add-samples-viewlet d-inline-block align-middle"
+<!--<div class="add-samples-viewlet d-inline-block align-middle"
      tal:condition="python:view.available()"
      i18n:domain="senaite.core">
 
@@ -26,4 +26,4 @@
     </span>
   </form>
 
-</div>
+</div>-->
